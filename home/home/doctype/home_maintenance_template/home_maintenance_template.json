@@ -1,0 +1,97 @@
+{
+ "actions": [],
+ "autoname": "format:HMT-{####}",
+ "creation": "2026-03-12 00:00:00.000000",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "engine": "InnoDB",
+ "field_order": [
+  "template_name",
+  "season",
+  "is_system_template",
+  "column_break_basic",
+  "description",
+  "section_tasks",
+  "tasks"
+ ],
+ "fields": [
+  {
+   "fieldname": "template_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_global_search": 1,
+   "label": "Template Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "season",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Season",
+   "options": "Spring\nAutumn\nWinter\nAnnual\nMove-in\nCustom",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "is_system_template",
+   "fieldtype": "Check",
+   "label": "System Template",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_basic",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "section_tasks",
+   "fieldtype": "Section Break",
+   "label": "Tasks"
+  },
+  {
+   "fieldname": "tasks",
+   "fieldtype": "Table",
+   "label": "Tasks",
+   "options": "Home Maintenance Template Task",
+   "reqd": 1
+  }
+ ],
+ "links": [],
+ "modified": "2026-03-12 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Home",
+ "name": "Home Maintenance Template",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "role": "Home Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Home User"
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "template_name",
+ "track_changes": 1
+}

@@ -1,0 +1,45 @@
+{
+ "actions": [],
+ "creation": "2026-03-12 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "category",
+  "lifespan_years",
+  "avg_replacement_cost"
+ ],
+ "fields": [
+  {
+   "fieldname": "category",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Category",
+   "options": "White Goods\nHVAC\nHeating\nElectronics\nKitchen\nPlumbing\nOther",
+   "reqd": 1
+  },
+  {
+   "fieldname": "lifespan_years",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Lifespan (Years)"
+  },
+  {
+   "fieldname": "avg_replacement_cost",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Avg Replacement Cost"
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2026-03-12 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Home",
+ "name": "Home Appliance Category Lifespan",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,151 @@
+{
+ "actions": [],
+ "autoname": "format:HS-{####}",
+ "creation": "2026-03-12 00:00:00.000000",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "engine": "InnoDB",
+ "field_order": [
+  "household",
+  "section_alerts",
+  "warranty_alert_days_1",
+  "warranty_alert_days_2",
+  "maintenance_reminder_days",
+  "column_break_alerts",
+  "refund_overdue_days",
+  "insurance_renewal_days",
+  "section_display",
+  "default_currency",
+  "financial_visibility",
+  "section_lifespan",
+  "lifespan_defaults",
+  "section_notes",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "household",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Household",
+   "options": "Home Household",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "section_alerts",
+   "fieldtype": "Section Break",
+   "label": "Alert Thresholds"
+  },
+  {
+   "default": "90",
+   "description": "Days before warranty expiry for the first alert",
+   "fieldname": "warranty_alert_days_1",
+   "fieldtype": "Int",
+   "label": "Warranty Alert (Days) — First"
+  },
+  {
+   "default": "30",
+   "description": "Days before warranty expiry for the second alert",
+   "fieldname": "warranty_alert_days_2",
+   "fieldtype": "Int",
+   "label": "Warranty Alert (Days) — Second"
+  },
+  {
+   "default": "3",
+   "description": "Days before scheduled date to send maintenance reminder",
+   "fieldname": "maintenance_reminder_days",
+   "fieldtype": "Int",
+   "label": "Maintenance Reminder (Days)"
+  },
+  {
+   "fieldname": "column_break_alerts",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "14",
+   "description": "Days after return date before overdue refund alert",
+   "fieldname": "refund_overdue_days",
+   "fieldtype": "Int",
+   "label": "Refund Overdue (Days)"
+  },
+  {
+   "default": "60",
+   "description": "Default renewal alert threshold for new insurance records",
+   "fieldname": "insurance_renewal_days",
+   "fieldtype": "Int",
+   "label": "Insurance Renewal Alert (Days)"
+  },
+  {
+   "fieldname": "section_display",
+   "fieldtype": "Section Break",
+   "label": "Display Settings"
+  },
+  {
+   "fieldname": "default_currency",
+   "fieldtype": "Link",
+   "label": "Default Currency",
+   "options": "Currency"
+  },
+  {
+   "default": "Owner and Adult",
+   "fieldname": "financial_visibility",
+   "fieldtype": "Select",
+   "label": "Financial Visibility",
+   "options": "Owner and Adult\nOwner only",
+   "description": "Who can see cost fields — Owner always can. Child never can."
+  },
+  {
+   "fieldname": "section_lifespan",
+   "fieldtype": "Section Break",
+   "label": "Appliance Category Lifespans"
+  },
+  {
+   "fieldname": "lifespan_defaults",
+   "fieldtype": "Table",
+   "label": "Lifespan Defaults",
+   "options": "Home Appliance Category Lifespan"
+  },
+  {
+   "fieldname": "section_notes",
+   "fieldtype": "Section Break",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "links": [],
+ "modified": "2026-03-12 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Home",
+ "name": "Home Settings",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "role": "Home Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Home User"
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "role": "System Manager",
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

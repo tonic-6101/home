@@ -1,0 +1,340 @@
+{
+ "actions": [],
+ "autoname": "format:HP-{####}",
+ "creation": "2026-03-12 00:00:00.000000",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "engine": "InnoDB",
+ "field_order": [
+  "household",
+  "property_name",
+  "property_type",
+  "ownership_status",
+  "cover_image",
+  "column_break_basic",
+  "is_archived",
+  "archived_date",
+  "section_address",
+  "address_line1",
+  "address_line2",
+  "city",
+  "column_break_address",
+  "postal_code",
+  "country",
+  "section_details",
+  "purchase_date",
+  "move_in_date",
+  "area_sqm",
+  "column_break_details",
+  "purchase_price",
+  "estimated_value",
+  "estimated_value_date",
+  "repair_fund_rate_override",
+  "section_emergency",
+  "gas_shutoff_location",
+  "water_shutoff_location",
+  "electricity_shutoff_location",
+  "column_break_emergency",
+  "alarm_notes",
+  "building_manager_phone",
+  "evacuation_notes",
+  "emergency_notes",
+  "section_emergency_contacts",
+  "emergency_contacts",
+  "section_integration",
+  "frame_token",
+  "ical_token",
+  "section_equity",
+  "equity_snapshots",
+  "section_moving",
+  "moving_checklist",
+  "section_notes",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "household",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Household",
+   "options": "Home Household",
+   "reqd": 1
+  },
+  {
+   "fieldname": "property_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_global_search": 1,
+   "label": "Property Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "property_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Property Type",
+   "options": "House\nApartment\nStudio\nCommercial\nOther",
+   "reqd": 1
+  },
+  {
+   "fieldname": "ownership_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Ownership Status",
+   "options": "Owner-occupied\nRented\nRenting Out\nVacant",
+   "reqd": 1
+  },
+  {
+   "fieldname": "cover_image",
+   "fieldtype": "Attach Image",
+   "label": "Cover Image"
+  },
+  {
+   "fieldname": "column_break_basic",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_archived",
+   "fieldtype": "Check",
+   "label": "Archived"
+  },
+  {
+   "depends_on": "is_archived",
+   "fieldname": "archived_date",
+   "fieldtype": "Date",
+   "label": "Archived Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_address",
+   "fieldtype": "Section Break",
+   "label": "Address"
+  },
+  {
+   "fieldname": "address_line1",
+   "fieldtype": "Data",
+   "label": "Address Line 1"
+  },
+  {
+   "fieldname": "address_line2",
+   "fieldtype": "Data",
+   "label": "Address Line 2"
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "in_global_search": 1,
+   "label": "City"
+  },
+  {
+   "fieldname": "column_break_address",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "postal_code",
+   "fieldtype": "Data",
+   "label": "Postal Code"
+  },
+  {
+   "fieldname": "country",
+   "fieldtype": "Link",
+   "label": "Country",
+   "options": "Country"
+  },
+  {
+   "fieldname": "section_details",
+   "fieldtype": "Section Break",
+   "label": "Property Details"
+  },
+  {
+   "fieldname": "purchase_date",
+   "fieldtype": "Date",
+   "label": "Purchase Date"
+  },
+  {
+   "fieldname": "move_in_date",
+   "fieldtype": "Date",
+   "label": "Move-in Date"
+  },
+  {
+   "fieldname": "area_sqm",
+   "fieldtype": "Float",
+   "label": "Area (m\u00b2)"
+  },
+  {
+   "fieldname": "column_break_details",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "purchase_price",
+   "fieldtype": "Currency",
+   "label": "Purchase Price"
+  },
+  {
+   "fieldname": "estimated_value",
+   "fieldtype": "Currency",
+   "label": "Estimated Value"
+  },
+  {
+   "fieldname": "estimated_value_date",
+   "fieldtype": "Date",
+   "label": "Estimated Value Date"
+  },
+  {
+   "fieldname": "repair_fund_rate_override",
+   "fieldtype": "Select",
+   "label": "Repair Fund Rate",
+   "options": "\nAuto\n1%\n1.5%\n2%"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_emergency",
+   "fieldtype": "Section Break",
+   "label": "Emergency Info"
+  },
+  {
+   "fieldname": "gas_shutoff_location",
+   "fieldtype": "Small Text",
+   "label": "Gas Shutoff Location"
+  },
+  {
+   "fieldname": "water_shutoff_location",
+   "fieldtype": "Small Text",
+   "label": "Water Shutoff Location"
+  },
+  {
+   "fieldname": "electricity_shutoff_location",
+   "fieldtype": "Small Text",
+   "label": "Electricity Shutoff Location"
+  },
+  {
+   "fieldname": "column_break_emergency",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "alarm_notes",
+   "fieldtype": "Small Text",
+   "label": "Alarm Notes",
+   "description": "Hint only — never store the actual alarm code"
+  },
+  {
+   "fieldname": "building_manager_phone",
+   "fieldtype": "Data",
+   "label": "Building Manager Phone",
+   "options": "Phone"
+  },
+  {
+   "fieldname": "evacuation_notes",
+   "fieldtype": "Text",
+   "label": "Evacuation Notes"
+  },
+  {
+   "fieldname": "emergency_notes",
+   "fieldtype": "Text Editor",
+   "label": "Emergency Notes"
+  },
+  {
+   "fieldname": "section_emergency_contacts",
+   "fieldtype": "Section Break",
+   "label": "Emergency Contacts"
+  },
+  {
+   "fieldname": "emergency_contacts",
+   "fieldtype": "Table",
+   "label": "Emergency Contacts",
+   "options": "Home Emergency Contact"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_integration",
+   "fieldtype": "Section Break",
+   "label": "Integrations"
+  },
+  {
+   "fieldname": "frame_token",
+   "fieldtype": "Data",
+   "label": "Frame Token",
+   "read_only": 1,
+   "description": "Auto-generated UUID for Frame guest portal access"
+  },
+  {
+   "fieldname": "ical_token",
+   "fieldtype": "Data",
+   "label": "iCal Token",
+   "read_only": 1,
+   "description": "Auto-generated UUID for iCal subscription feed"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_equity",
+   "fieldtype": "Section Break",
+   "label": "Equity History"
+  },
+  {
+   "fieldname": "equity_snapshots",
+   "fieldtype": "Table",
+   "label": "Equity Snapshots",
+   "options": "Home Equity Snapshot",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_moving",
+   "fieldtype": "Section Break",
+   "label": "Moving Checklist"
+  },
+  {
+   "fieldname": "moving_checklist",
+   "fieldtype": "Table",
+   "label": "Moving Checklist",
+   "options": "Home Moving Task"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_notes",
+   "fieldtype": "Section Break",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Text Editor",
+   "label": "Notes"
+  }
+ ],
+ "links": [],
+ "modified": "2026-03-12 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Home",
+ "name": "Home Property",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "role": "Home Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Home User",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "property_name",
+ "track_changes": 1
+}

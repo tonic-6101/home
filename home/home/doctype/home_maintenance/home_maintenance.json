@@ -1,0 +1,198 @@
+{
+ "actions": [],
+ "autoname": "format:HM-{####}",
+ "creation": "2026-03-12 00:00:00.000000",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "engine": "InnoDB",
+ "field_order": [
+  "household",
+  "title",
+  "property",
+  "room",
+  "appliance",
+  "column_break_basic",
+  "maintenance_type",
+  "category",
+  "status",
+  "recurrence",
+  "section_schedule",
+  "scheduled_date",
+  "completed_date",
+  "column_break_schedule",
+  "contractor",
+  "cost",
+  "section_integrations",
+  "orga_project",
+  "tender_post",
+  "section_notes",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "household",
+   "fieldtype": "Link",
+   "label": "Household",
+   "options": "Home Household",
+   "read_only": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_global_search": 1,
+   "label": "Title",
+   "reqd": 1
+  },
+  {
+   "fieldname": "property",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Property",
+   "options": "Home Property",
+   "reqd": 1
+  },
+  {
+   "fieldname": "room",
+   "fieldtype": "Link",
+   "label": "Room",
+   "options": "Home Room"
+  },
+  {
+   "fieldname": "appliance",
+   "fieldtype": "Link",
+   "label": "Appliance",
+   "options": "Home Appliance"
+  },
+  {
+   "fieldname": "column_break_basic",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "One-off",
+   "fieldname": "maintenance_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Maintenance Type",
+   "options": "One-off\nRecurring",
+   "reqd": 1
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Select",
+   "label": "Category",
+   "options": "\nPlumbing\nElectrical\nHVAC & Heating\nPainting & Decorating\nCarpentry\nRoofing & Gutters\nCleaning\nGarden & Landscaping\nPest Control\nInspection\nGeneral Repair\nOther"
+  },
+  {
+   "default": "Scheduled",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Scheduled\nIn Progress\nCompleted\nCancelled",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.maintenance_type=='Recurring'",
+   "fieldname": "recurrence",
+   "fieldtype": "Select",
+   "label": "Recurrence",
+   "options": "\nWeekly\nBi-weekly\nMonthly\nQuarterly\nBi-annual\nAnnual"
+  },
+  {
+   "fieldname": "section_schedule",
+   "fieldtype": "Section Break",
+   "label": "Schedule & Cost"
+  },
+  {
+   "fieldname": "scheduled_date",
+   "fieldtype": "Date",
+   "label": "Scheduled Date"
+  },
+  {
+   "fieldname": "completed_date",
+   "fieldtype": "Date",
+   "label": "Completed Date"
+  },
+  {
+   "fieldname": "column_break_schedule",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "contractor",
+   "fieldtype": "Link",
+   "label": "Contractor",
+   "options": "Home Contractor"
+  },
+  {
+   "fieldname": "cost",
+   "fieldtype": "Currency",
+   "label": "Cost"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_integrations",
+   "fieldtype": "Section Break",
+   "label": "Integrations"
+  },
+  {
+   "fieldname": "orga_project",
+   "fieldtype": "Data",
+   "label": "Orga Project",
+   "description": "Linked Orga Project name — visible only when Orga is installed"
+  },
+  {
+   "fieldname": "tender_post",
+   "fieldtype": "Data",
+   "label": "Tender Post",
+   "description": "Linked Tender Post name — visible only when Tender is installed"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_notes",
+   "fieldtype": "Section Break",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Text Editor",
+   "label": "Notes"
+  }
+ ],
+ "links": [],
+ "modified": "2026-03-12 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Home",
+ "name": "Home Maintenance",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "role": "Home Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Home User",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "title",
+ "track_changes": 1
+}

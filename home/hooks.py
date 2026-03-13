@@ -1,249 +1,163 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) 2024-2026 Tonic
+
 app_name = "home"
 app_title = "Home"
 app_publisher = "Tonic"
-app_description = "Household management for Frappe — properties, appliances, maintenance, warranties, inventory, and contractors"
+app_description = (
+	"Household management for Frappe"
+	" — properties, appliances, maintenance, warranties, inventory, and contractors"
+)
 app_email = "tonic6101@gmail.com"
 app_license = "agpl-3.0"
+app_logo_url = "/assets/home/images/home_logo.svg"
 
-# Apps
+# Required apps
 # ------------------
-
 # required_apps = []
 
-# Each item in the list will be shown as an app in the apps page
-# add_to_apps_screen = [
-# 	{
-# 		"name": "home",
-# 		"logo": "/assets/home/logo.png",
-# 		"title": "Home",
-# 		"route": "/home",
-# 		"has_permission": "home.api.permission.has_app_permission"
-# 	}
-# ]
+# Apps screen entry (Frappe Desk sidebar)
+add_to_apps_screen = [
+	{
+		"name": "home",
+		"logo": "/assets/home/images/home_logo.svg",
+		"title": "Home",
+		"route": "/home",
+		"has_permission": "home.api.permission.has_app_permission",
+	}
+]
 
-# Includes in <head>
+# Dock integration
 # ------------------
+dock_app_registry = {
+	"label": "Home",
+	"icon": "home",
+	"color": "#f59e0b",
+	"route": "/home",
+}
 
-# include js, css files in header of desk.html
-# app_include_css = "/assets/home/css/home.css"
-# app_include_js = "/assets/home/js/home.js"
+dock_search_sections = [
+	{
+		"label": "Properties",
+		"doctype": "Home Property",
+		"search_fields": ["property_name", "city"],
+	},
+	{
+		"label": "Appliances",
+		"doctype": "Home Appliance",
+		"search_fields": ["appliance_name", "brand", "model"],
+	},
+	{
+		"label": "Contractors",
+		"doctype": "Home Contractor",
+		"search_fields": ["contractor_name", "trade"],
+	},
+]
 
-# include js, css files in header of web template
-# web_include_css = "/assets/home/css/home.css"
-# web_include_js = "/assets/home/js/home.js"
+dock_notification_types = [
+	{
+		"type": "warranty_expiring",
+		"label": "Warranty Expiring",
+		"icon": "alert-triangle",
+	},
+	{
+		"type": "maintenance_due",
+		"label": "Maintenance Due",
+		"icon": "tool",
+	},
+]
 
-# include custom scss in every website theme (without file extension ".scss")
-# website_theme_scss = "home/public/scss/website"
-
-# include js, css files in header of web form
-# webform_include_js = {"doctype": "public/js/doctype.js"}
-# webform_include_css = {"doctype": "public/css/doctype.css"}
-
-# include js in page
-# page_js = {"page" : "public/js/file.js"}
-
-# include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
-# doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
-# doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
-# doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
-
-# Svg Icons
+# Jana integration (read access + search)
 # ------------------
-# include app icons in desk
-# app_include_icons = "home/public/icons.svg"
+jana_permissions = {
+	"Home Property": {"read": True},
+	"Home Appliance": {"read": True},
+	"Home Maintenance": {"read": True},
+	"Home Warranty": {"read": True},
+	"Home Inventory Item": {"read": True},
+	"Home Contractor": {"read": True},
+}
 
-# Home Pages
-# ----------
+jana_search_providers = [
+	{
+		"label": "Properties",
+		"doctype": "Home Property",
+		"search_fields": ["property_name", "city", "address_line1"],
+	},
+	{
+		"label": "Appliances",
+		"doctype": "Home Appliance",
+		"search_fields": ["appliance_name", "brand", "model", "serial_number"],
+	},
+	{
+		"label": "Maintenance",
+		"doctype": "Home Maintenance",
+		"search_fields": ["title", "category"],
+	},
+]
 
-# application home page (will override Website Settings)
-# home_page = "login"
-
-# website user home page (by Role)
-# role_home_page = {
-# 	"Role": "home_page"
-# }
-
-# Generators
-# ----------
-
-# automatically create page for each record of this doctype
-# website_generators = ["Web Page"]
-
-# Jinja
-# ----------
-
-# add methods and filters to jinja environment
-# jinja = {
-# 	"methods": "home.utils.jinja_methods",
-# 	"filters": "home.utils.jinja_filters"
-# }
-
-# Installation
-# ------------
-
-# before_install = "home.install.before_install"
-# after_install = "home.install.after_install"
-
-# Uninstallation
-# ------------
-
-# before_uninstall = "home.uninstall.before_uninstall"
-# after_uninstall = "home.uninstall.after_uninstall"
-
-# Integration Setup
+# Frame integration (guest pages)
 # ------------------
-# To set up dependencies/integrations with other apps
-# Name of the app being installed is passed as an argument
+frame_guest_pages = [
+	{
+		"route": "/home/guest/property/:token",
+		"handler": "home.api.frame.get_property_guest",
+		"label": "Property Overview",
+	},
+]
 
-# before_app_install = "home.utils.before_app_install"
-# after_app_install = "home.utils.after_app_install"
-
-# Integration Cleanup
-# -------------------
-# To clean up dependencies/integrations with other apps
-# Name of the app being uninstalled is passed as an argument
-
-# before_app_uninstall = "home.utils.before_app_uninstall"
-# after_app_uninstall = "home.utils.after_app_uninstall"
-
-# Desk Notifications
+# Roles
 # ------------------
-# See frappe.core.notifications.get_notification_config
-
-# notification_config = "home.notifications.get_notification_config"
-
-# Permissions
-# -----------
-# Permissions evaluated in scripted ways
-
-# permission_query_conditions = {
-# 	"Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
-# }
-#
-# has_permission = {
-# 	"Event": "frappe.desk.doctype.event.event.has_permission",
-# }
-
-# DocType Class
-# ---------------
-# Override standard doctype classes
-
-# override_doctype_class = {
-# 	"ToDo": "custom_app.overrides.CustomToDo"
-# }
-
-# Document Events
-# ---------------
-# Hook on document methods and events
-
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+# Home User: standard household member (Adult or Child)
+# Home Manager: household Owner — full control including settings and member management
 
 # Scheduled Tasks
-# ---------------
+# ------------------
+scheduler_events = {
+	"daily": [
+		"home.tasks.send_warranty_expiry_alerts",
+		"home.tasks.send_maintenance_reminders",
+	],
+}
 
-# scheduler_events = {
-# 	"all": [
-# 		"home.tasks.all"
-# 	],
-# 	"daily": [
-# 		"home.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"home.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"home.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"home.tasks.monthly"
-# 	],
-# }
+# Permissions (household-scoped query conditions)
+# ------------------
+permission_query_conditions = {
+	"Home Property": "home.api.permission.get_household_condition",
+	"Home Room": "home.api.permission.get_household_condition",
+	"Home Appliance": "home.api.permission.get_household_condition",
+	"Home Maintenance": "home.api.permission.get_household_condition",
+	"Home Warranty": "home.api.permission.get_household_condition",
+	"Home Inventory Item": "home.api.permission.get_household_condition",
+	"Home Contractor": "home.api.permission.get_household_condition",
+	"Home Purchase Return": "home.api.permission.get_household_condition",
+	"Home Settings": "home.api.permission.get_household_condition",
+}
 
-# Testing
-# -------
+has_permission = {
+	"Home Property": "home.api.permission.has_household_permission",
+	"Home Room": "home.api.permission.has_household_permission",
+	"Home Appliance": "home.api.permission.has_household_permission",
+	"Home Maintenance": "home.api.permission.has_household_permission",
+	"Home Warranty": "home.api.permission.has_household_permission",
+	"Home Inventory Item": "home.api.permission.has_household_permission",
+	"Home Contractor": "home.api.permission.has_household_permission",
+	"Home Purchase Return": "home.api.permission.has_household_permission",
+	"Home Settings": "home.api.permission.has_household_permission",
+}
 
-# before_tests = "home.install.before_tests"
+# Installation
+# ------------------
+after_install = "home.install.after_install"
 
-# Overriding Methods
-# ------------------------------
-#
-# override_whitelisted_methods = {
-# 	"frappe.desk.doctype.event.event.get_events": "home.event.get_events"
-# }
-#
-# each overriding function accepts a `data` argument;
-# generated from the base implementation of the doctype dashboard,
-# along with any modifications made in other Frappe apps
-# override_doctype_dashboards = {
-# 	"Task": "home.task.get_dashboard_data"
-# }
-
-# exempt linked doctypes from being automatically cancelled
-#
-# auto_cancel_exempted_doctypes = ["Auto Repeat"]
-
-# Ignore links to specified DocTypes when deleting documents
-# -----------------------------------------------------------
-
-# ignore_links_on_delete = ["Communication", "ToDo"]
-
-# Request Events
-# ----------------
-# before_request = ["home.utils.before_request"]
-# after_request = ["home.utils.after_request"]
-
-# Job Events
-# ----------
-# before_job = ["home.utils.before_job"]
-# after_job = ["home.utils.after_job"]
-
-# User Data Protection
-# --------------------
-
-# user_data_fields = [
-# 	{
-# 		"doctype": "{doctype_1}",
-# 		"filter_by": "{filter_by}",
-# 		"redact_fields": ["{field_1}", "{field_2}"],
-# 		"partial": 1,
-# 	},
-# 	{
-# 		"doctype": "{doctype_2}",
-# 		"filter_by": "{filter_by}",
-# 		"partial": 1,
-# 	},
-# 	{
-# 		"doctype": "{doctype_3}",
-# 		"strict": False,
-# 	},
-# 	{
-# 		"doctype": "{doctype_4}"
-# 	}
-# ]
-
-# Authentication and authorization
-# --------------------------------
-
-# auth_hooks = [
-# 	"home.auth.validate"
-# ]
+# Fixtures
+# ------------------
+fixtures = [
+	{
+		"dt": "Role",
+		"filters": [["name", "in", ["Home User", "Home Manager"]]],
+	},
+]
 
 # Automatically update python controller files with type annotations for this app.
-# export_python_type_annotations = True
-
-# default_log_clearing_doctypes = {
-# 	"Logging DocType Name": 30  # days to retain logs
-# }
-
-# Translation
-# ------------
-# List of apps whose translatable strings should be excluded from this app's translations.
-# ignore_translatable_strings_from = []
-
+export_python_type_annotations = True

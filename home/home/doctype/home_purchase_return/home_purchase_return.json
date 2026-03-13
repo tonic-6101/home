@@ -1,0 +1,195 @@
+{
+ "actions": [],
+ "autoname": "format:HPR-{####}",
+ "creation": "2026-03-12 00:00:00.000000",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "engine": "InnoDB",
+ "field_order": [
+  "household",
+  "property",
+  "item_description",
+  "column_break_basic",
+  "linked_appliance",
+  "linked_inventory_item",
+  "retailer",
+  "section_purchase",
+  "purchase_date",
+  "purchase_price",
+  "column_break_purchase",
+  "return_date",
+  "return_reason",
+  "return_notes",
+  "section_refund",
+  "refund_expected",
+  "refund_status",
+  "column_break_refund",
+  "refund_received_date",
+  "refund_amount_received",
+  "section_document",
+  "receipt"
+ ],
+ "fields": [
+  {
+   "fieldname": "household",
+   "fieldtype": "Link",
+   "label": "Household",
+   "options": "Home Household",
+   "read_only": 1
+  },
+  {
+   "fieldname": "property",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Property",
+   "options": "Home Property",
+   "reqd": 1
+  },
+  {
+   "fieldname": "item_description",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Item Description",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_basic",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "linked_appliance",
+   "fieldtype": "Link",
+   "label": "Linked Appliance",
+   "options": "Home Appliance"
+  },
+  {
+   "fieldname": "linked_inventory_item",
+   "fieldtype": "Link",
+   "label": "Linked Inventory Item",
+   "options": "Home Inventory Item"
+  },
+  {
+   "fieldname": "retailer",
+   "fieldtype": "Data",
+   "label": "Retailer"
+  },
+  {
+   "fieldname": "section_purchase",
+   "fieldtype": "Section Break",
+   "label": "Purchase & Return"
+  },
+  {
+   "fieldname": "purchase_date",
+   "fieldtype": "Date",
+   "label": "Purchase Date"
+  },
+  {
+   "fieldname": "purchase_price",
+   "fieldtype": "Currency",
+   "label": "Purchase Price"
+  },
+  {
+   "fieldname": "column_break_purchase",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "return_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Return Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "return_reason",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Return Reason",
+   "options": "Defective\nWrong Item\nChanged Mind\nDamaged in Delivery\nOther",
+   "reqd": 1
+  },
+  {
+   "fieldname": "return_notes",
+   "fieldtype": "Small Text",
+   "label": "Return Notes"
+  },
+  {
+   "fieldname": "section_refund",
+   "fieldtype": "Section Break",
+   "label": "Refund"
+  },
+  {
+   "fieldname": "refund_expected",
+   "fieldtype": "Currency",
+   "label": "Refund Expected"
+  },
+  {
+   "default": "Pending",
+   "fieldname": "refund_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Refund Status",
+   "options": "Pending\nReceived\nPartially Received\nDenied",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_refund",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "refund_received_date",
+   "fieldtype": "Date",
+   "label": "Refund Received Date"
+  },
+  {
+   "fieldname": "refund_amount_received",
+   "fieldtype": "Currency",
+   "label": "Refund Amount Received"
+  },
+  {
+   "fieldname": "section_document",
+   "fieldtype": "Section Break",
+   "label": "Documentation"
+  },
+  {
+   "fieldname": "receipt",
+   "fieldtype": "Attach",
+   "label": "Receipt"
+  }
+ ],
+ "links": [],
+ "modified": "2026-03-12 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Home",
+ "name": "Home Purchase Return",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "role": "Home Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Home User",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "item_description",
+ "track_changes": 1
+}
