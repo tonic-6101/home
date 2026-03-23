@@ -1,0 +1,159 @@
+{
+ "actions": [],
+ "autoname": "format:HMG-{####}",
+ "creation": "2026-03-12 00:00:00.000000",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "engine": "InnoDB",
+ "field_order": [
+  "household",
+  "property",
+  "mortgage_name",
+  "lender",
+  "column_break_basic",
+  "account_number",
+  "mortgage_type",
+  "section_balance",
+  "original_amount",
+  "outstanding_balance",
+  "balance_date",
+  "column_break_balance",
+  "interest_rate",
+  "monthly_payment",
+  "term_end_date",
+  "section_notes",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "household",
+   "fieldtype": "Link",
+   "label": "Household",
+   "options": "Home Household",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "property",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Property",
+   "options": "Home Property",
+   "reqd": 1
+  },
+  {
+   "fieldname": "mortgage_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_global_search": 1,
+   "label": "Mortgage Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "lender",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Lender"
+  },
+  {
+   "fieldname": "column_break_basic",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "account_number",
+   "fieldtype": "Data",
+   "label": "Account Number"
+  },
+  {
+   "fieldname": "mortgage_type",
+   "fieldtype": "Select",
+   "label": "Mortgage Type",
+   "options": "\nRepayment\nInterest Only\nOffset\nOther"
+  },
+  {
+   "fieldname": "section_balance",
+   "fieldtype": "Section Break",
+   "label": "Balance"
+  },
+  {
+   "fieldname": "original_amount",
+   "fieldtype": "Currency",
+   "label": "Original Amount"
+  },
+  {
+   "fieldname": "outstanding_balance",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Outstanding Balance",
+   "reqd": 1
+  },
+  {
+   "fieldname": "balance_date",
+   "fieldtype": "Date",
+   "label": "Balance Date"
+  },
+  {
+   "fieldname": "column_break_balance",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "interest_rate",
+   "fieldtype": "Percent",
+   "label": "Interest Rate"
+  },
+  {
+   "fieldname": "monthly_payment",
+   "fieldtype": "Currency",
+   "label": "Monthly Payment"
+  },
+  {
+   "fieldname": "term_end_date",
+   "fieldtype": "Date",
+   "label": "Term End Date"
+  },
+  {
+   "fieldname": "section_notes",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "links": [],
+ "modified": "2026-03-12 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Home",
+ "name": "Home Mortgage",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "role": "Home Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Home User",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

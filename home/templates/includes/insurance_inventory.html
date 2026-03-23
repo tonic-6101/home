@@ -1,0 +1,307 @@
+{# SPDX-License-Identifier: AGPL-3.0-or-later #}
+{# Copyright (C) 2024-2026 Tonic #}
+
+{# Insurance Inventory Report — PDF template (Feature 19b) #}
+
+<style>
+	@page {
+		size: A4;
+		margin: 20mm 15mm;
+		@bottom-center {
+			content: "Page " counter(page) " of " counter(pages);
+			font-size: 9px;
+			color: #888;
+		}
+	}
+	body {
+		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+		font-size: 12px;
+		color: #1a1a1a;
+		line-height: 1.5;
+	}
+
+	/* Cover page */
+	.cover {
+		page-break-after: always;
+		padding-top: 120px;
+		text-align: center;
+	}
+	.cover h1 {
+		font-size: 28px;
+		font-weight: 700;
+		margin-bottom: 8px;
+		color: #111;
+	}
+	.cover .property-name {
+		font-size: 18px;
+		color: #555;
+		margin-bottom: 4px;
+	}
+	.cover .property-address {
+		font-size: 14px;
+		color: #777;
+		margin-bottom: 40px;
+	}
+	.cover .meta {
+		font-size: 12px;
+		color: #999;
+		margin-bottom: 60px;
+	}
+	.cover .totals-box {
+		display: inline-block;
+		border: 2px solid #1a1a1a;
+		border-radius: 8px;
+		padding: 20px 40px;
+		text-align: left;
+	}
+	.cover .totals-box .big-number {
+		font-size: 32px;
+		font-weight: 700;
+	}
+	.cover .totals-box .label {
+		font-size: 12px;
+		color: #777;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+	}
+	.cover .totals-box .detail {
+		font-size: 13px;
+		margin-top: 12px;
+		color: #555;
+	}
+
+	/* Category sections */
+	.category-section {
+		page-break-inside: avoid;
+		margin-bottom: 24px;
+	}
+	.category-header {
+		background: #f3f4f6;
+		padding: 8px 12px;
+		border-left: 4px solid #f59e0b;
+		font-size: 14px;
+		font-weight: 700;
+		margin-bottom: 12px;
+	}
+	.category-header .cat-total {
+		float: right;
+		font-weight: 600;
+		color: #555;
+	}
+
+	/* Item row */
+	.item-row {
+		display: table;
+		width: 100%;
+		margin-bottom: 16px;
+		page-break-inside: avoid;
+		border-bottom: 1px solid #eee;
+		padding-bottom: 12px;
+	}
+	.item-photo {
+		display: table-cell;
+		width: 80px;
+		vertical-align: top;
+		padding-right: 12px;
+	}
+	.item-photo img {
+		width: 72px;
+		height: 72px;
+		object-fit: cover;
+		border-radius: 4px;
+		border: 1px solid #ddd;
+	}
+	.item-photo .placeholder {
+		width: 72px;
+		height: 72px;
+		background: #e5e7eb;
+		border-radius: 4px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: #9ca3af;
+		font-size: 10px;
+		text-align: center;
+		line-height: 1.2;
+	}
+	.item-detail {
+		display: table-cell;
+		vertical-align: top;
+	}
+	.item-detail .item-title {
+		font-size: 13px;
+		font-weight: 600;
+		margin-bottom: 2px;
+	}
+	.item-detail .item-title .insured-badge {
+		display: inline-block;
+		background: #fef3c7;
+		color: #92400e;
+		font-size: 9px;
+		font-weight: 700;
+		padding: 1px 6px;
+		border-radius: 3px;
+		margin-left: 6px;
+		vertical-align: middle;
+	}
+	.item-detail .item-meta {
+		font-size: 11px;
+		color: #666;
+	}
+	.item-value {
+		display: table-cell;
+		width: 120px;
+		vertical-align: top;
+		text-align: right;
+		padding-left: 8px;
+	}
+	.item-value .est-value {
+		font-size: 14px;
+		font-weight: 700;
+	}
+	.item-value .purchase-info {
+		font-size: 10px;
+		color: #888;
+	}
+
+	/* Summary page */
+	.summary {
+		page-break-before: always;
+	}
+	.summary h2 {
+		font-size: 18px;
+		margin-bottom: 16px;
+	}
+	.summary-table {
+		width: 100%;
+		border-collapse: collapse;
+		margin-bottom: 24px;
+	}
+	.summary-table th {
+		text-align: left;
+		font-size: 11px;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+		color: #888;
+		border-bottom: 2px solid #ddd;
+		padding: 6px 8px;
+	}
+	.summary-table th.right {
+		text-align: right;
+	}
+	.summary-table td {
+		padding: 6px 8px;
+		border-bottom: 1px solid #eee;
+		font-size: 12px;
+	}
+	.summary-table td.right {
+		text-align: right;
+	}
+	.summary-table .total-row td {
+		font-weight: 700;
+		border-top: 2px solid #333;
+		border-bottom: none;
+		padding-top: 8px;
+	}
+</style>
+
+<!-- COVER PAGE -->
+<div class="cover">
+	<h1>HOME CONTENTS INVENTORY REPORT</h1>
+	<div class="property-name">{{ property.property_name }}</div>
+	<div class="property-address">
+		{% if property.address_line1 %}{{ property.address_line1 }}{% if property.city %}, {{ property.city }}{% endif %}{% endif %}
+	</div>
+	<div class="meta">
+		Generated: {{ generated_date }}<br>
+		Prepared by: {{ prepared_by }}
+	</div>
+	<div class="totals-box">
+		<div class="label">Total Estimated Value</div>
+		<div class="big-number">{{ frappe.utils.fmt_money(total_value, currency=currency) }}</div>
+		<div class="detail">
+			Total items: {{ item_count }}<br>
+			Specifically insured: {{ insured_count }} items
+			({{ frappe.utils.fmt_money(insured_value, currency=currency) }})
+		</div>
+	</div>
+</div>
+
+<!-- ITEM LIST — grouped by category -->
+{% for cat in categories %}
+<div class="category-section">
+	<div class="category-header">
+		{{ cat.category }}
+		<span class="cat-total">{{ frappe.utils.fmt_money(cat.value, currency=currency) }}</span>
+	</div>
+	{% for item in cat.items %}
+	<div class="item-row">
+		<div class="item-photo">
+			{% if item.photo %}
+			<img src="{{ item.photo }}" alt="{{ item.item_name }}">
+			{% else %}
+			<div class="placeholder">No<br>photo</div>
+			{% endif %}
+		</div>
+		<div class="item-detail">
+			<div class="item-title">
+				{{ item.item_name }}
+				{% if item.insured %}<span class="insured-badge">INSURED</span>{% endif %}
+			</div>
+			<div class="item-meta">
+				{% if item.room_name %}Room: {{ item.room_name }}<br>{% endif %}
+				{% if item.brand %}Brand: {{ item.brand }}{% if item.model %} · Model: {{ item.model }}{% endif %}<br>{% endif %}
+				{% if item.serial_number %}Serial: {{ item.serial_number }}<br>{% endif %}
+				{% if item.condition %}Condition: {{ item.condition }}{% endif %}
+			</div>
+		</div>
+		<div class="item-value">
+			{% if item.estimated_value %}
+			<div class="est-value">{{ frappe.utils.fmt_money(item.estimated_value, currency=currency) }}</div>
+			{% endif %}
+			{% if item.purchase_date %}
+			<div class="purchase-info">
+				Purchased: {{ frappe.utils.formatdate(item.purchase_date) }}
+				{% if item.purchase_price %}<br>{{ frappe.utils.fmt_money(item.purchase_price, currency=currency) }}{% endif %}
+			</div>
+			{% endif %}
+		</div>
+	</div>
+	{% endfor %}
+</div>
+{% endfor %}
+
+<!-- SUMMARY PAGE -->
+<div class="summary">
+	<h2>Summary by Category</h2>
+	<table class="summary-table">
+		<thead>
+			<tr>
+				<th>Category</th>
+				<th class="right">Value</th>
+				<th class="right">Items</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for cat in categories %}
+			<tr>
+				<td>{{ cat.category }}</td>
+				<td class="right">{{ frappe.utils.fmt_money(cat.value, currency=currency) }}</td>
+				<td class="right">{{ cat.count }}</td>
+				<td>{% if cat.has_insured %}🛡{% endif %}</td>
+			</tr>
+			{% endfor %}
+			<tr class="total-row">
+				<td>TOTAL</td>
+				<td class="right">{{ frappe.utils.fmt_money(total_value, currency=currency) }}</td>
+				<td class="right">{{ item_count }}</td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+
+	{% if insured_count %}
+	<p>Specifically insured total: {{ frappe.utils.fmt_money(insured_value, currency=currency) }} ({{ insured_count }} item{{ "s" if insured_count != 1 else "" }})</p>
+	{% endif %}
+</div>

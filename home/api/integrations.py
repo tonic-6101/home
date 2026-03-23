@@ -13,59 +13,99 @@ from frappe import _
 
 
 @frappe.whitelist()
-def create_tender_post(maintenance_name: str) -> dict:
+def create_tender_post(maintenance: str) -> dict:
 	"""Create a Tender Post from a Home Maintenance record.
 
+	If a Tender Post is already linked, returns it without creating a duplicate.
+
 	Args:
-		maintenance_name: Name of the Home Maintenance record.
+		maintenance: Name of the Home Maintenance record.
 
 	Returns:
-		dict with tender_post name.
+		dict with ``tender_post`` name and ``already_exists`` flag.
 	"""
+	from home.api.permission import require_household_access, require_role
+
 	if "tender" not in frappe.get_installed_apps():
 		frappe.throw(_("Tender is not installed"))
 
-	maintenance = frappe.get_doc("Home Maintenance", maintenance_name)
-	property_doc = frappe.get_doc("Home Property", maintenance.property)
+	task = frappe.get_doc("Home Maintenance", maintenance)
+	prop = frappe.get_doc("Home Property", task.property)
+	require_household_access(prop.household)
+	require_role(prop.household, "Adult")
+
+	if task.get("tender_post"):
+		return {"tender_post": task.tender_post, "already_exists": True}
 
 	post = frappe.new_doc("Tender Post")
-	post.title = maintenance.title
+	post.title = task.title
+	post.description = task.notes or ""
+	post.category = _map_category(task.category)
+	post.location = prop.city or ""
 	post.visibility = "Private"
-	post.category = maintenance.category
-	post.location = property_doc.city
+	post.source_app = "home"
+	post.source_doctype = "Home Maintenance"
+	post.source_name = task.name
 	post.insert()
 
-	# Store the back-link on the maintenance record
-	frappe.db.set_value(
-		"Home Maintenance", maintenance_name, "tender_post", post.name
-	)
+	frappe.db.set_value("Home Maintenance", maintenance, "tender_post", post.name)
 
-	return {"tender_post": post.name}
+	return {"tender_post": post.name, "already_exists": False}
+
+
+_CATEGORY_MAP = {
+	"HVAC & Heating": "Heating",
+	"Plumbing": "Plumbing",
+	"Electrical": "Electrical",
+	"Roofing & Gutters": "Roofing",
+	"Carpentry": "Carpentry",
+	"Painting & Decorating": "Decorating",
+	"Cleaning": "Cleaning",
+	"Garden & Landscaping": "Garden",
+	"Pest Control": "Pest Control",
+	"Inspection": "General",
+	"General Repair": "General",
+	"Other": "General",
+}
+
+
+def _map_category(home_category: str) -> str:
+	"""Map a Home Maintenance category to a Tender Post category."""
+	return _CATEGORY_MAP.get(home_category or "", "General")
 
 
 @frappe.whitelist()
 def create_orga_project(maintenance_name: str) -> dict:
 	"""Create an Orga Project from a Home Maintenance record.
 
-	Args:
-		maintenance_name: Name of the Home Maintenance record.
-
-	Returns:
-		dict with orga_project name.
+	Pre-fills the project with task title, notes, property city.
+	Returns existing project if already linked (idempotent).
 	"""
+	from home.api.permission import require_household_access, require_role
+
 	if "orga" not in frappe.get_installed_apps():
 		frappe.throw(_("Orga is not installed"))
 
-	maintenance = frappe.get_doc("Home Maintenance", maintenance_name)
+	task = frappe.get_doc("Home Maintenance", maintenance_name)
+	prop = frappe.get_doc("Home Property", task.property)
+	require_household_access(prop.household)
+	require_role(prop.household, "Adult")
+
+	if task.get("orga_project"):
+		return {"orga_project": task.orga_project, "already_exists": True}
 
 	project = frappe.new_doc("Orga Project")
-	project.project_name = maintenance.title
-	project.description = maintenance.notes or ""
+	project.title = task.title
+	project.description = task.notes or ""
+	project.status = "Planning"
+	project.location = prop.city or ""
+	project.source_app = "home"
+	project.source_doctype = "Home Maintenance"
+	project.source_name = task.name
 	project.insert()
 
-	# Store the back-link on the maintenance record
 	frappe.db.set_value(
 		"Home Maintenance", maintenance_name, "orga_project", project.name
 	)
 
-	return {"orga_project": project.name}
+	return {"orga_project": project.name, "already_exists": False}

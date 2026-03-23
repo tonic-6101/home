@@ -12,15 +12,23 @@ class HomeWarranty(Document):
 
 	def validate(self):
 		self._validate_dates()
+		self._check_archived()
+
+	def _check_archived(self):
+		"""Block new warranties on archived properties."""
+		if self.is_new() and self.property:
+			from home.api.permission import require_property_not_archived
+
+			require_property_not_archived(self.property)
 
 	def _fetch_property_and_household(self):
-		"""Auto-fetch property from appliance, household from property."""
-		if self.appliance:
-			appliance = frappe.db.get_value(
-				"Home Appliance", self.appliance, ["property"], as_dict=True
+		"""Auto-fetch property from item, household from property."""
+		if self.item:
+			item = frappe.db.get_value(
+				"Home Item", self.item, ["property"], as_dict=True
 			)
-			if appliance:
-				self.property = appliance.property
+			if item:
+				self.property = item.property
 
 		if self.property:
 			self.household = frappe.db.get_value(

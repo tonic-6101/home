@@ -1,0 +1,192 @@
+{
+ "actions": [],
+ "autoname": "format:HIP-{####}",
+ "creation": "2026-03-12 00:00:00.000000",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "engine": "InnoDB",
+ "field_order": [
+  "household",
+  "property",
+  "policy_name",
+  "policy_type",
+  "column_break_basic",
+  "provider",
+  "policy_number",
+  "start_date",
+  "end_date",
+  "section_coverage",
+  "premium_annual",
+  "coverage_amount",
+  "coverage_notes",
+  "column_break_coverage",
+  "auto_renews",
+  "renewal_notice_days",
+  "section_document",
+  "document",
+  "notes",
+  "section_claims",
+  "claims"
+ ],
+ "fields": [
+  {
+   "fieldname": "household",
+   "fieldtype": "Link",
+   "label": "Household",
+   "options": "Home Household",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "property",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Property",
+   "options": "Home Property",
+   "reqd": 1
+  },
+  {
+   "fieldname": "policy_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_global_search": 1,
+   "label": "Policy Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "policy_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Policy Type",
+   "options": "Buildings\nContents\nLiability\nLegal Protection\nFlood\nOther",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_basic",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "provider",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Provider",
+   "reqd": 1
+  },
+  {
+   "fieldname": "policy_number",
+   "fieldtype": "Data",
+   "label": "Policy Number"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "End Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_coverage",
+   "fieldtype": "Section Break",
+   "label": "Coverage"
+  },
+  {
+   "fieldname": "premium_annual",
+   "fieldtype": "Currency",
+   "label": "Annual Premium"
+  },
+  {
+   "fieldname": "coverage_amount",
+   "fieldtype": "Currency",
+   "label": "Coverage Amount"
+  },
+  {
+   "fieldname": "coverage_notes",
+   "fieldtype": "Text",
+   "label": "Coverage Notes"
+  },
+  {
+   "fieldname": "column_break_coverage",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "auto_renews",
+   "fieldtype": "Check",
+   "label": "Auto-Renews"
+  },
+  {
+   "default": "60",
+   "fieldname": "renewal_notice_days",
+   "fieldtype": "Int",
+   "label": "Renewal Notice Days",
+   "description": "Days before end date to send renewal alert"
+  },
+  {
+   "fieldname": "section_document",
+   "fieldtype": "Section Break",
+   "label": "Documentation"
+  },
+  {
+   "fieldname": "document",
+   "fieldtype": "Attach",
+   "label": "Policy Document"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "section_claims",
+   "fieldtype": "Section Break",
+   "label": "Claims"
+  },
+  {
+   "fieldname": "claims",
+   "fieldtype": "Table",
+   "label": "Claims",
+   "options": "Home Insurance Claim"
+  }
+ ],
+ "links": [],
+ "modified": "2026-03-12 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Home",
+ "name": "Home Insurance Policy",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "role": "Home Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Home User",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

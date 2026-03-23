@@ -10,6 +10,9 @@
   "section_alerts",
   "warranty_alert_days_1",
   "warranty_alert_days_2",
+  "legal_warranty_months",
+  "burden_of_proof_months",
+  "burden_of_proof_alert_days",
   "maintenance_reminder_days",
   "column_break_alerts",
   "refund_overdue_days",
@@ -50,6 +53,27 @@
    "fieldname": "warranty_alert_days_2",
    "fieldtype": "Int",
    "label": "Warranty Alert (Days) — Second"
+  },
+  {
+   "default": "24",
+   "description": "Legal warranty duration in months (EU: 2 years for new goods)",
+   "fieldname": "legal_warranty_months",
+   "fieldtype": "Int",
+   "label": "Legal Warranty (Months)"
+  },
+  {
+   "default": "12",
+   "description": "Burden of proof reversal period in months (EU since Jan 2022: 12 months)",
+   "fieldname": "burden_of_proof_months",
+   "fieldtype": "Int",
+   "label": "Burden of Proof Period (Months)"
+  },
+  {
+   "default": "30",
+   "description": "Days before burden of proof shift to send alert",
+   "fieldname": "burden_of_proof_alert_days",
+   "fieldtype": "Int",
+   "label": "Burden of Proof Alert (Days)"
   },
   {
    "default": "3",
@@ -98,13 +122,13 @@
   {
    "fieldname": "section_lifespan",
    "fieldtype": "Section Break",
-   "label": "Appliance Category Lifespans"
+   "label": "Item Category Lifespans"
   },
   {
    "fieldname": "lifespan_defaults",
    "fieldtype": "Table",
    "label": "Lifespan Defaults",
-   "options": "Home Appliance Category Lifespan"
+   "options": "Home Item Category Lifespan"
   },
   {
    "fieldname": "section_notes",
@@ -118,7 +142,7 @@
   }
  ],
  "links": [],
- "modified": "2026-03-12 00:00:00.000000",
+ "modified": "2026-03-16 00:00:00.000000",
  "modified_by": "Administrator",
  "module": "Home",
  "name": "Home Settings",

@@ -11,6 +11,7 @@ import frappe
 from frappe import _
 
 
+@frappe.whitelist()
 def get_user_households(user: str | None = None) -> list[str]:
 	"""Return list of household names the user belongs to."""
 	user = user or frappe.session.user
@@ -19,6 +20,7 @@ def get_user_households(user: str | None = None) -> list[str]:
 		"Home Household Member",
 		filters={"user": user},
 		pluck="parent",
+		ignore_permissions=True,
 	)
 
 
@@ -44,6 +46,7 @@ def get_household_role(household: str, user: str | None = None) -> str | None:
 		filters={"parent": household, "user": user},
 		pluck="role",
 		limit=1,
+		ignore_permissions=True,
 	)
 	return roles[0] if roles else None
 
@@ -69,6 +72,20 @@ def require_role(household: str, min_role: str, user: str | None = None) -> None
 		)
 
 
+def require_property_not_archived(property_name: str) -> None:
+	"""Raise ValidationError if the property is archived.
+
+	Call this in before_insert of child DocTypes (appliance, maintenance, etc.)
+	to block new records on archived properties.
+	"""
+	is_archived = frappe.db.get_value("Home Property", property_name, "is_archived")
+	if is_archived:
+		frappe.throw(
+			_("Cannot add records to an archived property"),
+			frappe.ValidationError,
+		)
+
+
 # -- Frappe permission hooks (used in hooks.py) --
 
 
@@ -87,7 +104,11 @@ def get_household_condition(user: str | None = None) -> str:
 
 
 def has_household_permission(doc, ptype=None, user=None) -> bool:
-	"""Per-document permission check — does the user belong to this doc's household?"""
+	"""Per-document permission check — does the user belong to this doc's household?
+
+	Also enforces role-based restrictions:
+	- Child members cannot delete any records.
+	"""
 	user = user or frappe.session.user
 	if user == "Administrator":
 		return True
@@ -96,7 +117,29 @@ def has_household_permission(doc, ptype=None, user=None) -> bool:
 	if not household:
 		return False
 
-	return household in get_user_households(user)
+	if household not in get_user_households(user):
+		return False
+
+	# Child members cannot delete records
+	if ptype == "delete":
+		role = get_household_role(household, user)
+		if role == "Child":
+			return False
+
+	return True
+
+
+@frappe.whitelist()
+def get_my_role(household: str | None = None) -> dict:
+	"""Return the current user's household role. Used by frontend for UI gating."""
+	if not household:
+		households = get_user_households()
+		if not households:
+			return {"role": None, "household": None}
+		household = households[0]
+
+	role = get_household_role(household)
+	return {"role": role, "household": household}
 
 
 @frappe.whitelist()

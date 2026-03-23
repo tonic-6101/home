@@ -1,0 +1,102 @@
+<!--
+  SPDX-License-Identifier: AGPL-3.0-or-later
+  Copyright (C) 2024-2026 Tonic
+-->
+<style>
+	body { font-family: sans-serif; font-size: 11pt; color: #333; }
+	h1 { font-size: 18pt; margin-bottom: 4px; }
+	h2 { font-size: 14pt; margin-top: 24px; border-bottom: 1px solid #ccc; padding-bottom: 4px; }
+	.cover-meta { color: #666; font-size: 10pt; margin-bottom: 16px; }
+	.total-box { font-size: 16pt; font-weight: bold; margin: 16px 0; }
+	table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+	th, td { text-align: left; padding: 4px 8px; border-bottom: 1px solid #eee; }
+	th { background: #f5f5f5; font-size: 10pt; text-transform: uppercase; }
+	td.amount { text-align: right; font-variant-numeric: tabular-nums; }
+	th.amount { text-align: right; }
+	.pct { color: #888; font-size: 9pt; }
+	.section-note { font-size: 9pt; color: #888; margin-top: 24px; }
+	.page-break { page-break-before: always; }
+</style>
+
+<!-- PAGE 1: Cover -->
+<h1>Annual Home Cost Report</h1>
+<p><strong>{{ property_name }}</strong>{% if address %} &mdash; {{ address }}{% endif %}</p>
+<div class="cover-meta">
+	Year: {{ year }}{% if is_partial %} (partial &mdash; year in progress){% endif %}<br>
+	Generated: {{ generated_date }}<br>
+	Prepared by: {{ generated_by }}
+</div>
+<div class="total-box">Total Home Spend: {{ frappe.format_value(total_spend, {"fieldtype": "Currency"}) }}</div>
+<p>Records tracked: {{ record_count }}</p>
+
+<!-- PAGE 2: By Category -->
+<div class="page-break"></div>
+<h2>By Category</h2>
+<table>
+	<thead>
+		<tr><th>Category</th><th class="amount">Amount</th><th class="amount">Share</th></tr>
+	</thead>
+	<tbody>
+		{% for row in by_category %}
+		<tr>
+			<td>{{ row.category }}</td>
+			<td class="amount">{{ frappe.format_value(row.amount, {"fieldtype": "Currency"}) }}</td>
+			<td class="amount"><span class="pct">{{ row.share_pct }}%</span></td>
+		</tr>
+		{% endfor %}
+		<tr style="font-weight: bold; border-top: 2px solid #333;">
+			<td>Total</td>
+			<td class="amount">{{ frappe.format_value(total_spend, {"fieldtype": "Currency"}) }}</td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>
+
+<!-- PAGE 3: By Room -->
+<div class="page-break"></div>
+<h2>By Room</h2>
+<table>
+	<thead>
+		<tr><th>Room</th><th class="amount">Amount</th><th class="amount">Share</th></tr>
+	</thead>
+	<tbody>
+		{% for row in by_room %}
+		<tr>
+			<td>{{ row.room }}</td>
+			<td class="amount">{{ frappe.format_value(row.amount, {"fieldtype": "Currency"}) }}</td>
+			<td class="amount"><span class="pct">{{ row.share_pct }}%</span></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+<!-- PAGE 4: By Item -->
+<div class="page-break"></div>
+<h2>By Item</h2>
+{% for key, data in by_item.items() %}
+<h3 style="font-size: 11pt; margin-top: 12px;">{{ data.item_name or key }}</h3>
+<table>
+	<tbody>
+		{% if data.purchase %}
+		<tr><td>Purchase</td><td class="amount">{{ frappe.format_value(data.purchase, {"fieldtype": "Currency"}) }}</td></tr>
+		{% endif %}
+		{% for m in data.maintenance %}
+		<tr><td>{{ m.title }} ({{ m.date }})</td><td class="amount">{{ frappe.format_value(m.cost, {"fieldtype": "Currency"}) }}</td></tr>
+		{% endfor %}
+		<tr style="font-weight: bold; border-top: 1px solid #999;">
+			<td>Total</td>
+			<td class="amount">{{ frappe.format_value(data.total, {"fieldtype": "Currency"}) }}</td>
+		</tr>
+	</tbody>
+</table>
+{% endfor %}
+
+<!-- Notes -->
+<div class="page-break"></div>
+<h2>Notes &amp; Methodology</h2>
+<div class="section-note">
+	<p>Figures compiled from Home records as of {{ generated_date }}.</p>
+	<p>Insurance premiums attributed to renewal year (policy end date).</p>
+	<p>Refunds received deducted from total (shown as negative line in category summary).</p>
+	<p>All amounts in site default currency.</p>
+</div>

@@ -320,8 +320,7 @@
   },
   {
    "read": 1,
-   "role": "Home User",
-   "write": 1
+   "role": "Home User"
   },
   {
    "create": 1,

@@ -1,0 +1,103 @@
+{
+ "actions": [],
+ "creation": "2026-03-12 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "recall_id",
+  "title",
+  "category",
+  "brand",
+  "column_break_01",
+  "severity",
+  "published_date",
+  "detail_url",
+  "section_dismiss",
+  "dismissed",
+  "dismissed_date",
+  "dismissed_by"
+ ],
+ "fields": [
+  {
+   "fieldname": "recall_id",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Recall ID",
+   "reqd": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title",
+   "reqd": 1
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Data",
+   "label": "Category"
+  },
+  {
+   "fieldname": "brand",
+   "fieldtype": "Data",
+   "label": "Brand"
+  },
+  {
+   "fieldname": "column_break_01",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "severity",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Severity",
+   "options": "\nSerious\nHigh\nMedium\nUnknown"
+  },
+  {
+   "fieldname": "published_date",
+   "fieldtype": "Date",
+   "label": "Published Date"
+  },
+  {
+   "fieldname": "detail_url",
+   "fieldtype": "Data",
+   "label": "Detail URL",
+   "options": "URL"
+  },
+  {
+   "fieldname": "section_dismiss",
+   "fieldtype": "Section Break",
+   "label": "Dismissal"
+  },
+  {
+   "default": "0",
+   "fieldname": "dismissed",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Dismissed"
+  },
+  {
+   "fieldname": "dismissed_date",
+   "fieldtype": "Date",
+   "label": "Dismissed Date"
+  },
+  {
+   "fieldname": "dismissed_by",
+   "fieldtype": "Link",
+   "label": "Dismissed By",
+   "options": "User"
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2026-03-13 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Home",
+ "name": "Home Item Recall",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

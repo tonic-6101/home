@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <title>Home - Household Management</title>
+    <meta name="description" content="Home - Household Management" />
+    <link rel="icon" type="image/svg+xml" href="/assets/home/images/home_logo.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/home/images/home_logo_32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/home/images/home_logo_16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/home/images/apple-touch-icon.png" />
+    <link rel="icon" type="image/x-icon" href="/assets/home/images/favicon.ico" />
+    <link rel="manifest" href="/assets/home/images/site.webmanifest" />
+    <meta name="theme-color" content="#f59e0b" />
+  </head>
+  <body>
+    <script>
+      (function() {
+        var stored = localStorage.getItem('dock-theme');
+        var isDark = stored === 'dark' ||
+          (!stored || stored === 'auto') && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (isDark) document.documentElement.classList.add('dark');
+      })();
+    </script>
+    <div id="app" class="h-screen"></div>
+    <div id="modals"></div>
+    <div id="popovers"></div>
+    <script>
+      window.csrf_token = "{{ csrf_token }}"
+    </script>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

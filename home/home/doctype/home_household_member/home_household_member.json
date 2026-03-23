@@ -8,6 +8,7 @@
   "display_name",
   "role",
   "user",
+  "email",
   "column_break_01",
   "avatar",
   "date_of_birth",
@@ -35,6 +36,13 @@
    "in_list_view": 1,
    "label": "User",
    "options": "User"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email",
+   "description": "Used to track pending invitations before user registers"
   },
   {
    "fieldname": "column_break_01",

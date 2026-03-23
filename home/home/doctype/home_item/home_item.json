@@ -1,0 +1,279 @@
+{
+ "actions": [],
+ "autoname": "format:HI-{####}",
+ "creation": "2026-03-12 00:00:00.000000",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "engine": "InnoDB",
+ "field_order": [
+  "item_name",
+  "item_type",
+  "property",
+  "household",
+  "room",
+  "category",
+  "column_break_basic",
+  "brand",
+  "model",
+  "serial_number",
+  "purchase_date",
+  "purchase_price",
+  "photo",
+  "section_notes",
+  "notes",
+  "section_appliance_details",
+  "status",
+  "expected_lifespan_years",
+  "label_photo",
+  "receipt_photo",
+  "manual",
+  "last_recall_check",
+  "recalls",
+  "section_possession_details",
+  "condition",
+  "receipt",
+  "section_fixture_details",
+  "installed_date",
+  "material",
+  "section_insurance",
+  "estimated_value",
+  "insured"
+ ],
+ "fields": [
+  {
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "in_global_search": 1,
+   "label": "Item Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "item_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Item Type",
+   "options": "Appliance\nPossession\nFixture",
+   "reqd": 1
+  },
+  {
+   "fieldname": "property",
+   "fieldtype": "Link",
+   "label": "Property",
+   "options": "Home Property",
+   "reqd": 1
+  },
+  {
+   "fieldname": "household",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Household",
+   "options": "Home Household",
+   "read_only": 1
+  },
+  {
+   "fieldname": "room",
+   "fieldtype": "Link",
+   "label": "Room",
+   "options": "Home Room"
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "Category",
+   "options": "\nWhite Goods\nHVAC\nHeating\nKitchen\nPlumbing\nFurniture\nElectronics\nJewelry & Watches\nArt & Collectibles\nTools & Equipment\nClothing & Accessories\nMusical Instruments\nSports Equipment\nDoors & Windows\nWalls & Floors\nRoof & Structure\nGarden & Landscape\nFixtures & Fittings\nExterior\nOther"
+  },
+  {
+   "fieldname": "column_break_basic",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "brand",
+   "fieldtype": "Data",
+   "in_global_search": 1,
+   "label": "Brand"
+  },
+  {
+   "fieldname": "model",
+   "fieldtype": "Data",
+   "in_global_search": 1,
+   "label": "Model"
+  },
+  {
+   "fieldname": "serial_number",
+   "fieldtype": "Data",
+   "label": "Serial Number"
+  },
+  {
+   "fieldname": "purchase_date",
+   "fieldtype": "Date",
+   "label": "Purchase Date"
+  },
+  {
+   "fieldname": "purchase_price",
+   "fieldtype": "Currency",
+   "label": "Purchase Price"
+  },
+  {
+   "fieldname": "photo",
+   "fieldtype": "Attach Image",
+   "label": "Photo"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_notes",
+   "fieldtype": "Section Break",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Text Editor",
+   "label": "Notes"
+  },
+  {
+   "depends_on": "eval:doc.item_type==\"Appliance\"",
+   "fieldname": "section_appliance_details",
+   "fieldtype": "Section Break",
+   "label": "Appliance Details"
+  },
+  {
+   "default": "Working",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "mandatory_depends_on": "eval:doc.item_type==\"Appliance\"",
+   "options": "Working\nNeeds Repair\nBroken\nDisposed"
+  },
+  {
+   "fieldname": "expected_lifespan_years",
+   "fieldtype": "Int",
+   "label": "Expected Lifespan (Years)",
+   "description": "Auto-populated from category defaults on creation — editable per item"
+  },
+  {
+   "fieldname": "label_photo",
+   "fieldtype": "Attach Image",
+   "label": "Label Photo",
+   "description": "Photo of the rating plate / serial label"
+  },
+  {
+   "fieldname": "receipt_photo",
+   "fieldtype": "Attach Image",
+   "label": "Receipt Photo"
+  },
+  {
+   "fieldname": "manual",
+   "fieldtype": "Attach",
+   "label": "Manual",
+   "description": "PDF or link to user manual"
+  },
+  {
+   "fieldname": "last_recall_check",
+   "fieldtype": "Date",
+   "label": "Last Recall Check",
+   "read_only": 1
+  },
+  {
+   "fieldname": "recalls",
+   "fieldtype": "Table",
+   "label": "Recalls",
+   "options": "Home Item Recall",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.item_type==\"Possession\"",
+   "fieldname": "section_possession_details",
+   "fieldtype": "Section Break",
+   "label": "Possession Details"
+  },
+  {
+   "fieldname": "condition",
+   "fieldtype": "Select",
+   "label": "Condition",
+   "options": "\nNew\nExcellent\nGood\nFair\nPoor"
+  },
+  {
+   "fieldname": "receipt",
+   "fieldtype": "Attach",
+   "label": "Receipt"
+  },
+  {
+   "depends_on": "eval:doc.item_type==\"Fixture\"",
+   "fieldname": "section_fixture_details",
+   "fieldtype": "Section Break",
+   "label": "Fixture Details"
+  },
+  {
+   "fieldname": "installed_date",
+   "fieldtype": "Date",
+   "label": "Installed Date",
+   "description": "When the fixture was installed or built"
+  },
+  {
+   "fieldname": "material",
+   "fieldtype": "Data",
+   "label": "Material",
+   "description": "E.g. Oak, PVC, Brick, Copper, Slate"
+  },
+  {
+   "fieldname": "section_insurance",
+   "fieldtype": "Section Break",
+   "label": "Insurance"
+  },
+  {
+   "fieldname": "estimated_value",
+   "fieldtype": "Currency",
+   "label": "Estimated Value",
+   "description": "Estimated replacement or current market value — hidden from Child role"
+  },
+  {
+   "default": "0",
+   "fieldname": "insured",
+   "fieldtype": "Check",
+   "label": "Insured",
+   "description": "Item is specifically listed on an insurance policy"
+  }
+ ],
+ "links": [],
+ "modified": "2026-03-16 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Home",
+ "name": "Home Item",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "role": "Home Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Home User",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "item_name,brand,model,category",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "item_name",
+ "track_changes": 1
+}

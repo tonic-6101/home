@@ -1,0 +1,155 @@
+{
+ "actions": [],
+ "autoname": "format:HP-{####}",
+ "creation": "2026-03-16 00:00:00.000000",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "engine": "InnoDB",
+ "field_order": [
+  "household",
+  "property",
+  "room",
+  "item",
+  "maintenance",
+  "column_break_context",
+  "photo",
+  "caption",
+  "purpose",
+  "photo_date",
+  "section_renovation",
+  "before_after",
+  "pair_ref",
+  "section_notes",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "household",
+   "fieldtype": "Link",
+   "label": "Household",
+   "options": "Home Household",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "property",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Property",
+   "options": "Home Property",
+   "reqd": 1
+  },
+  {
+   "fieldname": "room",
+   "fieldtype": "Link",
+   "label": "Room",
+   "options": "Home Room"
+  },
+  {
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "label": "Item",
+   "options": "Home Item"
+  },
+  {
+   "fieldname": "maintenance",
+   "fieldtype": "Link",
+   "label": "Maintenance",
+   "options": "Home Maintenance"
+  },
+  {
+   "fieldname": "column_break_context",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "photo",
+   "fieldtype": "Attach Image",
+   "label": "Photo",
+   "reqd": 1
+  },
+  {
+   "fieldname": "caption",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Caption"
+  },
+  {
+   "fieldname": "purpose",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Purpose",
+   "options": "General\nCondition\nDamage\nRenovation\nMove-in\nMove-out",
+   "reqd": 1
+  },
+  {
+   "fieldname": "photo_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Photo Date"
+  },
+  {
+   "fieldname": "section_renovation",
+   "fieldtype": "Section Break",
+   "label": "Renovation",
+   "depends_on": "eval:doc.purpose=='Renovation'"
+  },
+  {
+   "fieldname": "before_after",
+   "fieldtype": "Select",
+   "label": "Before / After",
+   "options": "\nBefore\nAfter",
+   "depends_on": "eval:doc.purpose=='Renovation'"
+  },
+  {
+   "fieldname": "pair_ref",
+   "fieldtype": "Link",
+   "label": "Paired Photo",
+   "options": "Home Photo",
+   "depends_on": "eval:doc.purpose=='Renovation'"
+  },
+  {
+   "fieldname": "section_notes",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "links": [],
+ "modified": "2026-03-16 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Home",
+ "name": "Home Photo",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "role": "Home Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Home User",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "photo_date",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

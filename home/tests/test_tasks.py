@@ -36,8 +36,9 @@ class TestWarrantyExpiryAlerts(FrappeTestCase):
 
 		appliance = frappe.get_doc(
 			{
-				"doctype": "Home Appliance",
-				"appliance_name": "Alert Test Appliance",
+				"doctype": "Home Item",
+				"item_type": "Appliance",
+				"item_name": "Alert Test Appliance",
 				"property": prop.name,
 				"category": "White Goods",
 				"status": "Working",
@@ -54,7 +55,7 @@ class TestWarrantyExpiryAlerts(FrappeTestCase):
 		frappe.get_doc(
 			{
 				"doctype": "Home Warranty",
-				"appliance": appliance.name,
+				"item": appliance.name,
 				"warranty_type": "Manufacturer",
 				"start_date": "2020-01-01",
 				"end_date": add_days(today(), 90),
@@ -72,7 +73,7 @@ class TestWarrantyExpiryAlerts(FrappeTestCase):
 		frappe.get_doc(
 			{
 				"doctype": "Home Warranty",
-				"appliance": appliance.name,
+				"item": appliance.name,
 				"warranty_type": "Manufacturer",
 				"start_date": "2020-01-01",
 				"end_date": add_days(today(), 365),

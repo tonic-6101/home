@@ -8,12 +8,13 @@
  "field_order": [
   "household",
   "property",
-  "appliance",
+  "item",
   "warranty_type",
   "column_break_basic",
   "provider",
   "start_date",
   "end_date",
+  "burden_of_proof_date",
   "section_document",
   "document",
   "notes",
@@ -39,12 +40,12 @@
    "reqd": 1
   },
   {
-   "fieldname": "appliance",
+   "fieldname": "item",
    "fieldtype": "Link",
    "in_list_view": 1,
    "in_global_search": 1,
-   "label": "Appliance",
-   "options": "Home Appliance",
+   "label": "Item",
+   "options": "Home Item",
    "reqd": 1
   },
   {
@@ -52,7 +53,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Warranty Type",
-   "options": "Manufacturer\nExtended\nInsurance\nOther",
+   "options": "Manufacturer\nExtended\nInsurance\nLegal\nOther",
    "reqd": 1
   },
   {
@@ -77,6 +78,13 @@
    "in_list_view": 1,
    "label": "End Date",
    "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.warranty_type==\"Legal\"",
+   "fieldname": "burden_of_proof_date",
+   "fieldtype": "Date",
+   "label": "Burden of Proof Date",
+   "description": "Date when burden of proof shifts from seller to buyer (EU: start_date + 12 months)"
   },
   {
    "fieldname": "section_document",
@@ -107,7 +115,7 @@
   }
  ],
  "links": [],
- "modified": "2026-03-12 00:00:00.000000",
+ "modified": "2026-03-16 00:00:00.000000",
  "modified_by": "Administrator",
  "module": "Home",
  "name": "Home Warranty",

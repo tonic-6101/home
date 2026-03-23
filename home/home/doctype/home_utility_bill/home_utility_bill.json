@@ -1,0 +1,191 @@
+{
+ "actions": [],
+ "autoname": "format:HUB-{####}",
+ "creation": "2026-03-12 00:00:00.000000",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "engine": "InnoDB",
+ "field_order": [
+  "household",
+  "property",
+  "bill_type",
+  "provider",
+  "column_break_basic",
+  "period_start",
+  "period_end",
+  "amount",
+  "section_meter",
+  "reading_start",
+  "reading_end",
+  "consumption_unit",
+  "column_break_meter",
+  "consumption_amount",
+  "section_payment",
+  "due_date",
+  "paid",
+  "paid_date",
+  "section_document",
+  "document",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "household",
+   "fieldtype": "Link",
+   "label": "Household",
+   "options": "Home Household",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "property",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Property",
+   "options": "Home Property",
+   "reqd": 1
+  },
+  {
+   "fieldname": "bill_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Bill Type",
+   "options": "Electricity\nGas\nWater\nInternet\nHeating Oil\nDistrict Heating\nOther",
+   "reqd": 1
+  },
+  {
+   "fieldname": "provider",
+   "fieldtype": "Data",
+   "label": "Provider"
+  },
+  {
+   "fieldname": "column_break_basic",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "period_start",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Period Start",
+   "reqd": 1
+  },
+  {
+   "fieldname": "period_end",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Period End",
+   "reqd": 1
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Amount",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_meter",
+   "fieldtype": "Section Break",
+   "label": "Meter Readings"
+  },
+  {
+   "fieldname": "reading_start",
+   "fieldtype": "Float",
+   "label": "Reading Start"
+  },
+  {
+   "fieldname": "reading_end",
+   "fieldtype": "Float",
+   "label": "Reading End"
+  },
+  {
+   "fieldname": "consumption_unit",
+   "fieldtype": "Select",
+   "label": "Consumption Unit",
+   "options": "\nkWh\nm³\nlitres"
+  },
+  {
+   "fieldname": "column_break_meter",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "consumption_amount",
+   "fieldtype": "Float",
+   "label": "Consumption Amount",
+   "read_only": 1,
+   "description": "Auto-computed from readings"
+  },
+  {
+   "fieldname": "section_payment",
+   "fieldtype": "Section Break",
+   "label": "Payment"
+  },
+  {
+   "fieldname": "due_date",
+   "fieldtype": "Date",
+   "label": "Due Date"
+  },
+  {
+   "default": "0",
+   "fieldname": "paid",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Paid"
+  },
+  {
+   "fieldname": "paid_date",
+   "fieldtype": "Date",
+   "label": "Paid Date"
+  },
+  {
+   "fieldname": "section_document",
+   "fieldtype": "Section Break",
+   "label": "Documentation"
+  },
+  {
+   "fieldname": "document",
+   "fieldtype": "Attach",
+   "label": "Bill Document"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "links": [],
+ "modified": "2026-03-12 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Home",
+ "name": "Home Utility Bill",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "role": "Home Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Home User",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

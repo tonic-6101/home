@@ -18,6 +18,15 @@ RECURRENCE_MAP = {
 
 
 class HomeMaintenance(Document):
+	def before_insert(self):
+		if self.property:
+			from home.api.permission import require_property_not_archived
+
+			require_property_not_archived(self.property)
+
+	def validate(self):
+		self._validate_recurring_fields()
+
 	def before_save(self):
 		self._fetch_household()
 
@@ -30,6 +39,17 @@ class HomeMaintenance(Document):
 			and self.completed_date
 		):
 			self._create_next_occurrence()
+
+	def _validate_recurring_fields(self):
+		"""Recurring tasks being completed must have a recurrence interval set."""
+		if (
+			self.maintenance_type == "Recurring"
+			and self.status == "Completed"
+			and not self.recurrence
+		):
+			frappe.throw(
+				_("Recurrence interval is required to complete a recurring task")
+			)
 
 	def _fetch_household(self):
 		"""Auto-fetch household from the linked property."""

@@ -10,8 +10,7 @@
   "property",
   "item_description",
   "column_break_basic",
-  "linked_appliance",
-  "linked_inventory_item",
+  "linked_item",
   "retailer",
   "section_purchase",
   "purchase_date",
@@ -57,16 +56,10 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "linked_appliance",
+   "fieldname": "linked_item",
    "fieldtype": "Link",
-   "label": "Linked Appliance",
-   "options": "Home Appliance"
-  },
-  {
-   "fieldname": "linked_inventory_item",
-   "fieldtype": "Link",
-   "label": "Linked Inventory Item",
-   "options": "Home Inventory Item"
+   "label": "Linked Item",
+   "options": "Home Item"
   },
   {
    "fieldname": "retailer",

@@ -1,0 +1,149 @@
+<!--
+  SPDX-License-Identifier: AGPL-3.0-or-later
+  Copyright (C) 2024-2026 Tonic
+-->
+<style>
+	body { font-family: sans-serif; font-size: 11pt; color: #333; }
+	h1 { font-size: 22pt; margin-bottom: 4px; }
+	h2 { font-size: 14pt; margin-top: 24px; border-bottom: 1px solid #ccc; padding-bottom: 4px; }
+	h3 { font-size: 12pt; margin-top: 16px; }
+	.cover-meta { color: #666; font-size: 10pt; margin-bottom: 16px; line-height: 1.6; }
+	.summary-table { width: auto; margin: 16px 0; }
+	.summary-table td { padding: 2px 16px 2px 0; }
+	.summary-table td.val { font-weight: bold; text-align: right; }
+	table.data { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
+	table.data th, table.data td { text-align: left; padding: 4px 8px; border-bottom: 1px solid #eee; }
+	table.data th { background: #f5f5f5; font-size: 10pt; text-transform: uppercase; }
+	td.amount { text-align: right; font-variant-numeric: tabular-nums; }
+	th.amount { text-align: right; }
+	.year-header { font-size: 13pt; font-weight: bold; margin-top: 20px; margin-bottom: 8px; border-bottom: 2px solid #333; padding-bottom: 2px; }
+	.event-row { margin-bottom: 6px; line-height: 1.4; }
+	.event-date { display: inline-block; width: 40px; color: #666; font-size: 10pt; }
+	.event-label { font-weight: bold; }
+	.event-sub { color: #666; font-size: 10pt; }
+	.event-cost { float: right; font-variant-numeric: tabular-nums; }
+	.section-note { font-size: 9pt; color: #888; margin-top: 12px; }
+	.page-break { page-break-before: always; }
+	.state-item { margin-bottom: 8px; line-height: 1.4; }
+	.state-item strong { display: block; }
+	.state-item .detail { font-size: 10pt; color: #666; }
+</style>
+
+<!-- PAGE 1: Cover -->
+<h1>Property Passport</h1>
+<p><strong>{{ data.property_name }}</strong>{% if data.address %} &mdash; {{ data.address }}{% endif %}</p>
+
+<div class="cover-meta">
+	{% if data.property_type %}Property type: {{ data.property_type }}<br>{% endif %}
+	{% if data.purchase_date %}Purchase date: {{ data.purchase_date }}<br>{% endif %}
+	{% if data.purchase_price %}Purchase price: {{ frappe.format_value(data.purchase_price, {"fieldtype": "Currency"}) }}<br>{% endif %}
+	{% if data.area_sqm %}Area: {{ data.area_sqm }} m&sup2;<br>{% endif %}
+	<br>
+	Passport period: {{ data.period }}<br>
+	Generated: {{ data.generated_date }}<br>
+	Prepared by: {{ data.generated_by }}
+</div>
+
+{% if data.summary %}
+<h2>Summary</h2>
+<table class="summary-table">
+	<tr><td>Maintenance jobs completed:</td><td class="val">{{ data.summary.maintenance_count }}</td></tr>
+	<tr><td>Items installed:</td><td class="val">{{ data.summary.items_installed }}</td></tr>
+	<tr><td>Items removed:</td><td class="val">{{ data.summary.items_removed }}</td></tr>
+	<tr><td>Warranties registered:</td><td class="val">{{ data.summary.warranties_registered }}</td></tr>
+	<tr><td>Total maintenance spend:</td><td class="val">{{ frappe.format_value(data.summary.total_maintenance_spend, {"fieldtype": "Currency"}) }}</td></tr>
+	<tr><td>Total item spend:</td><td class="val">{{ frappe.format_value(data.summary.total_item_spend, {"fieldtype": "Currency"}) }}</td></tr>
+</table>
+{% endif %}
+
+<!-- PAGE 2+: Chronological Timeline -->
+<div class="page-break"></div>
+<h2>Chronological Timeline</h2>
+
+{% set ns = namespace(current_year='') %}
+{% for event in data.events %}
+	{% set event_year = event.date[:4] %}
+	{% if event_year != ns.current_year %}
+		{% set ns.current_year = event_year %}
+		<div class="year-header">{{ event_year }}</div>
+	{% endif %}
+	<div class="event-row">
+		<span class="event-date">{{ event.date[5:7] }}/{{ event.date[8:10] }}</span>
+		<span class="event-label">{{ event.label }}</span>
+		{% if event.cost %}<span class="event-cost">{{ frappe.format_value(event.cost, {"fieldtype": "Currency"}) }}</span>{% endif %}
+		{% if event.sub_label %}<br><span class="event-date"></span><span class="event-sub">{{ event.sub_label }}</span>{% endif %}
+		{% if event.serial_number %}<br><span class="event-date"></span><span class="event-sub">Serial: {{ event.serial_number }}</span>{% endif %}
+		{% if event.end_date %}<br><span class="event-date"></span><span class="event-sub">Valid until: {{ event.end_date }}</span>{% endif %}
+	</div>
+{% endfor %}
+
+{% if not data.events %}
+<p class="section-note">No events recorded for the selected period.</p>
+{% endif %}
+
+<!-- LAST SECTION: Current State -->
+<div class="page-break"></div>
+<h2>Current State (as of {{ data.generated_date }})</h2>
+
+{% if data.current_state %}
+<h3>Active Items</h3>
+{% if data.current_state.items %}
+{% for a in data.current_state.items %}
+<div class="state-item">
+	<strong>{{ a.item_name }}{% if a.brand %} &mdash; {{ a.brand }}{% endif %}{% if a.model %} {{ a.model }}{% endif %}</strong>
+	<span class="detail">
+		{% if a.purchase_date %}Installed: {{ a.purchase_date }}{% endif %}
+		{% if a.serial_number %} &middot; Serial: {{ a.serial_number }}{% endif %}
+		&middot; Status: {{ a.status }}
+	</span>
+</div>
+{% endfor %}
+{% else %}
+<p class="section-note">No active items.</p>
+{% endif %}
+
+<h3>Active Warranties</h3>
+{% if data.current_state.warranties %}
+{% for w in data.current_state.warranties %}
+<div class="state-item">
+	<strong>{{ w.warranty_type }}{% if w.provider %} ({{ w.provider }}){% endif %}</strong>
+	<span class="detail">Valid until: {{ w.end_date }}</span>
+</div>
+{% endfor %}
+{% else %}
+<p class="section-note">No active warranties.</p>
+{% endif %}
+
+<h3>Active Insurance</h3>
+{% if data.current_state.insurance %}
+{% for p in data.current_state.insurance %}
+<div class="state-item">
+	<strong>{{ p.policy_name or p.policy_type }} &mdash; {{ p.provider }}</strong>
+	<span class="detail">
+		{% if p.policy_number %}Policy: {{ p.policy_number }}{% endif %}
+		{% if p.coverage_amount %} &middot; Coverage: {{ frappe.format_value(p.coverage_amount, {"fieldtype": "Currency"}) }}{% endif %}
+		&middot; Renews: {{ p.end_date }}
+	</span>
+</div>
+{% endfor %}
+{% else %}
+<p class="section-note">No active insurance policies.</p>
+{% endif %}
+
+<h3>Emergency Information</h3>
+{% set e = data.current_state.emergency %}
+{% if e.gas_shutoff_location or e.water_shutoff_location or e.electricity_shutoff_location %}
+<table class="data">
+	{% if e.gas_shutoff_location %}<tr><td>Gas shutoff:</td><td>{{ e.gas_shutoff_location }}</td></tr>{% endif %}
+	{% if e.water_shutoff_location %}<tr><td>Water shutoff:</td><td>{{ e.water_shutoff_location }}</td></tr>{% endif %}
+	{% if e.electricity_shutoff_location %}<tr><td>Electricity:</td><td>{{ e.electricity_shutoff_location }}</td></tr>{% endif %}
+	{% if e.evacuation_notes %}<tr><td>Evacuation:</td><td>{{ e.evacuation_notes }}</td></tr>{% endif %}
+</table>
+{% else %}
+<p class="section-note">No emergency information recorded.</p>
+{% endif %}
+{% endif %}
+
+<div class="section-note" style="margin-top: 32px;">
+	<p>This document was generated from Home property management records. It is informational and not legally binding.</p>
+</div>
