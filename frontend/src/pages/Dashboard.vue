@@ -329,8 +329,8 @@ onMounted(() => {
         <button
           v-if="isAdultOrAbove"
           @click="showMaintenanceDialog = true"
-          class="flex items-center gap-1.5 text-sm text-home-600 dark:text-home-400
-                 hover:text-home-700 dark:hover:text-home-300 transition-colors"
+          class="flex items-center gap-1.5 text-sm text-accent-600 dark:text-accent-400
+                 hover:text-accent-700 dark:hover:text-accent-300 transition-colors"
         >
           <HardHat class="w-4 h-4" />
           <span>{{ __('Log maintenance') }}</span>
@@ -345,8 +345,8 @@ onMounted(() => {
         <router-link
           v-if="isAdultOrAbove"
           to="/home/budget"
-          class="flex items-center gap-1.5 text-sm text-home-600 dark:text-home-400
-                 hover:text-home-700 dark:hover:text-home-300 no-underline ml-auto"
+          class="flex items-center gap-1.5 text-sm text-accent-600 dark:text-accent-400
+                 hover:text-accent-700 dark:hover:text-accent-300 no-underline ml-auto"
         >
           <Wallet class="w-4 h-4" />
           <span>{{ __('Budget') }}</span>
@@ -401,16 +401,16 @@ onMounted(() => {
               to="/home/budget"
               class="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-white dark:bg-gray-800
                      border border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-300
-                     hover:border-home-300 dark:hover:border-home-600 transition-colors no-underline"
+                     hover:border-accent-300 dark:hover:border-accent-600 transition-colors no-underline"
             >
-              <Wallet class="w-4 h-4 text-home-500 flex-shrink-0" />
+              <Wallet class="w-4 h-4 text-accent-500 flex-shrink-0" />
               {{ __('Budget') }}
             </router-link>
             <router-link
               to="/home/utilities"
               class="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-white dark:bg-gray-800
                      border border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-300
-                     hover:border-home-300 dark:hover:border-home-600 transition-colors no-underline"
+                     hover:border-accent-300 dark:hover:border-accent-600 transition-colors no-underline"
             >
               <Zap class="w-4 h-4 text-amber-500 flex-shrink-0" />
               {{ __('Utility Bills') }}
@@ -419,7 +419,7 @@ onMounted(() => {
               to="/home/insurance"
               class="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-white dark:bg-gray-800
                      border border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-300
-                     hover:border-home-300 dark:hover:border-home-600 transition-colors no-underline"
+                     hover:border-accent-300 dark:hover:border-accent-600 transition-colors no-underline"
             >
               <Shield class="w-4 h-4 text-green-500 flex-shrink-0" />
               {{ __('Insurance') }}
@@ -428,7 +428,7 @@ onMounted(() => {
               to="/home/cost-report"
               class="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-white dark:bg-gray-800
                      border border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-300
-                     hover:border-home-300 dark:hover:border-home-600 transition-colors no-underline"
+                     hover:border-accent-300 dark:hover:border-accent-600 transition-colors no-underline"
             >
               <FileText class="w-4 h-4 text-blue-500 flex-shrink-0" />
               {{ __('Cost Report') }}
@@ -438,7 +438,7 @@ onMounted(() => {
               to="/home/equity"
               class="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-white dark:bg-gray-800
                      border border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-300
-                     hover:border-home-300 dark:hover:border-home-600 transition-colors no-underline"
+                     hover:border-accent-300 dark:hover:border-accent-600 transition-colors no-underline"
             >
               <PiggyBank class="w-4 h-4 text-purple-500 flex-shrink-0" />
               {{ __('Home Equity') }}
@@ -447,7 +447,7 @@ onMounted(() => {
               to="/home/returns"
               class="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-white dark:bg-gray-800
                      border border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-300
-                     hover:border-home-300 dark:hover:border-home-600 transition-colors no-underline"
+                     hover:border-accent-300 dark:hover:border-accent-600 transition-colors no-underline"
             >
               <RotateCcw class="w-4 h-4 text-red-500 flex-shrink-0" />
               {{ __('Returns') }}
@@ -456,7 +456,7 @@ onMounted(() => {
               to="/home/documents"
               class="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-white dark:bg-gray-800
                      border border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-300
-                     hover:border-home-300 dark:hover:border-home-600 transition-colors no-underline"
+                     hover:border-accent-300 dark:hover:border-accent-600 transition-colors no-underline"
             >
               <BookOpen class="w-4 h-4 text-gray-500 flex-shrink-0" />
               {{ __('Documents') }}
@@ -465,7 +465,7 @@ onMounted(() => {
               to="/home/letters"
               class="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-white dark:bg-gray-800
                      border border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-300
-                     hover:border-home-300 dark:hover:border-home-600 transition-colors no-underline"
+                     hover:border-accent-300 dark:hover:border-accent-600 transition-colors no-underline"
             >
               <Mail class="w-4 h-4 text-indigo-500 flex-shrink-0" />
               {{ __('Letters') }}
@@ -490,7 +490,7 @@ onMounted(() => {
               to="/home/wishlist"
               class="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-white dark:bg-gray-800
                      border border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-300
-                     hover:border-home-300 dark:hover:border-home-600 transition-colors no-underline"
+                     hover:border-accent-300 dark:hover:border-accent-600 transition-colors no-underline"
             >
               <Lightbulb class="w-4 h-4 text-amber-500 flex-shrink-0" />
               {{ __('Wishlist') }}
@@ -499,7 +499,7 @@ onMounted(() => {
               to="/home/passport"
               class="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-white dark:bg-gray-800
                      border border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-300
-                     hover:border-home-300 dark:hover:border-home-600 transition-colors no-underline"
+                     hover:border-accent-300 dark:hover:border-accent-600 transition-colors no-underline"
             >
               <BookOpen class="w-4 h-4 text-teal-500 flex-shrink-0" />
               {{ __('Passport') }}
@@ -508,7 +508,7 @@ onMounted(() => {
               to="/home/moving"
               class="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-white dark:bg-gray-800
                      border border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-300
-                     hover:border-home-300 dark:hover:border-home-600 transition-colors no-underline"
+                     hover:border-accent-300 dark:hover:border-accent-600 transition-colors no-underline"
             >
               <Truck class="w-4 h-4 text-orange-500 flex-shrink-0" />
               {{ __('Moving') }}
@@ -557,7 +557,7 @@ onMounted(() => {
           </div>
           <router-link
             to="/home/household/settings"
-            class="text-sm text-home-600 dark:text-home-400 hover:underline mt-2 inline-block"
+            class="text-sm text-accent-600 dark:text-accent-400 hover:underline mt-2 inline-block"
           >
             {{ __('Manage in Household Settings') }}
           </router-link>

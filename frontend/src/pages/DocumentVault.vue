@@ -296,7 +296,7 @@ onMounted(async () => {
       <button
         v-if="isAdultOrAbove && !loading && propertyName"
         class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium
-               bg-home-600 text-white hover:bg-home-700 transition-colors"
+               bg-accent-600 text-white hover:bg-accent-700 transition-colors"
         @click="openUploadDialog"
       >
         <Plus class="w-4 h-4" />
@@ -317,7 +317,7 @@ onMounted(async () => {
       <button
         v-if="isAdultOrAbove"
         class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium
-               bg-home-600 text-white hover:bg-home-700 transition-colors"
+               bg-accent-600 text-white hover:bg-accent-700 transition-colors"
         @click="openUploadDialog"
       >
         <Plus class="w-4 h-4" />
@@ -332,7 +332,7 @@ onMounted(async () => {
         <button
           class="px-3 py-1.5 rounded-full text-sm transition-colors"
           :class="activeCategory === 'all'
-            ? 'bg-home-100 dark:bg-home-900/30 text-home-700 dark:text-home-300 font-medium'
+            ? 'bg-accent-100 dark:bg-accent-900/30 text-accent-700 dark:text-accent-300 font-medium'
             : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'"
           @click="activeCategory = 'all'"
         >
@@ -344,7 +344,7 @@ onMounted(async () => {
           :key="cat"
           class="px-3 py-1.5 rounded-full text-sm transition-colors"
           :class="activeCategory === cat
-            ? 'bg-home-100 dark:bg-home-900/30 text-home-700 dark:text-home-300 font-medium'
+            ? 'bg-accent-100 dark:bg-accent-900/30 text-accent-700 dark:text-accent-300 font-medium'
             : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'"
           @click="activeCategory = cat"
         >
@@ -377,8 +377,8 @@ onMounted(async () => {
                 <a
                   :href="doc.file_url"
                   target="_blank"
-                  class="text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-home-600
-                         dark:hover:text-home-400 truncate block"
+                  class="text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-accent-600
+                         dark:hover:text-accent-400 truncate block"
                 >
                   {{ doc.repo_title || doc.file_name }}
                 </a>
@@ -387,7 +387,7 @@ onMounted(async () => {
                   <span v-if="doc.file_size" class="ml-1">· {{ formatSize(doc.file_size) }}</span>
                 </div>
                 <button
-                  class="text-xs text-home-600 dark:text-home-400 hover:underline mt-1 inline-block"
+                  class="text-xs text-accent-600 dark:text-accent-400 hover:underline mt-1 inline-block"
                   @click="router.push(sourceRoute(doc.source_doctype, doc.source_name))"
                 >
                   → {{ doc.source_doctype.replace('Home ', '') }}: {{ doc.source_label }}
@@ -429,7 +429,7 @@ onMounted(async () => {
             {{ __('No documents in this category.') }}
             <button
               v-if="isAdultOrAbove"
-              class="text-home-600 dark:text-home-400 hover:underline ml-1"
+              class="text-accent-600 dark:text-accent-400 hover:underline ml-1"
               @click="openUploadDialog"
             >
               {{ __('Add one') }}
@@ -463,13 +463,13 @@ onMounted(async () => {
           <div
             class="border-2 border-dashed rounded-lg p-6 text-center transition-colors"
             :class="uploadFile
-              ? 'border-home-300 dark:border-home-600 bg-home-50 dark:bg-home-900/10'
+              ? 'border-accent-300 dark:border-accent-600 bg-accent-50 dark:bg-accent-900/10'
               : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'"
             @dragover.prevent
             @drop="onFileDrop"
           >
             <template v-if="uploadFile">
-              <component :is="fileIcon(uploadFileName)" class="w-8 h-8 mx-auto mb-2 text-home-500" />
+              <component :is="fileIcon(uploadFileName)" class="w-8 h-8 mx-auto mb-2 text-accent-500" />
               <p class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">{{ uploadFileName }}</p>
               <button
                 class="text-xs text-gray-500 dark:text-gray-400 hover:text-red-500 mt-1"
@@ -483,7 +483,7 @@ onMounted(async () => {
               <label class="cursor-pointer">
                 <span class="text-sm text-gray-600 dark:text-gray-400">
                   {{ __('Drop file here or') }}
-                  <span class="text-home-600 dark:text-home-400 hover:underline">{{ __('browse') }}</span>
+                  <span class="text-accent-600 dark:text-accent-400 hover:underline">{{ __('browse') }}</span>
                 </span>
                 <input type="file" class="hidden" @change="onFileSelected" />
               </label>

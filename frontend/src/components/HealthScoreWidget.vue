@@ -138,7 +138,7 @@ onMounted(loadScore)
       <button
         v-if="health.factors.length"
         @click="expanded = !expanded"
-        class="flex items-center gap-1 text-xs text-home-600 dark:text-home-400 hover:underline flex-shrink-0"
+        class="flex items-center gap-1 text-xs text-accent-600 dark:text-accent-400 hover:underline flex-shrink-0"
       >
         {{ expanded ? __('Hide') : __('See what\'s affecting it') }}
         <component :is="expanded ? ChevronUp : ChevronDown" class="w-3.5 h-3.5" />
@@ -183,7 +183,7 @@ onMounted(loadScore)
         </span>
         <span
           v-if="factor.action_route"
-          class="text-xs text-home-600 dark:text-home-400 flex-shrink-0"
+          class="text-xs text-accent-600 dark:text-accent-400 flex-shrink-0"
         >
           →
         </span>

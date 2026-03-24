@@ -222,7 +222,7 @@ onMounted(() => {
         <p v-if="contextLabel" class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
           {{ contextLabel }}
           <button
-            class="text-home-600 dark:text-home-400 hover:underline ml-1"
+            class="text-accent-600 dark:text-accent-400 hover:underline ml-1"
             @click="router.push('/home/photos')"
           >{{ __('Show all') }}</button>
         </p>
@@ -240,7 +240,7 @@ onMounted(() => {
         :key="p"
         class="px-3 py-1 text-xs rounded-full transition-colors"
         :class="filter === p
-          ? 'bg-home-500 text-white'
+          ? 'bg-accent-500 text-white'
           : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'"
         @click="filter = p"
       >
@@ -252,7 +252,7 @@ onMounted(() => {
     <div v-if="showUpload" class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 mb-6 space-y-3">
       <div v-if="!uploadPreview" class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center">
         <Camera class="w-8 h-8 mx-auto mb-2 text-gray-400" />
-        <label class="cursor-pointer text-sm text-home-600 dark:text-home-400 hover:underline">
+        <label class="cursor-pointer text-sm text-accent-600 dark:text-accent-400 hover:underline">
           {{ __('Choose photo') }}
           <input type="file" accept="image/*" class="hidden" @change="onFileSelected" />
         </label>
@@ -299,7 +299,7 @@ onMounted(() => {
             type="button"
             class="relative flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-colors"
             :class="uploadPairRef === up.name
-              ? 'border-home-500'
+              ? 'border-accent-500'
               : 'border-gray-200 dark:border-gray-600 hover:border-gray-400'"
             @click="uploadPairRef = uploadPairRef === up.name ? '' : up.name"
           >

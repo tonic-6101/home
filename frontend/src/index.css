@@ -1,67 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+@import './app-tokens.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Dock top-bar tokens (spec: ecosystem/spec/design/ui-specs/top-bar.md §4) */
-:root {
-  --dock-bg:      #ffffff;
-  --dock-border:  #e5e7eb;
-  --dock-text:    #111827;
-  --dock-icon:    #6b7280;
-  --dock-accent:  #f59e0b;  /* Home brand — overridden at runtime by navbar */
-
-  /* Home app tokens */
-  --home-primary: #f59e0b;
-  --home-primary-light: #fffbeb;
-  --home-primary-dark: #d97706;
-
-  --home-bg: #ffffff;
-  --home-bg-secondary: #f8f9fa;
-  --home-surface: #ffffff;
-  --home-text: #1f2937;
-  --home-text-secondary: #4B5563;
-  --home-text-muted: #6B7280;
-  --home-border: #e5e7eb;
-}
-
-.dark {
-  --dock-bg:      #111827;
-  --dock-border:  #374151;
-  --dock-text:    #f3f4f6;
-  --dock-icon:    #9ca3af;
-  --dock-accent:  #fbbf24;
-
-  --home-bg: #0f172a;
-  --home-bg-secondary: #1e293b;
-  --home-surface: #1e293b;
-  --home-text: #f1f5f9;
-  --home-text-secondary: #94a3b8;
-  --home-text-muted: #64748b;
-  --home-border: #334155;
-
-  --home-primary-light: #451a03;
-}
-
-:root {
-  --primary: var(--home-primary);
-  --primary-light: var(--home-primary-light);
-  --primary-dark: var(--home-primary-dark);
-}
-
+/* Body defaults — uses neutral grays, not app-specific tokens */
 body {
   font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
   font-size: 0.875rem;
   line-height: 1.5;
   margin: 0;
   padding: 0;
-  background: var(--home-bg-secondary);
-  color: var(--home-text);
+  background: #f8f9fa;
+  color: #1f2937;
+}
+
+.dark body {
+  background: #0f172a;
+  color: #f1f5f9;
 }
 
 :focus-visible {
-  outline: 2px solid var(--home-primary);
+  outline: 2px solid var(--app-accent-500);
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -100,16 +61,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--home-bg-secondary);
+  background: #f8f9fa;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--home-border);
+  background: #e5e7eb;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--home-text-muted);
+  background: #6b7280;
 }
 
 .dark ::-webkit-scrollbar-track {

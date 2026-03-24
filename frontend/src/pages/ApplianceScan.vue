@@ -262,7 +262,7 @@ function goBack(): void {
     <!-- Loading -->
     <div v-if="loading" class="flex-1 flex items-center justify-center">
       <div class="text-center">
-        <div class="animate-spin w-8 h-8 border-2 border-home-500 border-t-transparent rounded-full mx-auto mb-3" />
+        <div class="animate-spin w-8 h-8 border-2 border-accent-500 border-t-transparent rounded-full mx-auto mb-3" />
         <p class="text-sm text-gray-500 dark:text-gray-400">{{ __('Processing...') }}</p>
       </div>
     </div>
@@ -281,7 +281,7 @@ function goBack(): void {
           class="w-full flex items-center gap-4 p-4 border border-gray-200 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left"
           @click="startOcrScan"
         >
-          <div class="w-12 h-12 bg-home-50 dark:bg-home-900/20 rounded-lg flex items-center justify-center text-2xl">
+          <div class="w-12 h-12 bg-accent-50 dark:bg-accent-900/20 rounded-lg flex items-center justify-center text-2xl">
             📷
           </div>
           <div>
@@ -294,7 +294,7 @@ function goBack(): void {
           class="w-full flex items-center gap-4 p-4 border border-gray-200 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left"
           @click="startBarcodeScan"
         >
-          <div class="w-12 h-12 bg-home-50 dark:bg-home-900/20 rounded-lg flex items-center justify-center text-2xl">
+          <div class="w-12 h-12 bg-accent-50 dark:bg-accent-900/20 rounded-lg flex items-center justify-center text-2xl">
             📦
           </div>
           <div>

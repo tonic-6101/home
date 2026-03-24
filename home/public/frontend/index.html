@@ -12,8 +12,8 @@
     <link rel="icon" type="image/x-icon" href="/assets/home/images/favicon.ico" />
     <link rel="manifest" href="/assets/home/images/site.webmanifest" />
     <meta name="theme-color" content="#f59e0b" />
-    <script type="module" crossorigin src="/assets/home/frontend/assets/main-CjqV7I_X.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/home/frontend/assets/main-Bh2iNReP.css">
+    <script type="module" crossorigin src="/assets/home/frontend/assets/main-jCrBKNno.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/home/frontend/assets/main-BkRDSvQ3.css">
   </head>
   <body>
     <script>
@@ -22,6 +22,8 @@
         var isDark = stored === 'dark' ||
           (!stored || stored === 'auto') && window.matchMedia('(prefers-color-scheme: dark)').matches;
         if (isDark) document.documentElement.classList.add('dark');
+        var cm = localStorage.getItem('color-mode');
+        if (cm === 'neutral') document.documentElement.setAttribute('data-color-mode', 'neutral');
       })();
     </script>
     <div id="app" class="h-screen"></div>

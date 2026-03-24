@@ -106,7 +106,7 @@ async function save() {
         </div>
         <button
           @click="useSuggestion"
-          class="text-xs text-home-600 dark:text-home-400 hover:underline"
+          class="text-xs text-accent-600 dark:text-accent-400 hover:underline"
         >
           {{ __('Use suggestion') }}
         </button>

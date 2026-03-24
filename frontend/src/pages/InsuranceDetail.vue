@@ -226,7 +226,7 @@ onMounted(loadPolicy)
           :href="policy.document"
           target="_blank"
           rel="noopener noreferrer"
-          class="flex items-center gap-1 text-sm text-home-600 dark:text-home-400 hover:underline"
+          class="flex items-center gap-1 text-sm text-accent-600 dark:text-accent-400 hover:underline"
         >
           <Download class="w-4 h-4" />
           {{ __('Policy PDF') }}

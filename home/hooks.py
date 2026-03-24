@@ -36,12 +36,26 @@ add_to_apps_screen = [
 # ------------------
 dock_app_registry = {
 	"label": "Home",
-	"icon": "home",
-	"logo": "/assets/home/images/home_logo.svg",
+	"icon": "/assets/home/images/home_logo.svg",
 	"color": "#f59e0b",
 	"route": "/home",
 	"description": "Property, items, and household management",
 }
+
+dock_settings_sections = [
+	{
+		"label": "Home",
+		"route": "home",
+		"component": "HomeSettings",
+		"bundle": "/assets/home/js/home-settings.esm.js",
+		"sections": [
+			{"label": "Household", "key": "household"},
+			{"label": "Alerts", "key": "alerts"},
+			{"label": "Item Lifespans", "key": "lifespans"},
+			{"label": "Preferences", "key": "preferences"},
+		],
+	}
+]
 
 dock_search_sections = [
 	{

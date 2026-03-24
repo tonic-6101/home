@@ -317,8 +317,8 @@ onMounted(() => {
           <button
             v-if="isAdultOrAbove"
             @click="showMaintenanceDialog = true"
-            class="flex items-center gap-1 text-sm text-home-600 dark:text-home-400
-                   hover:text-home-700 dark:hover:text-home-300 transition-colors"
+            class="flex items-center gap-1 text-sm text-accent-600 dark:text-accent-400
+                   hover:text-accent-700 dark:hover:text-accent-300 transition-colors"
           >
             <Wrench class="w-3.5 h-3.5" />
             {{ __('Add task') }}

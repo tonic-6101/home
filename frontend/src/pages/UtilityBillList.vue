@@ -106,8 +106,8 @@ onMounted(() => {
       <router-link
         to="/home/utilities/trends"
         class="flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg
-               bg-home-50 dark:bg-home-900/20 text-home-600 dark:text-home-400
-               hover:bg-home-100 dark:hover:bg-home-900/30 transition-colors no-underline"
+               bg-accent-50 dark:bg-accent-900/20 text-accent-600 dark:text-accent-400
+               hover:bg-accent-100 dark:hover:bg-accent-900/30 transition-colors no-underline"
       >
         <TrendingUp class="w-4 h-4" />
         {{ __('Trends') }}

@@ -204,7 +204,7 @@ onMounted(loadWarranty)
           :href="warranty.document"
           target="_blank"
           rel="noopener noreferrer"
-          class="flex items-center gap-1 text-sm text-home-600 dark:text-home-400 hover:underline"
+          class="flex items-center gap-1 text-sm text-accent-600 dark:text-accent-400 hover:underline"
         >
           <Download class="w-4 h-4" />
           {{ __('Document') }}
@@ -236,7 +236,7 @@ onMounted(loadWarranty)
           <div class="text-xs text-gray-500 dark:text-gray-400 mb-1">{{ __('Appliance') }}</div>
           <router-link
             :to="`/home/items/${warranty.appliance}`"
-            class="text-sm font-medium text-home-600 dark:text-home-400 hover:underline"
+            class="text-sm font-medium text-accent-600 dark:text-accent-400 hover:underline"
           >
             {{ warranty.appliance }}
           </router-link>

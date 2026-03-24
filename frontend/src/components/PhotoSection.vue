@@ -163,8 +163,8 @@ onMounted(() => {
       <div class="flex items-center gap-2">
         <label v-if="canEdit" class="cursor-pointer">
           <span
-            class="flex items-center gap-1 px-2 py-1 text-xs text-home-600 dark:text-home-400
-                   hover:bg-home-50 dark:hover:bg-home-900/20 rounded-lg transition-colors"
+            class="flex items-center gap-1 px-2 py-1 text-xs text-accent-600 dark:text-accent-400
+                   hover:bg-accent-50 dark:hover:bg-accent-900/20 rounded-lg transition-colors"
           >
             <Plus class="w-3.5 h-3.5" />
             {{ __('Add') }}

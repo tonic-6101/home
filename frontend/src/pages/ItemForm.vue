@@ -253,7 +253,7 @@ onMounted(init)
                    bg-white dark:bg-gray-800 px-3 py-2 text-sm
                    text-gray-900 dark:text-gray-100
                    placeholder-gray-400 dark:placeholder-gray-500
-                   focus:outline-none focus:ring-2 focus:ring-home-500 focus:border-home-500"
+                   focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
           />
         </div>
 
@@ -270,7 +270,7 @@ onMounted(init)
               @click="form.item_type = t as any"
               class="px-4 py-2 text-sm rounded-lg border transition-colors"
               :class="form.item_type === t
-                ? 'bg-home-50 dark:bg-home-900/30 border-home-500 text-home-700 dark:text-home-400'
+                ? 'bg-accent-50 dark:bg-accent-900/30 border-accent-500 text-accent-700 dark:text-accent-400'
                 : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'"
             >
               {{ __(t) }}
@@ -288,7 +288,7 @@ onMounted(init)
             class="w-full rounded-lg border border-gray-300 dark:border-gray-600
                    bg-white dark:bg-gray-800 px-3 py-2 text-sm
                    text-gray-900 dark:text-gray-100
-                   focus:outline-none focus:ring-2 focus:ring-home-500 focus:border-home-500"
+                   focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
           >
             <option value="">{{ __('— Select —') }}</option>
             <option v-for="c in CATEGORIES" :key="c" :value="c">{{ __(c) }}</option>
@@ -305,7 +305,7 @@ onMounted(init)
             class="w-full rounded-lg border border-gray-300 dark:border-gray-600
                    bg-white dark:bg-gray-800 px-3 py-2 text-sm
                    text-gray-900 dark:text-gray-100
-                   focus:outline-none focus:ring-2 focus:ring-home-500 focus:border-home-500"
+                   focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
           >
             <option v-for="r in roomOptions" :key="r.value" :value="r.value">{{ r.label }}</option>
           </select>
@@ -323,7 +323,7 @@ onMounted(init)
               class="w-full rounded-lg border border-gray-300 dark:border-gray-600
                      bg-white dark:bg-gray-800 px-3 py-2 text-sm
                      text-gray-900 dark:text-gray-100
-                     focus:outline-none focus:ring-2 focus:ring-home-500 focus:border-home-500"
+                     focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
             />
           </div>
           <div>
@@ -336,7 +336,7 @@ onMounted(init)
               class="w-full rounded-lg border border-gray-300 dark:border-gray-600
                      bg-white dark:bg-gray-800 px-3 py-2 text-sm
                      text-gray-900 dark:text-gray-100
-                     focus:outline-none focus:ring-2 focus:ring-home-500 focus:border-home-500"
+                     focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
             />
           </div>
         </div>
@@ -352,7 +352,7 @@ onMounted(init)
             class="w-full rounded-lg border border-gray-300 dark:border-gray-600
                    bg-white dark:bg-gray-800 px-3 py-2 text-sm
                    text-gray-900 dark:text-gray-100
-                   focus:outline-none focus:ring-2 focus:ring-home-500 focus:border-home-500"
+                   focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
           />
         </div>
 
@@ -368,7 +368,7 @@ onMounted(init)
               class="w-full rounded-lg border border-gray-300 dark:border-gray-600
                      bg-white dark:bg-gray-800 px-3 py-2 text-sm
                      text-gray-900 dark:text-gray-100
-                     focus:outline-none focus:ring-2 focus:ring-home-500 focus:border-home-500"
+                     focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
             />
           </div>
           <div>
@@ -383,7 +383,7 @@ onMounted(init)
               class="w-full rounded-lg border border-gray-300 dark:border-gray-600
                      bg-white dark:bg-gray-800 px-3 py-2 text-sm
                      text-gray-900 dark:text-gray-100
-                     focus:outline-none focus:ring-2 focus:ring-home-500 focus:border-home-500"
+                     focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
             />
           </div>
         </div>
@@ -398,7 +398,7 @@ onMounted(init)
             class="w-full rounded-lg border border-gray-300 dark:border-gray-600
                    bg-white dark:bg-gray-800 px-3 py-2 text-sm
                    text-gray-900 dark:text-gray-100
-                   focus:outline-none focus:ring-2 focus:ring-home-500 focus:border-home-500"
+                   focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
           >
             <option v-for="s in STATUSES" :key="s" :value="s">{{ __(s) }}</option>
           </select>
@@ -415,7 +415,7 @@ onMounted(init)
               class="w-full rounded-lg border border-gray-300 dark:border-gray-600
                      bg-white dark:bg-gray-800 px-3 py-2 text-sm
                      text-gray-900 dark:text-gray-100
-                     focus:outline-none focus:ring-2 focus:ring-home-500 focus:border-home-500"
+                     focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
             >
               <option value="">{{ __('— Select —') }}</option>
               <option v-for="c in CONDITIONS" :key="c" :value="c">{{ __(c) }}</option>
@@ -436,7 +436,7 @@ onMounted(init)
                 class="w-full rounded-lg border border-gray-300 dark:border-gray-600
                        bg-white dark:bg-gray-800 px-3 py-2 text-sm
                        text-gray-900 dark:text-gray-100
-                       focus:outline-none focus:ring-2 focus:ring-home-500 focus:border-home-500"
+                       focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
               />
             </div>
             <div>
@@ -450,7 +450,7 @@ onMounted(init)
                 class="w-full rounded-lg border border-gray-300 dark:border-gray-600
                        bg-white dark:bg-gray-800 px-3 py-2 text-sm
                        text-gray-900 dark:text-gray-100
-                       focus:outline-none focus:ring-2 focus:ring-home-500 focus:border-home-500"
+                       focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
               />
             </div>
           </div>
@@ -472,7 +472,7 @@ onMounted(init)
                 class="w-full rounded-lg border border-gray-300 dark:border-gray-600
                        bg-white dark:bg-gray-800 px-3 py-2 text-sm
                        text-gray-900 dark:text-gray-100
-                       focus:outline-none focus:ring-2 focus:ring-home-500 focus:border-home-500"
+                       focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
               />
             </div>
             <div class="flex items-end pb-2">
@@ -481,7 +481,7 @@ onMounted(init)
                   v-model="form.insured"
                   type="checkbox"
                   id="insured"
-                  class="rounded border-gray-300 dark:border-gray-600 text-home-600 focus:ring-home-500"
+                  class="rounded border-gray-300 dark:border-gray-600 text-accent-600 focus:ring-accent-500"
                 />
                 <label for="insured" class="text-sm text-gray-700 dark:text-gray-300">
                   {{ __('Specifically insured') }}
@@ -506,7 +506,7 @@ onMounted(init)
                    bg-white dark:bg-gray-800 px-3 py-2 text-sm
                    text-gray-900 dark:text-gray-100
                    placeholder-gray-400 dark:placeholder-gray-500
-                   focus:outline-none focus:ring-2 focus:ring-home-500 focus:border-home-500"
+                   focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
           />
         </div>
 

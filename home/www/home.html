@@ -6,8 +6,10 @@
     <meta name="description" content="Home - Household Management" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <link rel="icon" type="image/svg+xml" href="/assets/home/images/home_logo.svg" />
-    <script type="module" crossorigin src="/assets/home/frontend/assets/main-CjqV7I_X.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/home/frontend/assets/main-Bh2iNReP.css">
+    <link rel="stylesheet" href="/assets/dock/css/dock-tokens.css">
+    <link rel="stylesheet" href="/assets/dock/css/dock-navbar.css">
+    <script type="module" crossorigin src="/assets/home/frontend/assets/main-jCrBKNno.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/home/frontend/assets/main-BkRDSvQ3.css">
   </head>
   <body>
     <script>
@@ -16,6 +18,8 @@
         var isDark = stored === 'dark' ||
           (!stored || stored === 'auto') && window.matchMedia('(prefers-color-scheme: dark)').matches;
         if (isDark) document.documentElement.classList.add('dark');
+        var cm = localStorage.getItem('color-mode');
+        if (cm === 'neutral') document.documentElement.setAttribute('data-color-mode', 'neutral');
       })();
     </script>
     <div id="app" class="h-screen"></div>

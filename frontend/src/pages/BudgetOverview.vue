@@ -344,13 +344,13 @@ onMounted(() => {
                   <button
                     v-if="isAdultOrAbove && isCurrentYear"
                     @click="openSetTarget(line)"
-                    class="text-xs text-home-600 dark:text-home-400 hover:underline"
+                    class="text-xs text-accent-600 dark:text-accent-400 hover:underline"
                   >
                     {{ line.annual_target ? __('Edit target') : __('Set target') }}
                   </button>
                   <button
                     @click="detailCategory = line.category"
-                    class="text-xs text-home-600 dark:text-home-400 hover:underline"
+                    class="text-xs text-accent-600 dark:text-accent-400 hover:underline"
                   >
                     {{ __('Details') }}
                   </button>

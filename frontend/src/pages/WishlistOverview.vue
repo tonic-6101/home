@@ -285,7 +285,7 @@ onMounted(() => {
                 <Wrench class="w-4 h-4 text-gray-400" />
                 <router-link
                   :to="`/home/maintenance/${wish.linked_maintenance}`"
-                  class="text-home-600 dark:text-home-400 hover:underline"
+                  class="text-accent-600 dark:text-accent-400 hover:underline"
                 >
                   {{ __('View maintenance task') }}
                 </router-link>
@@ -294,7 +294,7 @@ onMounted(() => {
                 <FolderKanban class="w-4 h-4 text-gray-400" />
                 <a
                   :href="`/app/orga-project/${wish.linked_orga_project}`"
-                  class="text-home-600 dark:text-home-400 hover:underline"
+                  class="text-accent-600 dark:text-accent-400 hover:underline"
                 >
                   {{ __('View Orga Project') }}
                 </a>

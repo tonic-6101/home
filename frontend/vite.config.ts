@@ -19,6 +19,28 @@ try {
   console.warn('frappe-ui vite plugin not found, continuing without it')
 }
 
+// ── Shared Vue runtime ──────────────────────────────────────────────
+// Dock ships Vue's ESM browser build at /assets/dock/js/vendor/vue.esm.js.
+// All ecosystem apps must use the same Vue instance — without this, each app
+// bundles its own Vue and cross-bundle components (DockLayout etc.) crash.
+const SHARED_VUE_URL = '/assets/dock/js/vendor/vue.esm.js'
+const SHARED_VUE_ROUTER_URL = '/assets/dock/js/vendor/vue-router.esm.js'
+
+function vueSharedPlugin(): Plugin {
+  return {
+    name: 'vue-shared',
+    enforce: 'pre',
+    resolveId(id) {
+      if (id === 'vue' || id === '@vue/runtime-dom' || id === '@vue/runtime-core' || id === '@vue/reactivity') {
+        return { id: SHARED_VUE_URL, external: true }
+      }
+      if (id === 'vue-router') {
+        return { id: SHARED_VUE_ROUTER_URL, external: true }
+      }
+    },
+  }
+}
+
 // Type for bundle chunk
 interface BundleChunk {
   type: 'asset' | 'chunk'
@@ -67,6 +89,8 @@ function frappeManifestPlugin(): Plugin {
     <meta name="description" content="Home - Household Management" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <link rel="icon" type="image/svg+xml" href="/assets/home/images/home_logo.svg" />
+    <link rel="stylesheet" href="/assets/dock/css/dock-tokens.css">
+    <link rel="stylesheet" href="/assets/dock/css/dock-navbar.css">
     <script type="module" crossorigin src="/assets/home/frontend/assets/${jsFile}"></script>
     <link rel="stylesheet" crossorigin href="/assets/home/frontend/assets/${cssFile}">
   </head>
@@ -77,6 +101,8 @@ function frappeManifestPlugin(): Plugin {
         var isDark = stored === 'dark' ||
           (!stored || stored === 'auto') && window.matchMedia('(prefers-color-scheme: dark)').matches;
         if (isDark) document.documentElement.classList.add('dark');
+        var cm = localStorage.getItem('color-mode');
+        if (cm === 'neutral') document.documentElement.setAttribute('data-color-mode', 'neutral');
       })();
     </script>
     <div id="app" class="h-screen"></div>
@@ -101,16 +127,71 @@ function frappeManifestPlugin(): Plugin {
   }
 }
 
+// ── Settings ESM build ──────────────────────────────────────────────
+// Builds home-settings.esm.js — a standalone ESM bundle that exports
+// HomeSettings component for Dock's unified settings hub.
+// This runs as a secondary build after the main SPA build.
+function settingsEsmPlugin(): Plugin {
+  return {
+    name: 'home-settings-esm',
+    async closeBundle() {
+      const { build } = await import('vite')
+      await build({
+        configFile: false,
+        base: '/assets/home/js/',
+        plugins: [
+          vueSharedPlugin(),
+          vue(),
+          ...(frappeui ? [frappeui({ frappeProxy: false, lucideIcons: true, jinjaBootData: false })] : []),
+        ],
+        resolve: {
+          alias: {
+            '@': path.resolve(__dirname, 'src'),
+          },
+        },
+        build: {
+          outDir: path.resolve(__dirname, '../home/public/js'),
+          emptyOutDir: false,
+          lib: {
+            entry: path.resolve(__dirname, 'src/dock-settings.ts'),
+            formats: ['es'],
+            fileName: () => 'home-settings.esm.js',
+          },
+          rollupOptions: {
+            external: [
+              'vue',
+              'vue-router',
+              '@vue/runtime-dom',
+              '@vue/runtime-core',
+              '@vue/reactivity',
+              /^\/assets\/dock\//,
+            ],
+            output: {
+              paths: {
+                vue: '/assets/dock/js/vendor/vue.esm.js',
+                'vue-router': '/assets/dock/js/vendor/vue-router.esm.js',
+              },
+            },
+          },
+        },
+      })
+      console.log('Built home-settings.esm.js')
+    },
+  }
+}
+
 export default defineConfig({
   base: '/assets/home/frontend/',
   plugins: [
+    vueSharedPlugin(),
     vue(),
     frappeui && frappeui({
       frappeProxy: true,
       lucideIcons: true,
       jinjaBootData: true
     }),
-    frappeManifestPlugin()
+    frappeManifestPlugin(),
+    settingsEsmPlugin(),
   ].filter(Boolean) as Plugin[],
   resolve: {
     alias: {

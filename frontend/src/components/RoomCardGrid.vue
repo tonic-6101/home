@@ -307,7 +307,7 @@ onUnmounted(() => {
         v-for="(room, idx) in rooms"
         :key="room.name"
         class="relative p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700
-               hover:shadow-sm hover:border-home-300 dark:hover:border-home-600 transition-all cursor-pointer group"
+               hover:shadow-sm hover:border-accent-300 dark:hover:border-accent-600 transition-all cursor-pointer group"
         :draggable="isOwner && !isArchived"
         @click="navigateToRoom(room)"
         @dragstart="onDragStart(idx)"
@@ -387,7 +387,7 @@ onUnmounted(() => {
             <div class="flex gap-1 mt-1">
               <button
                 @click="saveRename(room.name)"
-                class="text-xs text-home-600 dark:text-home-400 hover:underline"
+                class="text-xs text-accent-600 dark:text-accent-400 hover:underline"
               >{{ __('Save') }}</button>
               <button
                 @click="editingRoom = null"
@@ -423,7 +423,7 @@ onUnmounted(() => {
       <div
         v-if="hasUnassigned"
         class="p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-dashed
-               border-gray-300 dark:border-gray-600 hover:border-home-300 dark:hover:border-home-600
+               border-gray-300 dark:border-gray-600 hover:border-accent-300 dark:hover:border-accent-600
                cursor-pointer transition-all"
         @click="navigateToUnassigned"
       >
@@ -449,7 +449,7 @@ onUnmounted(() => {
         class="flex flex-col items-center justify-center gap-2 p-3 rounded-lg
                border-2 border-dashed border-gray-300 dark:border-gray-600
                text-gray-400 dark:text-gray-500
-               hover:border-home-400 hover:text-home-500 dark:hover:border-home-500 dark:hover:text-home-400
+               hover:border-accent-400 hover:text-accent-500 dark:hover:border-accent-500 dark:hover:text-accent-400
                transition-colors min-h-[120px]"
       >
         <Plus class="w-6 h-6" />

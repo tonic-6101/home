@@ -173,7 +173,7 @@ onMounted(loadDetail)
             <button
               v-if="isAdultOrAbove && isCurrentYear"
               @click="emit('editTarget')"
-              class="text-xs text-home-600 dark:text-home-400 hover:underline ml-1"
+              class="text-xs text-accent-600 dark:text-accent-400 hover:underline ml-1"
             >
               {{ __('Edit') }}
             </button>

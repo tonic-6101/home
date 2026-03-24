@@ -20,6 +20,8 @@
         var isDark = stored === 'dark' ||
           (!stored || stored === 'auto') && window.matchMedia('(prefers-color-scheme: dark)').matches;
         if (isDark) document.documentElement.classList.add('dark');
+        var cm = localStorage.getItem('color-mode');
+        if (cm === 'neutral') document.documentElement.setAttribute('data-color-mode', 'neutral');
       })();
     </script>
     <div id="app" class="h-screen"></div>

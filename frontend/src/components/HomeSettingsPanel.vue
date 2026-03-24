@@ -6,12 +6,17 @@
   Owner-only. Embedded in HouseholdSettings page.
 -->
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { frappeRequest } from 'frappe-ui'
 import { __ } from '@/composables/useTranslate'
 import { useOnboardingTour } from '@/composables/useOnboardingTour'
 
-const props = defineProps<{ household: string }>()
+const props = defineProps<{ household: string; section?: string }>()
+
+// When section prop is provided, show only that section. Otherwise show all.
+const showAlerts = computed(() => !props.section || props.section === 'alerts')
+const showLifespans = computed(() => !props.section || props.section === 'lifespans')
+const showPreferences = computed(() => !props.section || props.section === 'preferences')
 
 interface CategoryLifespan {
   category: string
@@ -120,7 +125,7 @@ onMounted(loadSettings)
 
   <template v-else-if="settings">
     <!-- Alerts Section -->
-    <section class="mb-8 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+    <section v-if="showAlerts" class="mb-8 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
       <h2 class="text-h3 text-gray-800 dark:text-gray-200 mb-4">{{ __('Alerts') }}</h2>
 
       <!-- Warranty expiry -->
@@ -259,7 +264,7 @@ onMounted(loadSettings)
     </section>
 
     <!-- Item Category Lifespans -->
-    <section class="mb-8 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+    <section v-if="showLifespans" class="mb-8 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
       <h2 class="text-h3 text-gray-800 dark:text-gray-200 mb-4">{{ __('Item Lifespans') }}</h2>
       <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">
         {{ __('Default lifespan and average replacement cost per item category. Used for health forecasts and replacement planning.') }}
@@ -311,7 +316,7 @@ onMounted(loadSettings)
     </section>
 
     <!-- Preferences -->
-    <section class="mb-8 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+    <section v-if="showPreferences" class="mb-8 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
       <h2 class="text-h3 text-gray-800 dark:text-gray-200 mb-4">{{ __('Preferences') }}</h2>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -348,7 +353,7 @@ onMounted(loadSettings)
     </section>
 
     <!-- Account -->
-    <section class="mb-8 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+    <section v-if="showPreferences" class="mb-8 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
       <h2 class="text-h3 text-gray-800 dark:text-gray-200 mb-2">{{ __('Account') }}</h2>
       <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">
         {{ __('Restart the guided onboarding tour to walk through the main features.') }}

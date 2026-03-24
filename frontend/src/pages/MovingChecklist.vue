@@ -163,7 +163,7 @@ onMounted(() => {
         </div>
         <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
           <div
-            class="h-full bg-home-500 rounded-full transition-all duration-500"
+            class="h-full bg-accent-500 rounded-full transition-all duration-500"
             :style="{ width: progress + '%' }"
           />
         </div>

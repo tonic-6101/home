@@ -176,7 +176,7 @@ onMounted(load)
             <button
               @click="avatarFileInput?.click()"
               :disabled="uploadingAvatar"
-              class="text-xs text-home-600 dark:text-home-400 hover:underline disabled:opacity-50"
+              class="text-xs text-accent-600 dark:text-accent-400 hover:underline disabled:opacity-50"
             >
               {{ uploadingAvatar ? __('Uploading…') : __('Change photo') }}
             </button>

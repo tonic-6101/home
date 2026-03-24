@@ -91,7 +91,7 @@ function handleConfirm(): void {
         <input
           v-model="brand"
           type="text"
-          class="mt-1 w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-home-500 focus:border-transparent"
+          class="mt-1 w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-accent-500 focus:border-transparent"
         />
       </div>
 
@@ -103,7 +103,7 @@ function handleConfirm(): void {
         <input
           v-model="model"
           type="text"
-          class="mt-1 w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-home-500 focus:border-transparent"
+          class="mt-1 w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-accent-500 focus:border-transparent"
         />
       </div>
 
@@ -115,7 +115,7 @@ function handleConfirm(): void {
         <input
           v-model="serialNumber"
           type="text"
-          class="mt-1 w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-home-500 focus:border-transparent"
+          class="mt-1 w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-accent-500 focus:border-transparent"
         />
       </div>
 
@@ -126,7 +126,7 @@ function handleConfirm(): void {
         </label>
         <select
           v-model="category"
-          class="mt-1 w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-home-500 focus:border-transparent"
+          class="mt-1 w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-accent-500 focus:border-transparent"
         >
           <option value="">{{ __('Select category') }}</option>
           <option v-for="cat in categories" :key="cat" :value="cat">{{ __(cat) }}</option>
@@ -142,7 +142,7 @@ function handleConfirm(): void {
           type="number"
           min="1"
           max="50"
-          class="mt-1 w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-home-500 focus:border-transparent"
+          class="mt-1 w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-accent-500 focus:border-transparent"
         />
       </div>
     </div>
@@ -150,7 +150,7 @@ function handleConfirm(): void {
     <!-- Actions -->
     <div class="mt-6 space-y-2">
       <button
-        class="w-full px-4 py-2.5 bg-home-500 text-white rounded-lg font-medium hover:bg-home-600 transition-colors"
+        class="w-full px-4 py-2.5 bg-accent-500 text-white rounded-lg font-medium hover:bg-accent-600 transition-colors"
         @click="handleConfirm"
       >
         {{ __('Looks good') }}

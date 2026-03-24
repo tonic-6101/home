@@ -179,7 +179,7 @@ onMounted(async () => {
           :class="[
             'px-3 py-1.5 text-sm transition-colors',
             viewMode === 'cost'
-              ? 'bg-home-500 text-white'
+              ? 'bg-accent-500 text-white'
               : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700',
           ]"
         >
@@ -190,7 +190,7 @@ onMounted(async () => {
           :class="[
             'px-3 py-1.5 text-sm transition-colors',
             viewMode === 'consumption'
-              ? 'bg-home-500 text-white'
+              ? 'bg-accent-500 text-white'
               : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700',
           ]"
         >
@@ -241,7 +241,7 @@ onMounted(async () => {
             <div class="flex-1 h-5 bg-gray-100 dark:bg-gray-700 rounded overflow-hidden">
               <div
                 class="h-full rounded transition-all duration-300"
-                :class="costData.spike_months?.includes(m.month) ? 'bg-red-400' : 'bg-home-400'"
+                :class="costData.spike_months?.includes(m.month) ? 'bg-red-400' : 'bg-accent-400'"
                 :style="{ width: barWidth(m.amount, costMax) }"
               />
             </div>

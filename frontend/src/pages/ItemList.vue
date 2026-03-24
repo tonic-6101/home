@@ -204,12 +204,12 @@ onMounted(loadItems)
     <div v-if="roomFilter" class="mb-4">
       <span
         class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm
-               bg-home-100 dark:bg-home-900/30 text-home-700 dark:text-home-300"
+               bg-accent-100 dark:bg-accent-900/30 text-accent-700 dark:text-accent-300"
       >
         {{ __('Room') }}: {{ roomFilterLabel }}
         <button
           @click="clearRoomFilter"
-          class="ml-0.5 p-0.5 rounded-full hover:bg-home-200 dark:hover:bg-home-800 transition-colors"
+          class="ml-0.5 p-0.5 rounded-full hover:bg-accent-200 dark:hover:bg-accent-800 transition-colors"
         >
           <X class="w-3.5 h-3.5" />
         </button>
@@ -254,7 +254,7 @@ onMounted(loadItems)
           :key="tab.key"
           class="px-4 py-2 text-sm font-medium transition-colors -mb-px"
           :class="activeTab === tab.key
-            ? 'text-home-600 dark:text-home-400 border-b-2 border-home-500'
+            ? 'text-accent-600 dark:text-accent-400 border-b-2 border-accent-500'
             : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'"
           @click="activeTab = tab.key"
         >

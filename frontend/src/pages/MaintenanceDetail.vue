@@ -228,7 +228,7 @@ onMounted(() => {
           <User class="w-4 h-4 text-gray-400" />
           <a
             :href="`/app/contact/${task.contractor}`"
-            class="text-home-600 dark:text-home-400 hover:underline"
+            class="text-accent-600 dark:text-accent-400 hover:underline"
           >
             {{ task.contractor_name }}
           </a>
@@ -300,7 +300,7 @@ onMounted(() => {
           <a
             v-if="task.orga_project"
             :href="`/app/orga-project/${task.orga_project}`"
-            class="flex items-center gap-2 text-sm text-home-600 dark:text-home-400 hover:underline no-underline"
+            class="flex items-center gap-2 text-sm text-accent-600 dark:text-accent-400 hover:underline no-underline"
           >
             <ExternalLink class="w-4 h-4" />
             {{ __('View Orga Project') }}
@@ -321,7 +321,7 @@ onMounted(() => {
           <a
             v-if="task.tender_post"
             :href="`/app/tender-post/${task.tender_post}`"
-            class="flex items-center gap-2 text-sm text-home-600 dark:text-home-400 hover:underline no-underline"
+            class="flex items-center gap-2 text-sm text-accent-600 dark:text-accent-400 hover:underline no-underline"
           >
             <ExternalLink class="w-4 h-4" />
             {{ __('View Tender Post') }}
