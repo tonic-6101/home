@@ -2,7 +2,7 @@
 
 **Household Management for Frappe Framework**
 
-[![Version](https://img.shields.io/badge/version-0.2.1-blue.svg)](https://github.com/tonic-6101/home/releases)
+[![Version](https://img.shields.io/badge/version-0.2.2-blue.svg)](https://github.com/tonic-6101/home/releases)
 [![Frappe](https://img.shields.io/badge/frappe-v16+-green.svg)](https://frappeframework.com)
 [![License](https://img.shields.io/badge/license-AGPL--3.0-orange.svg)](LICENSE)
 
@@ -192,6 +192,17 @@ Pre-commit runs the following tools automatically:
 - **pyupgrade** — Python syntax modernization
 
 ---
+
+## Documentation
+
+| Guide | Description |
+|-------|-------------|
+| [Installation](docs/installation.md) | Install, configure, create your first household |
+| [Architecture](docs/architecture.md) | Household scoping, role hierarchy, DocTypes, integrations |
+| [API Reference](docs/api.md) | All whitelisted methods across 18 modules |
+| [Dock Integration](docs/hooks.md) | Search, notifications, settings, Jana & Frame hooks |
+| [Troubleshooting](docs/troubleshooting.md) | Common issues and fixes |
+| [Changelog](docs/changelog.md) | Version history |
 
 ## Support
 
