@@ -56,8 +56,8 @@ def get_property(name: str) -> dict:
 			"Home Item", {"property": name, "status": ["!=", "Disposed"]}
 		),
 		"open_maintenance_count": _safe_count(
-			"Home Maintenance",
-			{"property": name, "status": ["not in", ["Completed", "Cancelled"]]},
+			"Orga Task",
+			{"home_property": name, "status": ["not in", ["Completed", "Cancelled"]]},
 		),
 		"upcoming_warranty_expiry": _safe_get_value(
 			"Home Warranty",
@@ -251,9 +251,9 @@ def list_properties(
 			{"property": prop["name"], "status": ["!=", "Disposed"]},
 		)
 		prop["open_maintenance_count"] = _safe_count(
-			"Home Maintenance",
+			"Orga Task",
 			{
-				"property": prop["name"],
+				"home_property": prop["name"],
 				"status": ["not in", ["Completed", "Cancelled"]],
 			},
 		)
@@ -331,13 +331,13 @@ def get_dashboard(property: str) -> dict:
 	role = get_household_role(doc.household)
 
 	upcoming_maintenance = _safe_get_all(
-		"Home Maintenance",
+		"Orga Task",
 		filters={
-			"property": property,
+			"home_property": property,
 			"status": ["not in", ["Completed", "Cancelled"]],
 		},
-		fields=["name", "title", "scheduled_date", "contractor", "status"],
-		order_by="scheduled_date asc",
+		fields=["name", "subject as title", "start_date as scheduled_date", "home_contractor as contractor", "status"],
+		order_by="start_date asc",
 		limit=3,
 	)
 
@@ -367,9 +367,9 @@ def get_dashboard(property: str) -> dict:
 			{"room": room["name"], "status": ["!=", "Disposed"]},
 		)
 		room["open_task_count"] = _safe_count(
-			"Home Maintenance",
+			"Orga Task",
 			{
-				"room": room["name"],
+				"home_room": room["name"],
 				"status": ["not in", ["Completed", "Cancelled"]],
 			},
 		)
@@ -390,9 +390,9 @@ def get_dashboard(property: str) -> dict:
 				{"property": property, "status": ["!=", "Disposed"]},
 			),
 			"open_task_count": _safe_count(
-				"Home Maintenance",
+				"Orga Task",
 				{
-					"property": property,
+					"home_property": property,
 					"status": ["not in", ["Completed", "Cancelled"]],
 				},
 			),
@@ -436,30 +436,30 @@ def _get_recent_activity(property: str, limit: int = 7) -> list:
 		(
 			"Home Item",
 			["name", "item_name as title", "modified", "modified_by", "owner"],
-			{},
+			{"property": property},
 		),
 		(
-			"Home Maintenance",
-			["name", "title", "modified", "modified_by", "owner"],
+			"Orga Task",
+			["name", "subject as title", "modified", "modified_by", "owner"],
 			# Exclude auto-created recurring occurrences: owner = Administrator
 			# means system-generated, not user-initiated
-			{"owner": ["!=", "Administrator"]},
+			{"home_property": property, "owner": ["!=", "Administrator"]},
 		),
 		(
 			"Home Warranty",
 			["name", "item as title", "modified", "modified_by", "owner"],
-			{},
+			{"property": property},
 		),
 		(
 			"Home Room",
 			["name", "room_name as title", "modified", "modified_by", "owner"],
-			{},
+			{"property": property},
 		),
 	]
 
 	entries = []
 	for doctype, fields, extra_filters in tracked:
-		filters = {"property": property, **extra_filters}
+		filters = {**extra_filters}
 		rows = _safe_get_all(
 			doctype,
 			filters=filters,

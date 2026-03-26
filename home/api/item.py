@@ -168,25 +168,32 @@ def get_item(name: str) -> dict:
 	result = doc.as_dict()
 
 	if doc.item_type in ("Appliance", "Fixture"):
-		maintenance_cost = (
-			frappe.db.get_value(
-				"Home Maintenance",
-				{"item": name, "status": "Completed"},
-				"sum(cost)",
-			)
-			or 0
-		)
-		result["maintenance_count"] = frappe.db.count("Home Maintenance", {"item": name})
-		result["warranty_count"] = frappe.db.count("Home Warranty", {"item": name})
-		result["lifetime_cost"] = (doc.purchase_price or 0) + maintenance_cost
+		# Task cost from Orga Tasks linked to this item (post task-unification)
+		task_cost = 0
+		task_count = 0
+		if "orga" in frappe.get_installed_apps() and frappe.get_meta("Orga Task").has_field("home_item"):
+			task_cost = frappe.db.sql(
+				"""SELECT COALESCE(SUM(actual_cost), 0)
+				   FROM `tabOrga Task`
+				   WHERE home_item = %s AND status = 'Completed'""",
+				name,
+			)[0][0] or 0
+			task_count = frappe.db.count("Orga Task", {"home_item": name})
 
-		# Maintenance history list for the Maintenance tab
-		result["maintenance_history"] = frappe.get_all(
-			"Home Maintenance",
-			filters={"item": name},
-			fields=["name", "title", "status", "scheduled_date", "completed_date"],
-			order_by="scheduled_date desc",
-		)
+		result["maintenance_count"] = task_count
+		result["warranty_count"] = frappe.db.count("Home Warranty", {"item": name})
+		result["lifetime_cost"] = (doc.purchase_price or 0) + task_cost
+
+		# Task history list
+		if task_count:
+			result["maintenance_history"] = frappe.get_all(
+				"Orga Task",
+				filters={"home_item": name},
+				fields=["name", "subject as title", "status", "start_date as scheduled_date", "completed_date"],
+				order_by="start_date desc",
+			)
+		else:
+			result["maintenance_history"] = []
 
 		# Warranty list for the Warranties tab
 		from frappe.utils import date_diff
@@ -421,20 +428,22 @@ def compute_health(item_name: str) -> dict:
 		result["years_remaining"] = None
 		result["estimated_replacement_year"] = None
 
-	# --- Repair costs ---
-	repair_total = (
-		frappe.db.get_value(
-			"Home Maintenance",
-			{"item": item_name, "status": "Completed", "cost": [">", 0]},
-			"sum(cost)",
+	# --- Repair costs (from Orga Tasks post task-unification) ---
+	repair_total = 0
+	repair_count = 0
+	if "orga" in frappe.get_installed_apps() and frappe.get_meta("Orga Task").has_field("home_item"):
+		repair_total = frappe.db.sql(
+			"""SELECT COALESCE(SUM(actual_cost), 0)
+			   FROM `tabOrga Task`
+			   WHERE home_item = %s AND status = 'Completed' AND actual_cost > 0""",
+			item_name,
+		)[0][0] or 0
+		repair_count = frappe.db.count(
+			"Orga Task",
+			{"home_item": item_name, "status": "Completed"},
 		)
-		or 0
-	)
 	result["repair_total"] = repair_total
-	result["repair_count"] = frappe.db.count(
-		"Home Maintenance",
-		{"item": item_name, "status": "Completed"},
-	)
+	result["repair_count"] = repair_count
 
 	# --- Cost ratio (50% rule proxy) ---
 	if doc.purchase_price and doc.purchase_price > 0:

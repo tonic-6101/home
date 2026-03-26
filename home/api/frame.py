@@ -76,9 +76,9 @@ def get_property_guest(frame_token: str) -> dict:
 
 	# Completed maintenance — no cost, contractor resolved to name
 	maintenance = frappe.get_all(
-		"Home Maintenance",
-		filters={"property": property_name, "status": "Completed"},
-		fields=["title", "category", "completed_date", "contractor"],
+		"Orga Task",
+		filters={"home_property": property_name, "status": "Completed"},
+		fields=["subject as title", "home_maintenance_category as category", "completed_date", "home_contractor as contractor"],
 		order_by="completed_date desc",
 		limit=50,
 	)

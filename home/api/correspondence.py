@@ -118,7 +118,7 @@ def _build_context(prop, context_doctype: str, context_name: str) -> dict:
 	Always includes: property_address, today, sender_name, sender_email.
 	Additional fields depend on ``context_doctype``:
 	- Home Warranty: appliance + warranty fields
-	- Home Maintenance: job + contractor fields
+	- Orga Task: job + contractor fields
 	- Home Utility Bill: utility bill fields
 	- Home Insurance Policy: policy fields
 	"""
@@ -158,15 +158,15 @@ def _build_context(prop, context_doctype: str, context_name: str) -> dict:
 			"claim_date": formatdate(today(), "d MMMM yyyy"),
 		})
 
-	elif context_doctype == "Home Maintenance":
+	elif context_doctype == "Orga Task":
 		contractor_name = ""
-		if source.contractor:
-			contractor_name = frappe.db.get_value("Contact", source.contractor, "full_name") or ""
+		if source.home_contractor:
+			contractor_name = frappe.db.get_value("Contact", source.home_contractor, "full_name") or ""
 		ctx.update({
-			"job_title": source.title,
-			"job_date": formatdate(source.scheduled_date, "d MMMM yyyy") if source.scheduled_date else "",
+			"job_title": source.subject,
+			"job_date": formatdate(source.start_date, "d MMMM yyyy") if source.start_date else "",
 			"completed_date": formatdate(source.completed_date, "d MMMM yyyy") if source.completed_date else "",
-			"cost_paid": f"\u20ac{source.cost:,.0f}" if source.cost else "",
+			"cost_paid": f"\u20ac{source.actual_cost:,.0f}" if source.actual_cost else "",
 			"contractor_name": contractor_name,
 		})
 

@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2024-2026 Tonic
 
-"""iCal feed for maintenance schedules.
+"""iCal feed for home task schedules.
 
 Per-property subscription via UUID token — no Frappe login required.
-Responds with ``text/calendar`` containing VEVENTs for scheduled and
-in-progress maintenance tasks.
+Responds with ``text/calendar`` containing VEVENTs for open and
+in-progress tasks linked to a property.
 """
 
 import frappe
@@ -15,7 +15,7 @@ from frappe.utils import add_days, getdate
 
 @frappe.whitelist(allow_guest=True)
 def get_property_feed(token: str) -> None:
-	"""Return iCal feed of scheduled maintenance for a property.
+	"""Return iCal feed of scheduled tasks for a property.
 
 	Args:
 		token: UUID ``ical_token`` from Home Property.
@@ -34,13 +34,15 @@ def get_property_feed(token: str) -> None:
 		frappe.throw(_("Invalid or expired calendar link"), frappe.PermissionError)
 
 	tasks = frappe.get_all(
-		"Home Maintenance",
+		"Orga Task",
 		filters={
-			"property": prop.name,
-			"status": ["in", ["Scheduled", "In Progress"]],
-			"scheduled_date": ["is", "set"],
+			"home_property": prop.name,
+			"status": ["in", ["Open", "In Progress"]],
+			"due_date": ["is", "set"],
 		},
-		fields=["name", "title", "category", "scheduled_date", "status", "contractor"],
+		fields=["name", "subject as title", "home_maintenance_category as category",
+				"due_date as scheduled_date", "status", "home_contractor as contractor",
+				"home_room as room"],
 	)
 
 	site = frappe.local.site
@@ -49,8 +51,8 @@ def get_property_feed(token: str) -> None:
 		"BEGIN:VCALENDAR",
 		"VERSION:2.0",
 		f"PRODID:-//Home//{site}//EN",
-		f"X-WR-CALNAME:{_escape_ical(prop.property_name)} — Maintenance",
-		"X-WR-CALDESC:Home maintenance schedule",
+		f"X-WR-CALNAME:{_escape_ical(prop.property_name)} — Tasks",
+		"X-WR-CALDESC:Home task schedule",
 		"CALSCALE:GREGORIAN",
 		"METHOD:PUBLISH",
 	]
@@ -71,8 +73,8 @@ def get_property_feed(token: str) -> None:
 		if contractor_name:
 			description += f"\\nContractor: {contractor_name}"
 
-		status = "CONFIRMED" if task["status"] == "Scheduled" else "IN-PROCESS"
-		url = f"https://{site}/home/maintenance/{task['name']}"
+		status = "CONFIRMED" if task["status"] == "Open" else "IN-PROCESS"
+		url = f"https://{site}/orga/my-tasks"
 
 		lines.extend([
 			"BEGIN:VEVENT",

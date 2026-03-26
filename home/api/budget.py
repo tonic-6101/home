@@ -4,8 +4,8 @@
 """Household budget overview API.
 
 Provides endpoints for viewing, suggesting, and saving annual budget targets
-per property. Actuals are always computed at read time from existing Home
-records (maintenance, utility bills, insurance policies). No stored actuals —
+per property. Actuals are always computed at read time from existing records
+(Orga Tasks, utility bills, insurance policies). No stored actuals —
 the budget only holds user-set annual targets per category.
 """
 
@@ -108,7 +108,7 @@ def suggest_targets(property: str, year: int) -> dict:
 	prior_year = year - 1
 	actuals = _compute_actuals(property, prior_year)
 
-	# 1% rule for maintenance
+	# 1% rule for maintenance (Fannie Mae / State Farm benchmark)
 	purchase_price = doc.purchase_price or 0
 	if purchase_price:
 		maintenance_suggestion = round(purchase_price * 0.01, 0)
@@ -219,14 +219,16 @@ def get_category_detail(property: str, year: int, category: str) -> dict:
 			"Improvement Projects": ["Renovation & Building"],
 		}
 		rows = frappe.get_all(
-			"Home Maintenance",
+			"Orga Task",
 			filters={
-				"property": property,
+				"home_property": property,
 				"status": "Completed",
 				"completed_date": ["between", [year_start, year_end]],
-				"category": ["in", cat_filters[category]],
+				"home_maintenance_category": ["in", cat_filters[category]],
 			},
-			fields=["name", "title", "category", "completed_date", "cost", "contractor"],
+			fields=["name", "subject as title", "home_maintenance_category as category",
+					"actual_cost as cost", "completed_date", "home_contractor as contractor",
+					"home_room as room", "home_item as item"],
 			order_by="completed_date asc",
 		)
 		return {"category": category, "year": year, "type": "event", "rows": rows}
@@ -297,10 +299,10 @@ def _add_default_lines(budget) -> None:
 
 
 def _compute_actuals(property: str, year: int) -> dict:
-	"""Aggregate actual spend per category from existing Home records.
+	"""Aggregate actual spend per category from existing records.
 
 	Sources:
-	- Home Maintenance (completed, with cost) -> Maintenance, Garden, Improvement
+	- Orga Task (completed, with actual_cost and home_maintenance_category) -> Maintenance, Garden, Improvement
 	- Home Utility Bill (period_end in year) -> Utilities
 	- Home Insurance Policy (active during year) -> Insurance
 	- Supplies & Consumables has no data source in v1
@@ -313,13 +315,14 @@ def _compute_actuals(property: str, year: int) -> dict:
 
 	# Maintenance — all completed tasks with cost
 	maintenance_rows = frappe.get_all(
-		"Home Maintenance",
+		"Orga Task",
 		filters={
-			"property": property,
+			"home_property": property,
 			"status": "Completed",
 			"completed_date": ["between", [year_start, year_end]],
+			"home_maintenance_category": ["is", "set"],
 		},
-		fields=["category", "cost"],
+		fields=["home_maintenance_category as category", "actual_cost as cost"],
 	)
 
 	maintenance_total = 0

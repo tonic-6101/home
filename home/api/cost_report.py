@@ -26,22 +26,24 @@ from home.api.permission import require_household_access, require_role
 
 
 def _collect_maintenance_rows(property: str, year: int) -> list[dict]:
-	"""Completed maintenance tasks with cost in the given year."""
+	"""Completed Orga Tasks with maintenance category and cost in the given year."""
 	records = frappe.get_all(
-		"Home Maintenance",
+		"Orga Task",
 		filters={
-			"property": property,
+			"home_property": property,
 			"status": "Completed",
 			"completed_date": ["between", [f"{year}-01-01", f"{year}-12-31"]],
+			"home_maintenance_category": ["is", "set"],
 		},
 		fields=[
-			"name", "title", "category", "cost", "room",
-			"completed_date", "contractor", "item",
+			"name", "subject as title", "home_maintenance_category as category",
+			"actual_cost as cost", "home_room as room",
+			"completed_date", "home_contractor as contractor", "home_item as item",
 		],
 	)
 	return [
 		{
-			"source_doctype": "Home Maintenance",
+			"source_doctype": "Orga Task",
 			"source_name": r.name,
 			"description": r.title,
 			"category": _("Maintenance & Repairs"),
@@ -225,7 +227,7 @@ def _aggregate_by_item(rows: list[dict]) -> dict:
 	for row in rows:
 		item_key = row.get("item")
 		if not item_key:
-			if row["source_doctype"] == "Home Maintenance":
+			if row["source_doctype"] == "Orga Task":
 				item_key = "__none__"
 			else:
 				continue
@@ -235,7 +237,7 @@ def _aggregate_by_item(rows: list[dict]) -> dict:
 		if row["source_doctype"] == "Home Item":
 			entry["item_name"] = row["description"]
 			entry["purchase"] = row["amount"]
-		elif row["source_doctype"] == "Home Maintenance":
+		elif row["source_doctype"] == "Orga Task":
 			if not entry["item_name"] and item_key != "__none__":
 				# Fetch item name if not already set from purchase row
 				entry["item_name"] = frappe.db.get_value(
@@ -300,7 +302,7 @@ def get_cost_report(property: str, year: int) -> dict:
 		"total_spend": total_spend,
 		"by_category": _aggregate_by_key(rows, "category"),
 		"by_room": _aggregate_by_key(
-			[r for r in rows if r["source_doctype"] in ("Home Maintenance", "Home Item")],
+			[r for r in rows if r["source_doctype"] in ("Orga Task", "Home Item")],
 			"room",
 		),
 		"by_item": _aggregate_by_item(rows),

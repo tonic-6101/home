@@ -30,8 +30,8 @@ def get_rooms(property: str) -> list[dict]:
 			"Home Item", {"room": room["name"], "status": ["!=", "Disposed"]}
 		)
 		room["open_task_count"] = frappe.db.count(
-			"Home Maintenance",
-			{"room": room["name"], "status": ["not in", ["Completed", "Cancelled"]]},
+			"Orga Task",
+			{"home_room": room["name"], "status": ["not in", ["Completed", "Cancelled"]]},
 		)
 
 	return rooms

@@ -6,7 +6,7 @@ app_title = "Home"
 app_publisher = "Tonic"
 app_description = (
 	"Household management for Frappe"
-	" — properties, items, maintenance, warranties, and more"
+	" — properties, items, warranties, and more"
 )
 app_email = "tonic6101@gmail.com"
 app_license = "agpl-3.0"
@@ -19,7 +19,14 @@ website_route_rules = [
 
 # Required apps
 # ------------------
-required_apps = ["frappe", "dock"]
+required_apps = ["frappe", "dock", "orga", "repo"]
+
+# Repo integration — register Home object types for Explorer Entry
+repo_object_types = [
+	"Home Property",
+	"Home Room",
+	"Home Item",
+]
 
 # Apps screen entry (Frappe Desk sidebar)
 add_to_apps_screen = [
@@ -74,6 +81,15 @@ dock_search_sections = [
 		"subtitle_field": "brand",
 		"route": "/home/property/{property}/items/{name}",
 	},
+	{
+		"label": "Home Tasks",
+		"doctype": "Orga Task",
+		"search_fields": ["subject", "description"],
+		"display_field": "subject",
+		"subtitle_field": "home_maintenance_category",
+		"route": "/orga/my-tasks",
+		"filters": {"home_property": ["is", "set"]},
+	},
 ]
 
 dock_notification_types = [
@@ -84,14 +100,6 @@ dock_notification_types = [
 		"source_app": "home",
 		"source_doctype": "Home Warranty",
 		"route_template": "/home/property/{property}/warranties/{name}",
-	},
-	{
-		"type": "maintenance_due",
-		"label": "Maintenance Due",
-		"icon": "tool",
-		"source_app": "home",
-		"source_doctype": "Home Maintenance",
-		"route_template": "/home/property/{property}/maintenance/{name}",
 	},
 	{
 		"type": "insurance_renewal",
@@ -158,14 +166,6 @@ jana_permissions = [
 		"scoping": "household",
 	},
 	{
-		"label": "Home — Maintenance",
-		"description": "Maintenance history and upcoming tasks",
-		"endpoints": [
-			"home.api.property.get_maintenance_list",
-		],
-		"scoping": "household",
-	},
-	{
 		"label": "Home — Warranties",
 		"description": "Warranty records and expiry status",
 		"endpoints": [
@@ -220,7 +220,6 @@ frame_guest_pages = [
 scheduler_events = {
 	"daily": [
 		"home.tasks.send_warranty_expiry_alerts",
-		"home.tasks.send_maintenance_reminders",
 		"home.tasks.send_insurance_renewal_alerts",
 		"home.tasks.send_unpaid_bill_reminders",
 		"home.tasks.send_overdue_refund_alerts",
@@ -237,7 +236,6 @@ permission_query_conditions = {
 	"Home Property": "home.api.permission.get_household_condition",
 	"Home Room": "home.api.permission.get_household_condition",
 	"Home Item": "home.api.permission.get_household_condition",
-	"Home Maintenance": "home.api.permission.get_household_condition",
 	"Home Warranty": "home.api.permission.get_household_condition",
 	"Home Purchase Return": "home.api.permission.get_household_condition",
 	"Home Settings": "home.api.permission.get_household_condition",
@@ -247,14 +245,12 @@ permission_query_conditions = {
 	"Home Mortgage": "home.api.permission.get_household_condition",
 	"Home Generated Letter": "home.api.permission.get_household_condition",
 	"Home Improvement Wish": "home.api.permission.get_household_condition",
-	"Home Photo": "home.api.permission.get_household_condition",
 }
 
 has_permission = {
 	"Home Property": "home.api.permission.has_household_permission",
 	"Home Room": "home.api.permission.has_household_permission",
 	"Home Item": "home.api.permission.has_household_permission",
-	"Home Maintenance": "home.api.permission.has_household_permission",
 	"Home Warranty": "home.api.permission.has_household_permission",
 	"Home Purchase Return": "home.api.permission.has_household_permission",
 	"Home Settings": "home.api.permission.has_household_permission",
@@ -264,7 +260,6 @@ has_permission = {
 	"Home Mortgage": "home.api.permission.has_household_permission",
 	"Home Generated Letter": "home.api.permission.has_household_permission",
 	"Home Improvement Wish": "home.api.permission.has_household_permission",
-	"Home Photo": "home.api.permission.has_household_permission",
 }
 
 # Doc Events
@@ -278,6 +273,10 @@ doc_events = {
 # Installation
 # ------------------
 after_install = "home.install.after_install"
+after_migrate = [
+	"home.install.setup_orga_custom_fields",
+	"home.install.setup_repo_custom_fields",
+]
 
 # Fixtures
 # ------------------

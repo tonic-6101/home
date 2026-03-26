@@ -58,44 +58,6 @@ def send_warranty_expiry_alerts() -> None:
 			)
 
 
-def send_maintenance_reminders() -> None:
-	"""Daily task: remind household members of upcoming scheduled maintenance.
-
-	Sends a reminder N days before the scheduled date (default: 3 days).
-	"""
-	default_reminder_days = 3
-
-	upcoming = frappe.get_all(
-		"Home Maintenance",
-		filters={
-			"status": ["in", ["Scheduled", "In Progress"]],
-			"scheduled_date": ["between", [today(), add_days(today(), 30)]],
-		},
-		fields=["name", "title", "scheduled_date", "household", "property"],
-	)
-
-	for task in upcoming:
-		days_until = (
-			frappe.utils.getdate(task.scheduled_date) - frappe.utils.getdate(today())
-		).days
-
-		reminder_days = _get_reminder_days(task.household) or default_reminder_days
-		if days_until != reminder_days:
-			continue
-
-		members = _get_household_adults(task.household)
-		for user in members:
-			_send_notification(
-				user=user,
-				title=_("Maintenance due soon"),
-				message=_("{0} is scheduled for {1} ({2} days from now)").format(
-					task.title, task.scheduled_date, days_until
-				),
-				source_doctype="Home Maintenance",
-				source_name=task.name,
-				notification_type="maintenance_due",
-			)
-
 
 def send_insurance_renewal_alerts() -> None:
 	"""Daily task: notify household members of insurance policies due for renewal.
@@ -340,7 +302,7 @@ def _get_alert_thresholds(household: str) -> dict:
 
 
 def _get_reminder_days(household: str) -> int:
-	"""Get maintenance reminder days for a household from Home Settings."""
+	"""Get bill reminder days for a household from Home Settings."""
 	val = frappe.db.get_value(
 		"Home Settings",
 		{"household": household},

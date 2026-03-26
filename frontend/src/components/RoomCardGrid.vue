@@ -17,7 +17,6 @@ import {
 import { __ } from '@/composables/useTranslate'
 import AddRoomDialog from '@/components/AddRoomDialog.vue'
 import DeleteRoomDialog from '@/components/DeleteRoomDialog.vue'
-import AddMaintenanceDialog from '@/components/AddMaintenanceDialog.vue'
 
 interface Room {
   name: string
@@ -48,8 +47,6 @@ const deleteTarget = ref<Room | null>(null)
 const editingRoom = ref<string | null>(null)
 const editName = ref('')
 const menuOpenRoom = ref<string | null>(null)
-const showMaintenanceDialog = ref(false)
-const maintenanceRoom = ref<Room | null>(null)
 const showSuggestions = ref(false)
 const suggestions = ref<{ room_name: string; room_type: string }[]>([])
 const selectedSuggestions = ref<Set<number>>(new Set())
@@ -175,12 +172,6 @@ async function saveRename(roomName: string) {
   } catch (e: any) {
     alert(e.message || __('Failed to rename'))
   }
-}
-
-function startMaintenance(room: Room) {
-  maintenanceRoom.value = room
-  showMaintenanceDialog.value = true
-  menuOpenRoom.value = null
 }
 
 function startDelete(room: Room) {
@@ -341,14 +332,6 @@ onUnmounted(() => {
                    border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 py-1 z-10"
           >
             <button
-              @click="startMaintenance(room)"
-              class="w-full flex items-center gap-2 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300
-                     hover:bg-gray-100 dark:hover:bg-gray-700"
-            >
-              <HardHat class="w-3.5 h-3.5" />
-              {{ __('Log task') }}
-            </button>
-            <button
               @click="startRename(room)"
               class="w-full flex items-center gap-2 px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300
                      hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -474,14 +457,5 @@ onUnmounted(() => {
       @deleted="onRoomDeleted"
     />
 
-    <!-- Add Maintenance Dialog -->
-    <AddMaintenanceDialog
-      v-if="showMaintenanceDialog && maintenanceRoom"
-      :property="property"
-      :room="maintenanceRoom.name"
-      :room-name="maintenanceRoom.room_name"
-      @close="showMaintenanceDialog = false; maintenanceRoom = null"
-      @created="showMaintenanceDialog = false; maintenanceRoom = null; loadRooms()"
-    />
   </div>
 </template>

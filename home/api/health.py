@@ -49,13 +49,14 @@ def get_health_score(property: str) -> dict:
 	now = today()
 	factors = []
 
-	# 1. Overdue maintenance: -5 per task, cap -30
+	# 1. Overdue tasks: -5 per task, cap -30
 	overdue_tasks = _safe_get_all(
-		"Home Maintenance",
+		"Orga Task",
 		filters={
-			"property": property,
-			"status": ["in", ["Scheduled", "In Progress"]],
-			"scheduled_date": ["<", now],
+			"home_property": property,
+			"status": ["in", ["Open", "In Progress"]],
+			"due_date": ["<", now],
+			"home_maintenance_category": ["is", "set"],
 		},
 		fields=["name"],
 	)
@@ -63,14 +64,14 @@ def get_health_score(property: str) -> dict:
 	d = _count_deduction(overdue_count, 5, 30)
 	if overdue_count:
 		factors.append({
-			"key": "overdue_maintenance",
-			"label": _("{0} overdue maintenance task{1}").format(
+			"key": "overdue_tasks",
+			"label": _("{0} overdue task{1}").format(
 				overdue_count, "s" if overdue_count != 1 else ""
 			),
 			"count": overdue_count,
 			"deduction": d,
 			"severity": "high",
-			"action_route": f"/home/property/{property}/maintenance?filter=overdue",
+			"action_route": f"/orga/my-tasks?home_property={property}",
 			"financial": False,
 		})
 

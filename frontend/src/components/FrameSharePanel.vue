@@ -83,7 +83,7 @@ async function regenerateToken() {
     </div>
 
     <p class="text-xs text-gray-500 dark:text-gray-400 mb-3">
-      {{ __('Share a read-only link to this property\'s appliances, maintenance history, and warranties. No login required.') }}
+      {{ __('Share a read-only link to this property\'s appliances, tasks, and warranties. No login required.') }}
     </p>
 
     <!-- URL + copy -->

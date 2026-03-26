@@ -12,7 +12,7 @@ import {
   Home, Building2, DoorOpen, Store, HelpCircle,
   Wrench, HardHat, Shield, MoreVertical,
   Pencil, Wallet, Lightbulb, RotateCcw,
-  Zap, FileText, BookOpen, Camera, PiggyBank, Truck, Mail,
+  Zap, FileText, BookOpen, PiggyBank, Truck, Mail,
 } from 'lucide-vue-next'
 import { __ } from '@/composables/useTranslate'
 import { useHouseholdRole } from '@/composables/useHouseholdRole'
@@ -22,8 +22,7 @@ import RoomCardGrid from '@/components/RoomCardGrid.vue'
 import HealthScoreWidget from '@/components/HealthScoreWidget.vue'
 import FrameSharePanel from '@/components/FrameSharePanel.vue'
 import ICalSubscribePanel from '@/components/ICalSubscribePanel.vue'
-import PhotoSection from '@/components/PhotoSection.vue'
-import AddMaintenanceDialog from '@/components/AddMaintenanceDialog.vue'
+import PropertyTasksWidget from '@/components/PropertyTasksWidget.vue'
 
 const router = useRouter()
 const { propertyName: cachedPropertyName, load: loadPropertyName, reset: resetPropertyCache } = useProperty()
@@ -33,7 +32,7 @@ const loading = ref(true)
 const error = ref('')
 const menuOpen = ref(false)
 
-const showMaintenanceDialog = ref(false)
+// Tasks widget (reads from Orga via PropertyTasksWidget)
 
 // Setup form state
 const showSetup = ref(false)
@@ -322,19 +321,7 @@ onMounted(() => {
           <Wrench class="w-4 h-4" />
           <span>{{ property.appliance_count }} {{ __('appliances') }}</span>
         </div>
-        <div class="flex items-center gap-1.5 text-sm text-gray-600 dark:text-gray-400">
-          <HardHat class="w-4 h-4" />
-          <span>{{ property.open_maintenance_count }} {{ __('open tasks') }}</span>
-        </div>
-        <button
-          v-if="isAdultOrAbove"
-          @click="showMaintenanceDialog = true"
-          class="flex items-center gap-1.5 text-sm text-accent-600 dark:text-accent-400
-                 hover:text-accent-700 dark:hover:text-accent-300 transition-colors"
-        >
-          <HardHat class="w-4 h-4" />
-          <span>{{ __('Log maintenance') }}</span>
-        </button>
+        <PropertyTasksWidget v-if="property?.name" :property="property.name" compact />
         <div
           v-if="property.upcoming_warranty_expiry"
           class="flex items-center gap-1.5 text-sm text-gray-600 dark:text-gray-400"
@@ -452,15 +439,15 @@ onMounted(() => {
               <RotateCcw class="w-4 h-4 text-red-500 flex-shrink-0" />
               {{ __('Returns') }}
             </router-link>
-            <router-link
-              to="/home/documents"
+            <a
+              href="/repo"
               class="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-white dark:bg-gray-800
                      border border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-300
                      hover:border-accent-300 dark:hover:border-accent-600 transition-colors no-underline"
             >
               <BookOpen class="w-4 h-4 text-gray-500 flex-shrink-0" />
-              {{ __('Documents') }}
-            </router-link>
+              {{ __('Documents & Photos') }}
+            </a>
             <router-link
               to="/home/letters"
               class="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-white dark:bg-gray-800
@@ -471,15 +458,6 @@ onMounted(() => {
               {{ __('Letters') }}
             </router-link>
           </div>
-        </section>
-
-        <!-- Photos (Feature 59) -->
-        <section>
-          <PhotoSection
-            :property="property.name"
-            :can-edit="isAdultOrAbove"
-            :max-thumbnails="8"
-          />
         </section>
 
         <!-- Quick links — All roles -->
@@ -564,13 +542,6 @@ onMounted(() => {
         </section>
       </div>
 
-      <!-- Add Maintenance Dialog -->
-      <AddMaintenanceDialog
-        v-if="showMaintenanceDialog"
-        :property="property.name"
-        @close="showMaintenanceDialog = false"
-        @created="showMaintenanceDialog = false; loadProperty()"
-      />
     </template>
   </div>
 </template>

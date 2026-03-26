@@ -70,7 +70,7 @@ function buildOwnerSteps(): Shepherd.Step.StepOptions[] {
       id: 'add-rooms',
       text: progressHtml(2, total) + `
         <h3 style="font-size:16px;font-weight:600;margin-bottom:4px;">${__('Add your rooms')}</h3>
-        <p style="color:#6b7280;font-size:14px;">${__('Define the rooms in your property — kitchen, bathroom, bedroom, garage. Rooms help organise appliances and maintenance records.')}</p>
+        <p style="color:#6b7280;font-size:14px;">${__('Define the rooms in your property — kitchen, bathroom, bedroom, garage. Rooms help organise appliances and tasks.')}</p>
       `,
       attachTo: { element: '[data-tour="add-room"]', on: 'bottom' },
       buttons: [
@@ -95,12 +95,12 @@ function buildOwnerSteps(): Shepherd.Step.StepOptions[] {
     },
     // Step 5 — Set maintenance reminder
     {
-      id: 'add-maintenance',
+      id: 'create-task',
       text: progressHtml(4, total) + `
         <h3 style="font-size:16px;font-weight:600;margin-bottom:4px;">${__('Set your first reminder')}</h3>
-        <p style="color:#6b7280;font-size:14px;">${__('Add a maintenance task — boiler service, gutter cleaning, smoke alarm check. Home will remind you when it\'s due.')}</p>
+        <p style="color:#6b7280;font-size:14px;">${__('Create your first task — boiler service, gutter cleaning, smoke alarm check. Manage tasks in Orga.')}</p>
       `,
-      attachTo: { element: '[data-tour="add-maintenance"]', on: 'bottom' },
+      attachTo: { element: '[data-tour="create-task"]', on: 'bottom' },
       buttons: [
         { text: '← ' + __('Back'), action: function (this: Shepherd.Tour) { this.back() }, classes: 'shepherd-button-secondary' },
         { text: __('Skip'), action: function (this: Shepherd.Tour) { this.next() }, classes: 'shepherd-button-secondary' },
@@ -127,7 +127,7 @@ function buildOwnerSteps(): Shepherd.Step.StepOptions[] {
         <div style="text-align:center;padding:8px 0;">
           ${progressHtml(6, total)}
           <h2 style="font-size:20px;font-weight:600;margin-bottom:8px;">${__("You're all set")} &#10003;</h2>
-          <p style="color:#6b7280;">${__('Home will remind you when maintenance is due, when warranties are expiring, and keep everything about your property in one place.')}</p>
+          <p style="color:#6b7280;">${__('Home will remind you when warranties are expiring and keep everything about your property in one place.')}</p>
           <p style="color:#9ca3af;font-size:13px;margin-top:8px;">${__('You can restart this tour anytime from Settings.')}</p>
         </div>
       `,
@@ -167,7 +167,7 @@ function buildMemberSteps(ownerName: string): Shepherd.Step.StepOptions[] {
       text: `
         ${progressHtml(1, 2)}
         <h3 style="font-size:16px;font-weight:600;margin-bottom:4px;">${__('Your household property')}</h3>
-        <p style="color:#6b7280;font-size:14px;">${__('You can view the property details, items, maintenance history, and emergency contacts.')}</p>
+        <p style="color:#6b7280;font-size:14px;">${__('You can view the property details, items, task history, and emergency contacts.')}</p>
       `,
       attachTo: { element: '[data-tour="dashboard"]', on: 'bottom' },
       buttons: [

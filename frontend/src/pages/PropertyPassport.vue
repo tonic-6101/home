@@ -144,7 +144,7 @@ onMounted(loadPassport)
       <BookOpen class="w-10 h-10 mx-auto mb-3 text-gray-300 dark:text-gray-600" />
       <h2 class="text-h3 text-gray-800 dark:text-gray-200 mb-2">{{ __('Empty passport') }}</h2>
       <p class="text-body text-gray-500 dark:text-gray-400">
-        {{ __('As you add items, complete maintenance, and register warranties, the passport fills up.') }}
+        {{ __('As you add items, complete tasks, and register warranties, the passport fills up.') }}
       </p>
     </div>
 

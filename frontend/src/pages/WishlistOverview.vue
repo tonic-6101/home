@@ -102,17 +102,17 @@ async function updateStatus(wishName: string, status: string) {
   }
 }
 
-async function convertToMaintenance(wishName: string) {
+async function convertToTask(wishName: string) {
   convertingMaint.value = true
   try {
     const res = await frappeRequest({
-      url: '/api/method/home.api.wishlist.convert_to_maintenance',
+      url: '/api/method/home.api.wishlist.convert_to_task',
       params: { wish_name: wishName },
     })
     if (!res?.already_exists) {
       await loadWishlist()
     }
-    router.push(`/home/maintenance/${res?.maintenance}`)
+    router.push(`/orga/my-tasks`)
   } catch (e: any) {
     alert(e.message || __('Failed to convert'))
   } finally {
@@ -281,14 +281,14 @@ onMounted(() => {
               </div>
 
               <!-- Linked records -->
-              <div v-if="wish.linked_maintenance" class="flex items-center gap-2 text-sm">
+              <div v-if="wish.linked_task" class="flex items-center gap-2 text-sm">
                 <Wrench class="w-4 h-4 text-gray-400" />
-                <router-link
-                  :to="`/home/maintenance/${wish.linked_maintenance}`"
+                <a
+                  href="/orga/my-tasks"
                   class="text-accent-600 dark:text-accent-400 hover:underline"
                 >
-                  {{ __('View maintenance task') }}
-                </router-link>
+                  {{ __('View task') }}
+                </a>
               </div>
               <div v-if="wish.linked_orga_project" class="flex items-center gap-2 text-sm">
                 <FolderKanban class="w-4 h-4 text-gray-400" />
@@ -311,11 +311,11 @@ onMounted(() => {
                   {{ __('Edit') }}
                 </Button>
                 <Button
-                  v-if="!wish.linked_maintenance && wish.status !== 'Done' && wish.status !== 'Abandoned'"
+                  v-if="!wish.linked_task && wish.status !== 'Done' && wish.status !== 'Abandoned'"
                   variant="outline"
                   size="sm"
                   :loading="convertingMaint"
-                  @click="convertToMaintenance(wish.name)"
+                  @click="convertToTask(wish.name)"
                 >
                   <template #prefix><Wrench class="w-3.5 h-3.5" /></template>
                   {{ __('Convert to task') }}

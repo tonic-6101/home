@@ -136,18 +136,6 @@ const routes: RouteRecordRaw[] = [
   { path: '/home/inventory', redirect: '/home/items' },
   { path: '/home/contractors', redirect: '/home' },
   { path: '/home/contractors/:name', redirect: '/home' },
-  {
-    path: '/home/maintenance',
-    name: 'MaintenanceList',
-    component: () => import('./pages/MaintenanceList.vue'),
-    meta: { title: 'Maintenance' }
-  },
-  {
-    path: '/home/maintenance/:name',
-    name: 'MaintenanceDetail',
-    component: () => import('./pages/MaintenanceDetail.vue'),
-    meta: { title: 'Maintenance Task' }
-  },
   // Warranties live on the Items page as a tab — no standalone page
   { path: '/home/warranties', redirect: '/home/items?tab=warranties' },
   { path: '/home/warranty/:name', redirect: '/home/items?tab=warranties' },
@@ -220,8 +208,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/home/documents',
     name: 'DocumentVault',
-    component: () => import('./pages/DocumentVault.vue'),
-    meta: { title: 'Documents' }
+    redirect: '/repo',
   },
   {
     path: '/home/letters',
@@ -244,8 +231,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/home/photos',
     name: 'PhotoGallery',
-    component: () => import('./pages/PhotoGallery.vue'),
-    meta: { title: 'Photos' }
+    redirect: '/repo',
   },
 
   // Legacy redirects for old multi-property URLs

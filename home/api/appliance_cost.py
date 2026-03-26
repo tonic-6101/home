@@ -32,12 +32,12 @@ def _compute_item_cost(doc) -> dict:
 
 	# --- Maintenance totals ---
 	maintenance_records = frappe.get_all(
-		"Home Maintenance",
+		"Orga Task",
 		filters={
-			"item": doc.name,
+			"home_item": doc.name,
 			"status": "Completed",
 		},
-		fields=["name", "title", "cost", "completed_date"],
+		fields=["name", "subject as title", "actual_cost as cost", "completed_date"],
 		order_by="completed_date asc",
 	)
 

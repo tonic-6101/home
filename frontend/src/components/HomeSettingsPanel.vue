@@ -31,7 +31,6 @@ interface HomeSettings {
   legal_warranty_months: number
   burden_of_proof_months: number
   burden_of_proof_alert_days: number
-  maintenance_reminder_days: number
   refund_alert_days: number
   tenancy_expiry_alert_days: number
   default_currency: string
@@ -84,7 +83,6 @@ async function saveSettings() {
           legal_warranty_months: settings.value.legal_warranty_months,
           burden_of_proof_months: settings.value.burden_of_proof_months,
           burden_of_proof_alert_days: settings.value.burden_of_proof_alert_days,
-          maintenance_reminder_days: settings.value.maintenance_reminder_days,
           refund_alert_days: settings.value.refund_alert_days,
           tenancy_expiry_alert_days: settings.value.tenancy_expiry_alert_days,
           default_currency: settings.value.default_currency,
@@ -226,24 +224,8 @@ onMounted(loadSettings)
         </div>
       </div>
 
-      <!-- Maintenance + refund -->
+      <!-- Refund + tenancy alerts -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <div>
-          <label class="text-caption text-gray-500 dark:text-gray-400 block mb-1">
-            {{ __('Maintenance reminder') }}
-          </label>
-          <div class="flex items-center gap-2">
-            <input
-              v-model.number="settings.maintenance_reminder_days"
-              type="number"
-              min="1"
-              max="30"
-              class="w-20 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm
-                     bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-            />
-            <span class="text-sm text-gray-500 dark:text-gray-400">{{ __('days before due date') }}</span>
-          </div>
-        </div>
         <div>
           <label class="text-caption text-gray-500 dark:text-gray-400 block mb-1">
             {{ __('Overdue refund re-alert') }}
@@ -346,7 +328,7 @@ onMounted(loadSettings)
             </option>
           </select>
           <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">
-            {{ __('Controls who can see purchase prices, maintenance costs, and budget data. Children never see financial data.') }}
+            {{ __('Controls who can see purchase prices and budget data. Children never see financial data.') }}
           </p>
         </div>
       </div>

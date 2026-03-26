@@ -5,7 +5,7 @@
 
 Manages the household improvement wishlist — pre-commitment intentions
 grouped by priority with estimated costs. Wishes can be converted to
-maintenance tasks when the household is ready to act.
+tasks when the household is ready to act.
 """
 
 from collections import defaultdict
@@ -29,7 +29,7 @@ _WISH_TO_MAINTENANCE_CATEGORY = {
 
 
 def _map_wish_category(wish_category: str) -> str:
-	"""Map a wish category to the closest Home Maintenance category."""
+	"""Map a wish category to the closest maintenance category."""
 	return _WISH_TO_MAINTENANCE_CATEGORY.get(wish_category, "General")
 
 
@@ -56,7 +56,7 @@ def get_wishlist(property: str) -> dict:
 		fields=[
 			"name", "title", "category", "room", "priority",
 			"estimated_cost", "status", "notes",
-			"linked_maintenance", "linked_orga_project",
+			"linked_task", "linked_orga_project",
 		],
 		order_by="priority asc, creation asc",
 	)
@@ -89,41 +89,41 @@ def get_wishlist(property: str) -> dict:
 
 
 @frappe.whitelist()
-def convert_to_maintenance(wish_name: str) -> dict:
-	"""Create a Home Maintenance task from a wishlist item.
+def convert_to_task(wish_name: str) -> dict:
+	"""Create an Orga Task from a wishlist item.
 
-	Pre-fills the maintenance record from the wish and links them.
+	Pre-fills the task from the wish and links them.
 	If the wish was already converted, returns the existing link.
 
 	Args:
 		wish_name: Name of the Home Improvement Wish record.
 
 	Returns:
-		dict with ``maintenance`` name and ``already_exists`` flag.
+		dict with ``task`` name and ``already_exists`` flag.
 	"""
 	wish = frappe.get_doc("Home Improvement Wish", wish_name)
 	require_household_access(wish.household)
 	require_role(wish.household, "Adult")
 
-	if wish.linked_maintenance:
-		return {"maintenance": wish.linked_maintenance, "already_exists": True}
+	if wish.linked_task:
+		return {"task": wish.linked_task, "already_exists": True}
 
-	task = frappe.new_doc("Home Maintenance")
-	task.property = wish.property
-	task.title = wish.title
-	task.category = _map_wish_category(wish.category)
-	task.room = wish.room or ""
-	task.notes = wish.notes or ""
-	task.status = "Scheduled"
-	task.maintenance_type = "One-off"
+	task = frappe.new_doc("Orga Task")
+	task.subject = wish.title
+	task.home_property = wish.property
+	task.home_maintenance_category = _map_wish_category(wish.category)
+	task.home_room = wish.room or ""
+	task.description = wish.notes or ""
+	task.status = "Open"
+	task.assigned_to = frappe.session.user
 	task.insert()
 
 	frappe.db.set_value("Home Improvement Wish", wish_name, {
-		"linked_maintenance": task.name,
+		"linked_task": task.name,
 		"status": "Planned",
 	})
 
-	return {"maintenance": task.name, "already_exists": False}
+	return {"task": task.name, "already_exists": False}
 
 
 @frappe.whitelist()

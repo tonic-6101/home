@@ -2,7 +2,7 @@
   SPDX-License-Identifier: AGPL-3.0-or-later
   Copyright (C) 2024-2026 Tonic
 
-  iCal subscribe panel — maintenance calendar export (Feature 56).
+  iCal subscribe panel — household calendar export (Feature 56).
   Visible to all household members. Regenerate is Owner-only.
 -->
 <script setup lang="ts">
@@ -93,7 +93,7 @@ async function regenerateToken() {
       class="mt-3 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700"
     >
       <h3 class="text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2">
-        {{ __('Subscribe to maintenance calendar') }}
+        {{ __('Subscribe to household calendar') }}
       </h3>
       <p class="text-xs text-gray-500 dark:text-gray-400 mb-3">
         {{ __('Copy this URL into any calendar app:') }}

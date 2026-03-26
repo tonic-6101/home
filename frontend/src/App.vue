@@ -7,7 +7,7 @@ import { onMounted } from 'vue'
 // @ts-ignore — served by Dock's built assets
 import { DockLayout, DockSidebarShell } from '/assets/dock/js/dock-navbar.esm.js'
 import {
-  LayoutDashboard, Wrench, HardHat, Wallet, FolderOpen, Camera, BookOpen,
+  LayoutDashboard, LayoutList, Wallet, BookOpen,
 } from 'lucide-vue-next'
 import { __ } from '@/composables/useTranslate'
 import { useOnboardingTour } from './composables/useOnboardingTour'
@@ -20,11 +20,8 @@ onMounted(() => {
 
 const navItems = [
   { key: 'dashboard',   label: __('Dashboard'),    icon: LayoutDashboard, path: '/home',              exact: true },
-  { key: 'items',       label: __('Items'),         icon: Wrench,     path: '/home/items' },
-  { key: 'maintenance', label: __('Maintenance'),   icon: HardHat,    path: '/home/maintenance' },
+  { key: 'items',       label: __('Items'),         icon: LayoutList,  path: '/home/items' },
   { key: 'finances',    label: __('Finances'),      icon: Wallet,     path: '/home/budget' },
-  { key: 'documents',   label: __('Documents'),     icon: FolderOpen, path: '/home/documents' },
-  { key: 'photos',      label: __('Photos'),        icon: Camera,     path: '/home/photos' },
   { key: 'passport',    label: __('Passport'),      icon: BookOpen,   path: '/home/passport' },
 ]
 

@@ -10,15 +10,12 @@ import { useRoute, useRouter } from 'vue-router'
 import { frappeRequest } from 'frappe-ui'
 import {
   ArrowLeft, Pencil, MapPin, Refrigerator, Package, Home,
-  Shield, Wrench, Check, Clock,
+  Shield, Check,
 } from 'lucide-vue-next'
 import { __ } from '@/composables/useTranslate'
 import { useHouseholdRole } from '@/composables/useHouseholdRole'
 import WarrantyCard, { type WarrantySummary } from '@/components/WarrantyCard.vue'
 import RecallBanner from '@/components/RecallBanner.vue'
-import PhotoSection from '@/components/PhotoSection.vue'
-import AddMaintenanceDialog from '@/components/AddMaintenanceDialog.vue'
-
 interface ItemDetail {
   name: string
   item_name: string
@@ -44,7 +41,6 @@ interface ItemDetail {
   recall_active: boolean
   recalls: { recall_id: string; title: string; severity: string; detail_url: string; dismissed: boolean }[]
   warranties: WarrantySummary[]
-  maintenance_history: { name: string; title: string; status: string; scheduled_date: string; completed_date: string | null }[]
   // Fixture-specific
   installed_date: string | null
   material: string | null
@@ -58,8 +54,6 @@ const { isAdultOrAbove, isChild, load: loadRole } = useHouseholdRole()
 const item = ref<ItemDetail | null>(null)
 const loading = ref(true)
 const error = ref('')
-const showMaintenanceDialog = ref(false)
-
 const statusColors: Record<string, string> = {
   Working: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400',
   'Needs Repair': 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
@@ -289,15 +283,6 @@ onMounted(() => {
         />
       </div>
 
-      <!-- Photos (Feature 59) -->
-      <div class="mb-4">
-        <PhotoSection
-          :property="item.property"
-          :item="item.name"
-          :can-edit="isAdultOrAbove"
-        />
-      </div>
-
       <!-- Warranties (appliances + fixtures) -->
       <div v-if="(item.item_type === 'Appliance' || item.item_type === 'Fixture') && item.warranties?.length" class="mb-4">
         <h2 class="text-h4 text-gray-800 dark:text-gray-200 mb-3">{{ __('Warranties') }}</h2>
@@ -310,60 +295,16 @@ onMounted(() => {
         </div>
       </div>
 
-      <!-- Maintenance (appliances + fixtures) -->
+      <!-- Tasks (via Orga) -->
       <div v-if="item.item_type === 'Appliance' || item.item_type === 'Fixture'" class="mb-4">
         <div class="flex items-center justify-between mb-3">
-          <h2 class="text-h4 text-gray-800 dark:text-gray-200">{{ __('Maintenance') }}</h2>
-          <button
-            v-if="isAdultOrAbove"
-            @click="showMaintenanceDialog = true"
-            class="flex items-center gap-1 text-sm text-accent-600 dark:text-accent-400
-                   hover:text-accent-700 dark:hover:text-accent-300 transition-colors"
-          >
-            <Wrench class="w-3.5 h-3.5" />
-            {{ __('Add task') }}
-          </button>
+          <h2 class="text-h4 text-gray-800 dark:text-gray-200">{{ __('Tasks') }}</h2>
         </div>
-        <div v-if="item.maintenance_history?.length" class="space-y-2">
-          <router-link
-            v-for="task in item.maintenance_history"
-            :key="task.name"
-            :to="`/home/maintenance/${task.name}`"
-            class="flex items-center justify-between p-3 bg-white dark:bg-gray-800 rounded-lg
-                   border border-gray-200 dark:border-gray-700 hover:shadow-sm transition-shadow no-underline"
-          >
-            <div>
-              <div class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ task.title }}</div>
-              <div class="text-xs text-gray-500 dark:text-gray-400">
-                <template v-if="task.completed_date">{{ formatDate(task.completed_date) }}</template>
-                <template v-else>{{ __('Scheduled') }}: {{ formatDate(task.scheduled_date) }}</template>
-              </div>
-            </div>
-            <div class="flex items-center gap-1.5">
-              <Wrench v-if="task.status === 'In Progress'" class="w-3.5 h-3.5 text-amber-500" />
-              <Check v-else-if="task.status === 'Completed'" class="w-3.5 h-3.5 text-green-500" />
-              <Clock v-else class="w-3.5 h-3.5 text-gray-400" />
-              <span class="text-xs text-gray-500 dark:text-gray-400">{{ __(task.status) }}</span>
-            </div>
-          </router-link>
-        </div>
-        <p v-else class="text-sm text-gray-400 dark:text-gray-500">
-          {{ __('No maintenance tasks yet.') }}
+        <p class="text-sm text-gray-500 dark:text-gray-400">
+          {{ __('Manage tasks for this item in') }}
+          <a :href="`/orga/my-tasks?home_item=${item.name}`" class="text-accent-600 dark:text-accent-400 hover:underline">Orga</a>.
         </p>
       </div>
-
-      <!-- Add Maintenance Dialog -->
-      <AddMaintenanceDialog
-        v-if="showMaintenanceDialog && item"
-        :property="item.property"
-        :item="item.name"
-        :item-name="item.item_name"
-        :item-category="item.category"
-        :room="item.room || undefined"
-        :room-name="item.room_name || undefined"
-        @close="showMaintenanceDialog = false"
-        @created="showMaintenanceDialog = false; loadItem()"
-      />
     </template>
   </div>
 </template>

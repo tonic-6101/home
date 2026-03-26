@@ -132,9 +132,9 @@ def get_repair_fund(property: str) -> dict:
 	ytd_actual = flt(
 		frappe.db.sql(
 			"""
-			SELECT COALESCE(SUM(cost), 0)
-			FROM `tabHome Maintenance`
-			WHERE property = %s
+			SELECT COALESCE(SUM(actual_cost), 0)
+			FROM `tabOrga Task`
+			WHERE home_property = %s
 			  AND status = 'Completed'
 			  AND completed_date BETWEEN %s AND %s
 			""",

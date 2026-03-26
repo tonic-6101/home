@@ -18,7 +18,7 @@
   "section_notes",
   "notes",
   "section_links",
-  "linked_maintenance",
+  "linked_task",
   "linked_orga_project"
  ],
  "fields": [
@@ -101,9 +101,9 @@
    "label": "Linked Records"
   },
   {
-   "fieldname": "linked_maintenance",
+   "fieldname": "linked_task",
    "fieldtype": "Data",
-   "label": "Linked Maintenance",
+   "label": "Linked Task",
    "read_only": 1
   },
   {

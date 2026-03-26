@@ -48,7 +48,7 @@ def _resolve_period(period: str | None, start: str | None, end: str | None) -> t
 def _maintenance_events(property: str, start_date, end_date) -> list[dict]:
 	"""Maintenance completed events."""
 	filters = {
-		"property": property,
+		"home_property": property,
 		"status": "Completed",
 		"completed_date": ["is", "set"],
 	}
@@ -56,9 +56,9 @@ def _maintenance_events(property: str, start_date, end_date) -> list[dict]:
 		filters["completed_date"] = ["between", [str(start_date), str(end_date)]]
 
 	rows = frappe.get_all(
-		"Home Maintenance",
+		"Orga Task",
 		filters=filters,
-		fields=["name", "title", "category", "completed_date", "contractor", "cost"],
+		fields=["name", "subject as title", "home_maintenance_category as category", "completed_date", "home_contractor as contractor", "actual_cost as cost"],
 		order_by="completed_date asc",
 	)
 	return [
@@ -69,7 +69,7 @@ def _maintenance_events(property: str, start_date, end_date) -> list[dict]:
 			"sub_label": r.contractor or "",
 			"category": r.category,
 			"cost": r.cost or 0,
-			"source_doctype": "Home Maintenance",
+			"source_doctype": "Orga Task",
 			"source_name": r.name,
 		}
 		for r in rows

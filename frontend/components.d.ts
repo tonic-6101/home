@@ -8,12 +8,10 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    AddMaintenanceDialog: typeof import('./src/components/AddMaintenanceDialog.vue')['default']
     AddRoomDialog: typeof import('./src/components/AddRoomDialog.vue')['default']
     AddWishDialog: typeof import('./src/components/AddWishDialog.vue')['default']
     BudgetCategoryDetail: typeof import('./src/components/BudgetCategoryDetail.vue')['default']
     BudgetSetup: typeof import('./src/components/BudgetSetup.vue')['default']
-    CompleteTaskDialog: typeof import('./src/components/CompleteTaskDialog.vue')['default']
     CreatePolicyDialog: typeof import('./src/components/CreatePolicyDialog.vue')['default']
     CreateReturnDialog: typeof import('./src/components/CreateReturnDialog.vue')['default']
     DeleteRoomDialog: typeof import('./src/components/DeleteRoomDialog.vue')['default']
@@ -24,8 +22,8 @@ declare module 'vue' {
     ICalSubscribePanel: typeof import('./src/components/ICalSubscribePanel.vue')['default']
     InsuranceCard: typeof import('./src/components/InsuranceCard.vue')['default']
     MarkReceivedDialog: typeof import('./src/components/MarkReceivedDialog.vue')['default']
-    PhotoSection: typeof import('./src/components/PhotoSection.vue')['default']
     PlaceholderWidget: typeof import('./src/components/PlaceholderWidget.vue')['default']
+    PropertyTasksWidget: typeof import('./src/components/PropertyTasksWidget.vue')['default']
     RecallBanner: typeof import('./src/components/RecallBanner.vue')['default']
     ReturnCard: typeof import('./src/components/ReturnCard.vue')['default']
     RoomCardGrid: typeof import('./src/components/RoomCardGrid.vue')['default']
