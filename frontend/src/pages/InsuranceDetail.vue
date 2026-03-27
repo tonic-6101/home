@@ -174,7 +174,7 @@ onMounted(loadPolicy)
 </script>
 
 <template>
-  <div class="p-6 max-w-3xl mx-auto">
+  <div class="p-6 max-w-3xl">
     <!-- Back link -->
     <button
       class="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400
@@ -202,7 +202,7 @@ onMounted(loadPolicy)
         <div>
           <div class="flex items-center gap-2 mb-1">
             <component :is="typeIcon" class="w-5 h-5 text-gray-400" />
-            <h1 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
               {{ policy.policy_name }}
             </h1>
             <span
@@ -300,7 +300,7 @@ onMounted(loadPolicy)
       <!-- Claims -->
       <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
         <div class="flex items-center justify-between mb-4">
-          <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+          <h2 class="text-sm font-semibold text-gray-900 dark:text-white">
             {{ __('Claims') }}
           </h2>
           <Button
@@ -316,7 +316,7 @@ onMounted(loadPolicy)
         <!-- Add claim form -->
         <div
           v-if="showAddClaim"
-          class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 mb-4 space-y-3"
+          class="bg-gray-50 dark:bg-gray-800 rounded-lg p-5 mb-4 space-y-3"
         >
           <div class="grid grid-cols-2 gap-3">
             <div>

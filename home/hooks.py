@@ -210,6 +210,10 @@ frame_guest_pages = [
 	},
 ]
 
+# People context (Dock People hub — contact detail panels)
+# ------------------
+dock_people_context = "home.api.people.get_contact_context"
+
 # Roles
 # ------------------
 # Home User: standard household member (Adult or Child)
@@ -276,6 +280,7 @@ after_install = "home.install.after_install"
 after_migrate = [
 	"home.install.setup_orga_custom_fields",
 	"home.install.setup_repo_custom_fields",
+	"home.install._create_seasonal_checklist_templates",
 ]
 
 # Fixtures

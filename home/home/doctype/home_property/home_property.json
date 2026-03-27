@@ -30,6 +30,13 @@
   "estimated_value",
   "estimated_value_date",
   "repair_fund_rate_override",
+  "section_energy",
+  "energy_class",
+  "heating_type",
+  "column_break_energy",
+  "insulation_year",
+  "energy_certificate",
+  "energy_certificate_date",
   "section_emergency",
   "gas_shutoff_location",
   "water_shutoff_location",
@@ -186,6 +193,45 @@
    "fieldtype": "Select",
    "label": "Repair Fund Rate",
    "options": "\nAuto\n1%\n1.5%\n2%"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_energy",
+   "fieldtype": "Section Break",
+   "label": "Energy Profile"
+  },
+  {
+   "fieldname": "energy_class",
+   "fieldtype": "Select",
+   "label": "Energy Class",
+   "options": "\nA+\nA\nB\nC\nD\nE\nF\nG\nH"
+  },
+  {
+   "fieldname": "heating_type",
+   "fieldtype": "Select",
+   "label": "Heating Type",
+   "options": "\nGas\nOil\nElectric\nHeat Pump\nDistrict Heating\nWood Pellet\nSolar Thermal\nOther"
+  },
+  {
+   "fieldname": "column_break_energy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "insulation_year",
+   "fieldtype": "Int",
+   "label": "Insulation Year",
+   "description": "Year the building was last insulated"
+  },
+  {
+   "fieldname": "energy_certificate",
+   "fieldtype": "Attach",
+   "label": "Energy Certificate"
+  },
+  {
+   "fieldname": "energy_certificate_date",
+   "fieldtype": "Date",
+   "label": "Certificate Date",
+   "description": "Issue date of the energy certificate"
   },
   {
    "collapsible": 1,

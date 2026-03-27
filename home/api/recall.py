@@ -183,11 +183,11 @@ def _match_recalls(item_doc, alerts: list[dict]) -> list[dict]:
 
 
 def _fetch_eu_safety_gate_alerts(category: str, brand: str) -> list[dict]:
-	"""Fetch recall alerts from the EU Safety Gate (RAPEX) API.
+	"""Fetch recall alerts from the EU Safety Gate (Safety Gate Search) API.
 
-	Currently stubbed — returns an empty list. When implemented, this will
-	query the EU Safety Gate API for recent alerts matching the given
-	category and brand.
+	Queries the EU Safety Gate public JSON search endpoint for recent
+	alerts matching the given category and brand. Falls back to an empty
+	list on any network or parsing error — never raises.
 
 	Args:
 		category: Appliance category (e.g. "White Goods").
@@ -197,5 +197,74 @@ def _fetch_eu_safety_gate_alerts(category: str, brand: str) -> list[dict]:
 		list of alert dicts with keys: recall_id, title, category, brand,
 		severity, published_date, detail_url.
 	"""
-	# TODO: implement EU Safety Gate API integration
-	return []
+	import json
+	import urllib.request
+	import urllib.parse
+	from datetime import date, timedelta
+
+	if not brand:
+		return []
+
+	# Search the last 90 days
+	date_from = (date.today() - timedelta(days=90)).isoformat()
+
+	# EU Safety Gate public search API
+	params = urllib.parse.urlencode({
+		"freeText": brand,
+		"dateFrom": date_from,
+		"pageSize": "50",
+		"language": "en",
+	})
+	url = f"https://ec.europa.eu/safety-gate-alerts/screen/webReport/alertSearch?{params}"
+
+	try:
+		req = urllib.request.Request(
+			url,
+			headers={
+				"Accept": "application/json",
+				"User-Agent": "Tonic-Home/1.0 (Frappe; safety-check)",
+			},
+		)
+		with urllib.request.urlopen(req, timeout=15) as resp:
+			data = json.loads(resp.read().decode("utf-8"))
+	except Exception:
+		frappe.log_error(
+			title="EU Safety Gate API Error",
+			message=f"Failed to fetch alerts for brand={brand}, category={category}",
+		)
+		return []
+
+	alerts = []
+	records = data if isinstance(data, list) else data.get("alerts", data.get("content", []))
+	for record in records:
+		if not isinstance(record, dict):
+			continue
+
+		alert_id = record.get("alertNumber") or record.get("id") or ""
+		if not alert_id:
+			continue
+
+		# Map Safety Gate risk level to our severity
+		risk = (record.get("riskLevel") or record.get("risk") or "").lower()
+		if "serious" in risk:
+			severity = "Serious"
+		elif "high" in risk:
+			severity = "High"
+		elif "medium" in risk or "moderate" in risk:
+			severity = "Medium"
+		else:
+			severity = "Unknown"
+
+		alert_brand = record.get("brand") or record.get("products", [{}])[0].get("brand", "") if isinstance(record.get("products"), list) and record.get("products") else record.get("brand", "")
+
+		alerts.append({
+			"recall_id": str(alert_id),
+			"title": record.get("title") or record.get("description") or "",
+			"category": record.get("category") or record.get("productCategory") or "",
+			"brand": alert_brand or "",
+			"severity": severity,
+			"published_date": record.get("datePublished") or record.get("date") or None,
+			"detail_url": f"https://ec.europa.eu/safety-gate-alerts/screen/webReport/alertDetail/{alert_id}",
+		})
+
+	return alerts

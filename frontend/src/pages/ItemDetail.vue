@@ -10,12 +10,14 @@ import { useRoute, useRouter } from 'vue-router'
 import { frappeRequest } from 'frappe-ui'
 import {
   ArrowLeft, Pencil, MapPin, Refrigerator, Package, Home,
-  Shield, Check,
+  Shield, Check, CheckSquare,
 } from 'lucide-vue-next'
 import { __ } from '@/composables/useTranslate'
 import { useHouseholdRole } from '@/composables/useHouseholdRole'
 import WarrantyCard, { type WarrantySummary } from '@/components/WarrantyCard.vue'
 import RecallBanner from '@/components/RecallBanner.vue'
+// @ts-ignore — served by Dock's built assets
+import { useDockPanels } from '/assets/dock/js/dock-navbar.esm.js'
 interface ItemDetail {
   name: string
   item_name: string
@@ -50,6 +52,7 @@ const route = useRoute()
 const router = useRouter()
 const itemName = computed(() => route.params.name as string)
 const { isAdultOrAbove, isChild, load: loadRole } = useHouseholdRole()
+const { openPanel } = useDockPanels()
 
 const item = ref<ItemDetail | null>(null)
 const loading = ref(true)
@@ -105,7 +108,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="p-6 max-w-3xl mx-auto">
+  <div>
     <!-- Loading -->
     <div v-if="loading" class="text-gray-500 dark:text-gray-400">
       {{ __('Loading…') }}
@@ -184,7 +187,7 @@ onMounted(() => {
       />
 
       <!-- Details card -->
-      <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 mb-4 space-y-3">
+      <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-5 space-y-3">
         <!-- Location -->
         <div v-if="item.room_name" class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
           <MapPin class="w-4 h-4 text-gray-400" />
@@ -252,9 +255,9 @@ onMounted(() => {
       <!-- Insurance section (all types, Adult+ only) -->
       <div
         v-if="!isChild"
-        class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 mb-4"
+        class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-5"
       >
-        <h2 class="text-sm font-semibold text-gray-800 dark:text-gray-200 mb-3">{{ __('Insurance') }}</h2>
+        <h2 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">{{ __('Insurance') }}</h2>
         <div class="space-y-3">
           <div class="text-sm text-gray-700 dark:text-gray-300">
             <span class="text-gray-500 dark:text-gray-400">{{ __('Estimated value') }}:</span>
@@ -295,15 +298,17 @@ onMounted(() => {
         </div>
       </div>
 
-      <!-- Tasks (via Orga) -->
+      <!-- Tasks (via Dock panel → Orga) -->
       <div v-if="item.item_type === 'Appliance' || item.item_type === 'Fixture'" class="mb-4">
-        <div class="flex items-center justify-between mb-3">
-          <h2 class="text-h4 text-gray-800 dark:text-gray-200">{{ __('Tasks') }}</h2>
-        </div>
-        <p class="text-sm text-gray-500 dark:text-gray-400">
-          {{ __('Manage tasks for this item in') }}
-          <a :href="`/orga/my-tasks?home_item=${item.name}`" class="text-accent-600 dark:text-accent-400 hover:underline">Orga</a>.
-        </p>
+        <button
+          @click="openPanel('tasks')"
+          class="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 dark:text-gray-300
+                 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700
+                 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+        >
+          <CheckSquare class="w-4 h-4 text-gray-400" />
+          {{ __('Tasks') }}
+        </button>
       </div>
     </template>
   </div>

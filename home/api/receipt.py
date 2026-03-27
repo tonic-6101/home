@@ -117,17 +117,82 @@ _EMPTY_RESULT = {
 
 
 def _extract_via_jana(image_b64: str) -> dict:
-	"""Use Jana vision API with receipt-specific extraction prompt.
+	"""Use Jana chat API with receipt-specific extraction prompt.
 
-	Stubbed — returns empty result until Jana integration is wired up.
-	In production, calls jana.api.vision.extract with a receipt prompt
-	and parses the structured JSON response.
+	Sends the receipt image as a base64 attachment to Jana's chat endpoint,
+	asking it to extract structured purchase data. Falls back to empty
+	result on any error.
 	"""
-	# TODO: implement Jana vision API call
-	# Prompt: "Extract the total amount, purchase date, and retailer name
-	# from this receipt. Return JSON with keys: purchase_date (ISO 8601),
-	# purchase_price (float, total after tax), retailer (string)."
-	return _EMPTY_RESULT.copy()
+	import json as _json
+
+	prompt = (
+		"Extract the following from this receipt image and return ONLY valid JSON "
+		"(no markdown, no explanation):\n"
+		'{"purchase_date": "YYYY-MM-DD or null", '
+		'"purchase_price": <float total after tax or null>, '
+		'"retailer": "<retailer name or null>"}'
+	)
+
+	try:
+		from jana.services.chat import ChatService
+
+		service = ChatService()
+		session = service.create_session()
+		response = service.send_message(
+			session_id=session.get("session_id") or session.get("name"),
+			content=prompt,
+			attachments=[{
+				"type": "image",
+				"content": image_b64,
+				"mime_type": "image/jpeg",
+			}],
+		)
+
+		# Parse the AI response — extract JSON from the reply
+		reply = (
+			response.get("content")
+			or response.get("message")
+			or response.get("reply")
+			or ""
+		)
+
+		# Strip markdown code fences if present
+		reply = reply.strip()
+		if reply.startswith("```"):
+			lines = reply.split("\n")
+			reply = "\n".join(lines[1:-1] if lines[-1].strip() == "```" else lines[1:])
+		reply = reply.strip()
+
+		parsed = _json.loads(reply)
+
+		purchase_date = parsed.get("purchase_date")
+		purchase_price = parsed.get("purchase_price")
+		retailer = parsed.get("retailer")
+
+		# Validate and convert types
+		if purchase_price is not None:
+			try:
+				purchase_price = float(purchase_price)
+			except (ValueError, TypeError):
+				purchase_price = None
+
+		return {
+			"purchase_date": purchase_date,
+			"purchase_price": purchase_price,
+			"retailer": retailer,
+			"confidence": {
+				"purchase_date": "high" if purchase_date else "low",
+				"purchase_price": "high" if purchase_price else "low",
+				"retailer": "high" if retailer else "low",
+			},
+		}
+	except Exception:
+		frappe.log_error(
+			title="Jana Receipt Extraction Error",
+			message="Failed to extract receipt data via Jana — falling back to Tesseract",
+		)
+		# Fall back to Tesseract
+		return _extract_via_tesseract(image_b64)
 
 
 def _extract_via_tesseract(image_b64: str) -> dict:

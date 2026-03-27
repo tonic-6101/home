@@ -4,7 +4,8 @@
 """Tests for soft integration endpoints (Tender, Orga).
 
 These tests mock `frappe.get_installed_apps()` to simulate the
-target app being present or absent.
+target app being present or absent. Maintenance tasks are Orga Tasks
+with Home context custom fields (home_property, home_maintenance_category).
 """
 
 from unittest.mock import patch, MagicMock
@@ -19,41 +20,51 @@ from home.api.integrations import (
 )
 
 
+def _make_household_and_property(prefix: str):
+	"""Helper: create a household + property pair for integration tests."""
+	hh = frappe.get_doc(
+		{
+			"doctype": "Home Household",
+			"household_name": f"{prefix} HH",
+			"members": [
+				{"display_name": "Owner", "role": "Owner", "user": "Administrator"},
+			],
+		}
+	).insert(ignore_permissions=True)
+
+	prop = frappe.get_doc(
+		{
+			"doctype": "Home Property",
+			"household": hh.name,
+			"property_name": f"{prefix} House",
+			"property_type": "House",
+			"ownership_status": "Owner-occupied",
+			"city": "Berlin",
+		}
+	).insert(ignore_permissions=True)
+
+	return hh, prop
+
+
+def _make_orga_task(prop, subject="Fix leaking pipe", category="Plumbing", notes=""):
+	"""Helper: create an Orga Task with Home context fields."""
+	task = frappe.get_doc(
+		{
+			"doctype": "Orga Task",
+			"subject": subject,
+			"status": "Open",
+			"home_property": prop.name,
+			"home_maintenance_category": category,
+			"description": notes,
+		}
+	).insert(ignore_permissions=True)
+	return task
+
+
 class TestTenderIntegration(FrappeTestCase):
 	def _setup(self):
-		hh = frappe.get_doc(
-			{
-				"doctype": "Home Household",
-				"household_name": "Tender Integration HH",
-				"members": [
-					{"display_name": "Owner", "role": "Owner", "user": "Administrator"},
-				],
-			}
-		).insert(ignore_permissions=True)
-
-		prop = frappe.get_doc(
-			{
-				"doctype": "Home Property",
-				"household": hh.name,
-				"property_name": "Tender Test House",
-				"property_type": "House",
-				"ownership_status": "Owner-occupied",
-				"city": "Berlin",
-			}
-		).insert(ignore_permissions=True)
-
-		task = frappe.get_doc(
-			{
-				"doctype": "Home Maintenance",
-				"title": "Fix leaking pipe",
-				"property": prop.name,
-				"maintenance_type": "One-off",
-				"category": "Plumbing",
-				"status": "Scheduled",
-				"notes": "Kitchen sink pipe dripping",
-			}
-		).insert(ignore_permissions=True)
-
+		hh, prop = _make_household_and_property("Tender Integration")
+		task = _make_orga_task(prop, notes="Kitchen sink pipe dripping")
 		return hh, prop, task
 
 	def test_throws_when_tender_not_installed(self):
@@ -92,7 +103,7 @@ class TestTenderIntegration(FrappeTestCase):
 		self.assertEqual(mock_post.location, "Berlin")
 		self.assertEqual(mock_post.visibility, "Private")
 		self.assertEqual(mock_post.source_app, "home")
-		self.assertEqual(mock_post.source_doctype, "Home Maintenance")
+		self.assertEqual(mock_post.source_doctype, "Orga Task")
 		self.assertEqual(mock_post.source_name, task.name)
 		mock_post.insert.assert_called_once()
 
@@ -101,7 +112,7 @@ class TestTenderIntegration(FrappeTestCase):
 		_hh, _prop, task = self._setup()
 
 		# Simulate an existing link
-		frappe.db.set_value("Home Maintenance", task.name, "tender_post", "TP-EXISTING")
+		frappe.db.set_value("Orga Task", task.name, "tender_post", "TP-EXISTING")
 
 		with patch(
 			"home.api.integrations.frappe.get_installed_apps",
@@ -167,7 +178,7 @@ class TestTenderIntegration(FrappeTestCase):
 		self.assertEqual(_map_category(None), "General")
 
 	def test_back_link_saved(self):
-		"""After creation, tender_post is written back to the maintenance record."""
+		"""After creation, tender_post is written back to the Orga Task."""
 		_hh, _prop, task = self._setup()
 
 		mock_post = MagicMock()
@@ -182,44 +193,14 @@ class TestTenderIntegration(FrappeTestCase):
 		):
 			create_tender_post(maintenance=task.name)
 
-		saved_value = frappe.db.get_value("Home Maintenance", task.name, "tender_post")
+		saved_value = frappe.db.get_value("Orga Task", task.name, "tender_post")
 		self.assertEqual(saved_value, "TP-BACKLINK")
 
 
 class TestOrgaIntegration(FrappeTestCase):
 	def _setup(self):
-		hh = frappe.get_doc(
-			{
-				"doctype": "Home Household",
-				"household_name": "Orga Integration HH",
-				"members": [
-					{"display_name": "Owner", "role": "Owner", "user": "Administrator"},
-				],
-			}
-		).insert(ignore_permissions=True)
-
-		prop = frappe.get_doc(
-			{
-				"doctype": "Home Property",
-				"household": hh.name,
-				"property_name": "Orga Test House",
-				"property_type": "House",
-				"ownership_status": "Owner-occupied",
-				"city": "Munich",
-			}
-		).insert(ignore_permissions=True)
-
-		task = frappe.get_doc(
-			{
-				"doctype": "Home Maintenance",
-				"title": "Kitchen renovation",
-				"property": prop.name,
-				"maintenance_type": "One-off",
-				"category": "General Repair",
-				"status": "Scheduled",
-			}
-		).insert(ignore_permissions=True)
-
+		hh, prop = _make_household_and_property("Orga Integration")
+		task = _make_orga_task(prop, subject="Kitchen renovation", category="General Repair")
 		return hh, prop, task
 
 	def test_throws_when_orga_not_installed(self):

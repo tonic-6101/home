@@ -10,6 +10,7 @@ def after_install() -> None:
 	"""Called after `bench --site <site> install-app home`."""
 	_create_roles()
 	_create_system_letter_templates()
+	_create_seasonal_checklist_templates()
 	setup_orga_custom_fields()
 	setup_repo_custom_fields()
 
@@ -76,6 +77,15 @@ def setup_orga_custom_fields() -> None:
 				"label": "Maintenance Category",
 				"options": "\nPlumbing\nElectrical\nHVAC & Heating\nPainting & Decorating\nCarpentry\nRoofing & Gutters\nCleaning\nGarden & Landscaping\nPest Control\nInspection\nGeneral Repair\nOther",
 				"insert_after": "home_contractor",
+			},
+			{
+				"fieldname": "tender_post",
+				"fieldtype": "Data",
+				"label": "Tender Post",
+				"insert_after": "home_maintenance_category",
+				"read_only": 1,
+				"hidden": 1,
+				"description": "Back-link to Tender Post created from this task",
 			},
 		],
 	}
@@ -267,6 +277,104 @@ def _create_system_letter_templates() -> None:
 			doc.subject_template = tmpl_data["subject_template"]
 			doc.body_template = tmpl_data["body_template"]
 			doc.is_system_template = 1
+			doc.insert(ignore_permissions=True)
+	finally:
+		frappe.flags.in_install = False
+
+	frappe.db.commit()
+
+
+def _create_seasonal_checklist_templates() -> None:
+	"""Create the four seasonal maintenance checklist templates as Orga Task Templates.
+
+	Only runs when Orga is installed. Creates system templates with tasks
+	for Spring, Summer, Autumn, and Winter home maintenance.
+	"""
+	if "orga" not in frappe.get_installed_apps():
+		return
+
+	SEASONAL_TEMPLATES = [
+		{
+			"template_name": "Spring Home Maintenance",
+			"category": "Seasonal",
+			"description": "Annual spring maintenance checklist for residential properties.",
+			"tasks": [
+				{"subject": "Inspect roof for winter damage", "priority": "High", "task_type": "Inspection"},
+				{"subject": "Clean gutters and downpipes", "priority": "High", "task_type": "Cleaning"},
+				{"subject": "Check exterior walls for cracks", "priority": "Medium", "task_type": "Inspection"},
+				{"subject": "Service boiler / heating system", "priority": "Medium", "task_type": "Maintenance"},
+				{"subject": "Test smoke and CO detectors", "priority": "High", "task_type": "Safety"},
+				{"subject": "Check window seals and caulking", "priority": "Medium", "task_type": "Inspection"},
+				{"subject": "Inspect garden drainage", "priority": "Low", "task_type": "Garden"},
+				{"subject": "Clean and treat outdoor furniture", "priority": "Low", "task_type": "Cleaning"},
+			],
+		},
+		{
+			"template_name": "Summer Home Maintenance",
+			"category": "Seasonal",
+			"description": "Annual summer maintenance checklist for residential properties.",
+			"tasks": [
+				{"subject": "Service air conditioning / fans", "priority": "High", "task_type": "Maintenance"},
+				{"subject": "Check and repair exterior paint", "priority": "Medium", "task_type": "Painting"},
+				{"subject": "Inspect and clean deck or patio", "priority": "Medium", "task_type": "Cleaning"},
+				{"subject": "Check plumbing for leaks", "priority": "Medium", "task_type": "Plumbing"},
+				{"subject": "Trim trees and hedges near the house", "priority": "Low", "task_type": "Garden"},
+				{"subject": "Inspect fence and gate condition", "priority": "Low", "task_type": "Inspection"},
+				{"subject": "Clean and organise garage / shed", "priority": "Low", "task_type": "Cleaning"},
+			],
+		},
+		{
+			"template_name": "Autumn Home Maintenance",
+			"category": "Seasonal",
+			"description": "Annual autumn maintenance checklist — prepare for winter.",
+			"tasks": [
+				{"subject": "Clean gutters and downpipes (pre-winter)", "priority": "High", "task_type": "Cleaning"},
+				{"subject": "Test heating system before cold season", "priority": "High", "task_type": "Maintenance"},
+				{"subject": "Bleed radiators", "priority": "Medium", "task_type": "Maintenance"},
+				{"subject": "Check roof tiles and flashing", "priority": "High", "task_type": "Inspection"},
+				{"subject": "Insulate exposed pipes", "priority": "Medium", "task_type": "Maintenance"},
+				{"subject": "Check weather stripping on doors", "priority": "Medium", "task_type": "Inspection"},
+				{"subject": "Store garden furniture and tools", "priority": "Low", "task_type": "Garden"},
+				{"subject": "Test smoke and CO detectors", "priority": "High", "task_type": "Safety"},
+			],
+		},
+		{
+			"template_name": "Winter Home Maintenance",
+			"category": "Seasonal",
+			"description": "Winter maintenance checklist — protect your home during cold months.",
+			"tasks": [
+				{"subject": "Monitor pipes for freezing risk", "priority": "High", "task_type": "Plumbing"},
+				{"subject": "Check attic insulation", "priority": "Medium", "task_type": "Inspection"},
+				{"subject": "Clear snow and ice from paths", "priority": "High", "task_type": "Safety"},
+				{"subject": "Inspect boiler pressure and function", "priority": "Medium", "task_type": "Maintenance"},
+				{"subject": "Check for condensation and mould", "priority": "Medium", "task_type": "Inspection"},
+				{"subject": "Verify emergency supplies and contacts", "priority": "Low", "task_type": "Safety"},
+			],
+		},
+	]
+
+	frappe.flags.in_install = True
+	try:
+		for tmpl_data in SEASONAL_TEMPLATES:
+			if frappe.db.exists(
+				"Orga Task Template",
+				{"template_name": tmpl_data["template_name"], "is_system_template": 1},
+			):
+				continue
+
+			doc = frappe.new_doc("Orga Task Template")
+			doc.template_name = tmpl_data["template_name"]
+			doc.category = tmpl_data["category"]
+			doc.description = tmpl_data["description"]
+			doc.is_system_template = 1
+
+			for task in tmpl_data["tasks"]:
+				doc.append("tasks", {
+					"subject": task["subject"],
+					"priority": task.get("priority", "Medium"),
+					"task_type": task.get("task_type", ""),
+				})
+
 			doc.insert(ignore_permissions=True)
 	finally:
 		frappe.flags.in_install = False
