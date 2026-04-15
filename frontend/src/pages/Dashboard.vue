@@ -244,9 +244,14 @@ onMounted(() => {
         <p v-if="setupError" class="mt-3 text-sm text-red-600 dark:text-red-400">{{ setupError }}</p>
 
         <div class="mt-6">
-          <Button variant="solid" :loading="setupSaving" @click="createProperty" data-tour="add-property">
-            {{ __('Create Property') }}
-          </Button>
+          <button
+            class="rounded-lg bg-accent-600 dark:bg-accent-400 px-4 py-2 text-sm font-medium text-white dark:text-gray-900 hover:bg-accent-700 dark:hover:bg-accent-300 transition-colors disabled:opacity-50"
+            :disabled="setupSaving"
+            data-tour="add-property"
+            @click="createProperty"
+          >
+            {{ setupSaving ? __('Creating…') : __('Create Property') }}
+          </button>
         </div>
       </div>
     </div>

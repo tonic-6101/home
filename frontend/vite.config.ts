@@ -2,6 +2,10 @@ import { defineConfig, type Plugin } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import fs from 'fs'
+import { createRequire } from 'module'
+
+const require = createRequire(import.meta.url)
+const pkg = require('./package.json')
 
 // Type for frappe-ui vite plugin
 type FrappeUIVitePlugin = (options?: {
@@ -181,6 +185,9 @@ function settingsEsmPlugin(): Plugin {
 }
 
 export default defineConfig({
+  define: {
+    __APP_VERSION__: JSON.stringify(pkg.version),
+  },
   base: '/assets/home/frontend/',
   plugins: [
     vueSharedPlugin(),

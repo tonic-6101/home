@@ -143,47 +143,68 @@ dock_notification_types = [
 	},
 ]
 
-# Jana integration (endpoint permissions + search)
+# Jana integration (AI assistant permissions + search)
 # ------------------
-jana_permissions = [
-	{
-		"label": "Home — Properties",
-		"description": "Property details, rooms, and health scores",
-		"endpoints": [
-			"home.api.property.get_property",
-			"home.api.property.get_health_score",
-			"home.api.property.get_repair_fund",
+jana_briefing_source = "home.api.jana_briefing.get_briefing"
+
+jana_permissions = {
+	"doctypes": {
+		"read": [
+			"Home Property", "Home Item", "Home Warranty",
+			"Home Maintenance", "Home Bill",
 		],
-		"scoping": "household",
+		"create": [],
+		"update": [],
+		"never": [],
 	},
-	{
-		"label": "Home — Items",
-		"description": "Item list, lifetime costs, and cost comparison",
-		"endpoints": [
-			"home.api.item.get_lifetime_cost",
-			"home.api.item.get_cost_comparison",
-		],
-		"scoping": "household",
-	},
-	{
-		"label": "Home — Warranties",
-		"description": "Warranty records and expiry status",
-		"endpoints": [
-			"home.api.warranty.get_warranties",
-		],
-		"scoping": "household",
-	},
-	{
-		"label": "Home — Financial summary",
-		"description": "Annual cost report and budget overview",
-		"endpoints": [
-			"home.api.report.get_annual_summary",
-			"home.api.budget.get_overview",
-		],
-		"scoping": "household",
-		"minimum_role": "Adult",
-	},
-]
+	"endpoints": [
+		{
+			"label": "Home — Properties",
+			"description": "Property details, rooms, and health scores",
+			"methods": [
+				"home.api.property.get_property",
+				"home.api.property.get_health_score",
+				"home.api.property.get_repair_fund",
+			],
+			"scoping": "household",
+		},
+		{
+			"label": "Home — Items",
+			"description": "Item list, lifetime costs, and cost comparison",
+			"methods": [
+				"home.api.item.get_lifetime_cost",
+				"home.api.item.get_cost_comparison",
+			],
+			"scoping": "household",
+		},
+		{
+			"label": "Home — Warranties",
+			"description": "Warranty records and expiry status",
+			"methods": [
+				"home.api.warranty.get_warranties",
+			],
+			"scoping": "household",
+		},
+		{
+			"label": "Home — Financial summary",
+			"description": "Annual cost report and budget overview",
+			"methods": [
+				"home.api.report.get_annual_summary",
+				"home.api.budget.get_overview",
+			],
+			"scoping": "household",
+			"minimum_role": "Adult",
+		},
+		{
+			"label": "Home — Daily Briefing",
+			"description": "Aggregated briefing data for Jana Daily Briefing agent",
+			"methods": [
+				"home.api.jana_briefing.get_briefing",
+			],
+			"scoping": "household",
+		},
+	],
+}
 
 jana_search_providers = [
 	{

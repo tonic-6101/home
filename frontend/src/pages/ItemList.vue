@@ -191,13 +191,13 @@ onMounted(loadItems)
       <h1 class="text-h1 text-gray-900 dark:text-gray-100">
         {{ __('Items') }}
       </h1>
-      <Button
+      <button
         data-tour="add-item"
-        variant="solid"
+        class="rounded-lg bg-accent-600 dark:bg-accent-400 px-4 py-2 text-sm font-medium text-white dark:text-gray-900 hover:bg-accent-700 dark:hover:bg-accent-300 transition-colors disabled:opacity-50"
         @click="addItem"
       >
         {{ __('Add Item') }}
-      </Button>
+      </button>
     </div>
 
     <!-- Room filter chip -->
@@ -241,9 +241,12 @@ onMounted(loadItems)
       <p class="text-body text-gray-500 dark:text-gray-400 mb-4">
         {{ __('No items registered yet.') }}
       </p>
-      <Button variant="solid" @click="addItem">
+      <button
+        class="rounded-lg bg-accent-600 dark:bg-accent-400 px-4 py-2 text-sm font-medium text-white dark:text-gray-900 hover:bg-accent-700 dark:hover:bg-accent-300 transition-colors disabled:opacity-50"
+        @click="addItem"
+      >
         {{ __('Add Item') }}
-      </Button>
+      </button>
     </div>
 
     <template v-else>

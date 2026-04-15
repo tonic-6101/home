@@ -158,9 +158,13 @@ async function regenerateToken() {
           <span class="text-xs text-amber-600 dark:text-amber-400">
             {{ __('Existing subscriptions will stop working. Continue?') }}
           </span>
-          <Button variant="solid" size="sm" :loading="regenerating" @click="regenerateToken">
-            {{ __('Yes') }}
-          </Button>
+          <button
+            class="rounded-lg bg-accent-600 dark:bg-accent-400 px-4 py-2 text-sm font-medium text-white dark:text-gray-900 hover:bg-accent-700 dark:hover:bg-accent-300 transition-colors disabled:opacity-50"
+            :disabled="regenerating"
+            @click="regenerateToken"
+          >
+            {{ regenerating ? __('Regenerating…') : __('Yes') }}
+          </button>
           <button @click="showConfirm = false" class="text-xs text-gray-400 hover:text-gray-600">
             {{ __('Cancel') }}
           </button>

@@ -168,12 +168,20 @@ onMounted(async () => {
       </div>
 
       <div class="flex items-center gap-3 mt-6">
-        <Button variant="solid" :loading="saving" @click="saveTargets">
-          {{ __('Save budget targets') }}
-        </Button>
-        <Button variant="outline" :loading="saving" @click="skipSetup">
+        <button
+          class="rounded-lg bg-accent-600 dark:bg-accent-400 px-4 py-2 text-sm font-medium text-white dark:text-gray-900 hover:bg-accent-700 dark:hover:bg-accent-300 transition-colors disabled:opacity-50"
+          :disabled="saving"
+          @click="saveTargets"
+        >
+          {{ saving ? __('Saving…') : __('Save budget targets') }}
+        </button>
+        <button
+          class="rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
+          :disabled="saving"
+          @click="skipSetup"
+        >
           {{ __('Skip — show actuals only') }}
-        </Button>
+        </button>
       </div>
     </template>
   </div>

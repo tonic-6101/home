@@ -77,9 +77,12 @@ onMounted(loadPolicies)
       <h1 class="text-h1 text-gray-900 dark:text-gray-100">
         {{ __('Insurance') }}
       </h1>
-      <Button variant="solid" @click="showCreateDialog = true">
+      <button
+        class="rounded-lg bg-accent-600 dark:bg-accent-400 px-4 py-2 text-sm font-medium text-white dark:text-gray-900 hover:bg-accent-700 dark:hover:bg-accent-300 transition-colors disabled:opacity-50"
+        @click="showCreateDialog = true"
+      >
         {{ __('+ Add') }}
-      </Button>
+      </button>
     </div>
 
     <!-- Summary bar -->
@@ -108,9 +111,12 @@ onMounted(loadPolicies)
       <p class="text-body text-gray-500 dark:text-gray-400 mb-4">
         {{ __('Track your property insurance policies and renewal dates.') }}
       </p>
-      <Button variant="solid" @click="showCreateDialog = true">
+      <button
+        class="rounded-lg bg-accent-600 dark:bg-accent-400 px-4 py-2 text-sm font-medium text-white dark:text-gray-900 hover:bg-accent-700 dark:hover:bg-accent-300 transition-colors disabled:opacity-50"
+        @click="showCreateDialog = true"
+      >
         {{ __('Add Policy') }}
-      </Button>
+      </button>
     </div>
 
     <!-- Policy cards -->

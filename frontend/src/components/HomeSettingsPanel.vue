@@ -340,16 +340,24 @@ onMounted(loadSettings)
       <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">
         {{ __('Restart the guided onboarding tour to walk through the main features.') }}
       </p>
-      <Button variant="outline" :loading="restartingTour" @click="handleRestartTour">
-        {{ __('Reset onboarding tour') }}
-      </Button>
+      <button
+        class="rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
+        :disabled="restartingTour"
+        @click="handleRestartTour"
+      >
+        {{ restartingTour ? __('Restarting…') : __('Reset onboarding tour') }}
+      </button>
     </section>
 
     <!-- Save -->
     <div class="flex items-center gap-3">
-      <Button variant="solid" :loading="saving" @click="saveSettings">
-        {{ __('Save settings') }}
-      </Button>
+      <button
+        class="rounded-lg bg-accent-600 dark:bg-accent-400 px-4 py-2 text-sm font-medium text-white dark:text-gray-900 hover:bg-accent-700 dark:hover:bg-accent-300 transition-colors disabled:opacity-50"
+        :disabled="saving"
+        @click="saveSettings"
+      >
+        {{ saving ? __('Saving…') : __('Save settings') }}
+      </button>
       <span v-if="saveSuccess" class="text-sm text-green-600 dark:text-green-400">
         {{ __('Saved') }}
       </span>

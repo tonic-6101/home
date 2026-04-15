@@ -2,7 +2,7 @@
 
 **Household Management for Frappe Framework**
 
-[![Version](https://img.shields.io/badge/version-0.2.2-blue.svg)](https://github.com/tonic-6101/home/releases)
+[![Version](https://img.shields.io/badge/version-0.2.3-blue.svg)](https://github.com/tonic-6101/home/releases)
 [![Frappe](https://img.shields.io/badge/frappe-v16+-green.svg)](https://frappeframework.com)
 [![License](https://img.shields.io/badge/license-AGPL--3.0-orange.svg)](LICENSE)
 

@@ -25,10 +25,12 @@ const navItems = [
   { key: 'passport',    label: __('Passport'),      icon: BookOpen,   path: '/home/passport' },
 ]
 
+declare const __APP_VERSION__: string
+
 const footer = {
   edition: __('Community Edition'),
-  version: '0.2.0',
-  sourceUrl: 'https://github.com/tonic/home',
+  version: __APP_VERSION__,
+  sourceUrl: 'https://github.com/tonic-6101/home',
 }
 </script>
 

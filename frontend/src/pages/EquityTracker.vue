@@ -165,10 +165,14 @@ onMounted(loadEquity)
 
       <!-- Update value -->
       <div class="mb-6">
-        <Button v-if="!showUpdateForm" variant="outline" @click="showUpdateForm = true">
-          <template #prefix><TrendingUp class="w-4 h-4" /></template>
+        <button
+          v-if="!showUpdateForm"
+          class="inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
+          @click="showUpdateForm = true"
+        >
+          <TrendingUp class="w-4 h-4" />
           {{ __('Update property value') }}
-        </Button>
+        </button>
 
         <div v-else class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 space-y-3">
           <div>
@@ -194,8 +198,19 @@ onMounted(loadEquity)
             />
           </div>
           <div class="flex gap-2">
-            <Button variant="solid" :loading="saving" @click="updateValue">{{ __('Save') }}</Button>
-            <Button variant="ghost" @click="showUpdateForm = false">{{ __('Cancel') }}</Button>
+            <button
+              class="rounded-lg bg-accent-600 dark:bg-accent-400 px-4 py-2 text-sm font-medium text-white dark:text-gray-900 hover:bg-accent-700 dark:hover:bg-accent-300 transition-colors disabled:opacity-50"
+              :disabled="saving"
+              @click="updateValue"
+            >
+              {{ saving ? __('Saving…') : __('Save') }}
+            </button>
+            <button
+              class="rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
+              @click="showUpdateForm = false"
+            >
+              {{ __('Cancel') }}
+            </button>
           </div>
         </div>
       </div>

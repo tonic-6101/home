@@ -144,9 +144,13 @@ onMounted(() => {
       <p class="text-body text-gray-500 dark:text-gray-400 mb-4">
         {{ __('Generate a checklist of common tasks for your move.') }}
       </p>
-      <Button variant="solid" :loading="generating" @click="generateChecklist">
-        {{ __('Generate Checklist') }}
-      </Button>
+      <button
+        class="rounded-lg bg-accent-600 dark:bg-accent-400 px-4 py-2 text-sm font-medium text-white dark:text-gray-900 hover:bg-accent-700 dark:hover:bg-accent-300 transition-colors disabled:opacity-50"
+        :disabled="generating"
+        @click="generateChecklist"
+      >
+        {{ generating ? __('Generating…') : __('Generate Checklist') }}
+      </button>
     </div>
 
     <template v-else>
@@ -196,8 +200,19 @@ onMounted(() => {
           </select>
         </div>
         <div class="flex gap-2">
-          <Button variant="solid" size="sm" :loading="addingTask" @click="addTask">{{ __('Add') }}</Button>
-          <Button variant="ghost" size="sm" @click="showAddTask = false">{{ __('Cancel') }}</Button>
+          <button
+            class="rounded-lg bg-accent-600 dark:bg-accent-400 px-4 py-2 text-sm font-medium text-white dark:text-gray-900 hover:bg-accent-700 dark:hover:bg-accent-300 transition-colors disabled:opacity-50"
+            :disabled="addingTask"
+            @click="addTask"
+          >
+            {{ addingTask ? __('Adding…') : __('Add') }}
+          </button>
+          <button
+            class="rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
+            @click="showAddTask = false"
+          >
+            {{ __('Cancel') }}
+          </button>
         </div>
       </div>
 

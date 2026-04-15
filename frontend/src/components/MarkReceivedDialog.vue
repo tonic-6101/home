@@ -86,10 +86,19 @@ async function submit() {
       <p v-if="error" class="mt-3 text-sm text-red-600 dark:text-red-400">{{ error }}</p>
 
       <div class="flex justify-end gap-2 mt-5">
-        <Button variant="outline" @click="emit('close')">{{ __('Cancel') }}</Button>
-        <Button variant="solid" :loading="saving" @click="submit">
-          {{ __('Confirm') }}
-        </Button>
+        <button
+          class="rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
+          @click="emit('close')"
+        >
+          {{ __('Cancel') }}
+        </button>
+        <button
+          class="rounded-lg bg-accent-600 dark:bg-accent-400 px-4 py-2 text-sm font-medium text-white dark:text-gray-900 hover:bg-accent-700 dark:hover:bg-accent-300 transition-colors disabled:opacity-50"
+          :disabled="saving"
+          @click="submit"
+        >
+          {{ saving ? __('Saving…') : __('Confirm') }}
+        </button>
       </div>
     </div>
   </div>
